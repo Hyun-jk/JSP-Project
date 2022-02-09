@@ -1,17 +1,20 @@
 function validateNotNull(event) {
 	let list = document.getElementsByTagName('li'); // <li> 요소들을 선택
 	for(let i=0;i<list.length;i++) {
-		let input = list[i].querySelector('input:not([type=button]),textarea'); // <li> 요소 하위 요소 중 button이 아닌 <input> 요소나 <textarea> 요소 선택
-		input.value = input.value.trim(); // 문자열 양끝 공백 제거
-		if(!input.value) { // 아무것도 입력하지 않은 경우
-			let word = list[i].querySelector('label').textContent; // <label> 요소 사이의 문자열 추출
-			let post = (word.charCodeAt(word.length-1) - '가'.charCodeAt(0)) % 28 > 0 ? '을' : '를'; // 마지막 글자의 받침 유무에 따라 적절한 조사 선택
-			alert(word + post + ' 입력하세요!');
-			input.focus();
-			event.preventDefault(); // submit의 기본 이벤트 제거
-			return false; // for문의 반복을 멈추고 함수 실행 종료
+		let inputs = list[i].querySelectorAll('input:not([type=button]),textarea'); // <li> 요소 하위 요소 중 button이 아닌 <input> 요소나 <textarea> 요소 선택
+		for(input of inputs) {
+			input.value = input.value.trim(); // 문자열 양끝 공백 제거
+			if(!input.value && input.name!='email') { // 아무것도 입력하지 않은 경우; email은 NULL 허용하므로 제외
+				let word = list[i].querySelector('label').textContent; // <label> 요소 사이의 문자열 추출
+				let post = (word.charCodeAt(word.length-1) - '가'.charCodeAt(0)) % 28 > 0 ? '을' : '를'; // 마지막 글자의 받침 유무에 따라 적절한 조사 선택
+				alert(word + post + ' 입력하세요!');
+				input.focus();
+				event.preventDefault(); // submit의 기본 이벤트 제거
+				return false; // for문의 반복을 멈추고 함수 실행 종료
+			}
 		}
 	}
+	return true;
 }
 
 function validateSubmit(id) {

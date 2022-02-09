@@ -23,7 +23,12 @@ public class RegisterAction implements Action {
 		vo.setName(request.getParameter("name"));
 		vo.setNickname(request.getParameter("nickname"));
 		vo.setAge(Date.valueOf(request.getParameter("age")));
-		vo.setPhone(request.getParameter("phone"));
+		String[] phones = request.getParameterValues("phone");
+		String phone = "";
+		for(String s : phones) {
+			phone += s;
+		}
+		vo.setPhone(phone);
 		vo.setAddress(request.getParameter("address"));
 		vo.setEmail(request.getParameter("email"));
 		
