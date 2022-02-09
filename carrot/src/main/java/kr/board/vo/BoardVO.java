@@ -3,7 +3,7 @@ package kr.board.vo;
 import java.sql.Date;
 
 public class BoardVO {
-
+ 
 	private int Aboard_num;//글 번호
 	private int Amember_num;//회원 번호
 	private int auth_num;//회원 등급
