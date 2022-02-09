@@ -15,11 +15,11 @@ CREATE TABLE Amember_detail(
 	age date not null,
 	phone varchar2(11) not null,
 	address varchar2(90) not null,
-	address_favor varchar2(90) not null,
+	address_favor varchar2(90),
 	email varchar2(50),
 	photo varchar2(150),
 	rate number(5),
-	reg_date date default SYSDATE,
+	reg_date date default SYSDATE not null,
 	constraint amember_detail_pk primary key(Amember_num),
 	constraint amemeber_detail_fk foreign key (Amember_num) references Amember(Amember_num)
 );

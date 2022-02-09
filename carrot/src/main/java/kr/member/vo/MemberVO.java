@@ -18,6 +18,14 @@ public class MemberVO {
 	private double rate; // 매너 점수
 	private Date reg_date; // 가입일
 	
+	// 비밀번호 일치 여부 체크
+	public boolean checkPassword(String UserPassword) {
+		if(auth>1 && password.equals(UserPassword)) { // 탈퇴 및 정지 회원은 서비스 이용 불가하도록 처리
+			return true;
+		}
+		return false;
+	}
+	
 	public int getAmember_num() {
 		return amember_num;
 	}
