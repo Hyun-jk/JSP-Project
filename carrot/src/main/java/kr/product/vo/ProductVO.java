@@ -18,7 +18,7 @@ public class ProductVO {
 	private Date modify_date; //상품 판매글의 수정일
 	private int complete;  	  //거래여부 완료 0=판매중, 1=거래완료
 	private int buyer_num;	  //상품을 구매한 회원번호
-	private String nickname;  //상품 구매자 닉네임
+	private String nickname;  //상품 판매자 닉네임
 	
 	
 	public int getAproduct_num() {
