@@ -18,9 +18,8 @@ public class ProductVO {
 	private Date modify_date; //상품 판매글의 수정일
 	private int complete;  	  //거래여부 완료 0=판매중, 1=거래완료
 	private int buyer_num;	  //상품을 구매한 회원번호
-	private String name;	  //상품 분류명(ex:디지털기기, 생활/가전,남성, 여성,유아,스포츠,생활
+	private String nickname;  //상품 구매자 닉네임
 	
-
 	
 	public int getAproduct_num() {
 		return Aproduct_num;
@@ -112,13 +111,14 @@ public class ProductVO {
 	public void setBuyer_num(int buyer_num) {
 		this.buyer_num = buyer_num;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
 }
 
 

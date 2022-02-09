@@ -11,6 +11,7 @@ CREATE TABLE Amember(
 CREATE TABLE Amember_detail(
 	Amember_num number not null,
 	name varchar2(30) not null,
+	name varchar2(30) not null,
 	password varchar2(30) not null,
 	age date not null,
 	phone varchar2(11) not null,
