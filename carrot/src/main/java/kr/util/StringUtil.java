@@ -1,27 +1,28 @@
 package kr.util;
 
 public class StringUtil {
-	//HTML �±׸� ����ϸ鼭 �ٹٲ�
-	public static String useBrHtml(String str) {
+	//HTML 태그를 허용하면서 줄바꿈
+	public static String userBrHtml(String str) {
 		if(str == null) return null;
 		
 		return str.replaceAll("\r\n", "<br>")
-				  .replaceAll("\r", "<br>")
+				  .replaceAll("\r","<br>")
 				  .replaceAll("\n", "<br>");
 	}
 	
-	//HTML �±׸� ������� �����鼭 �ٹٲ�
+	//HTML 태그를 허용하지 않으면서 줄바꿈을 허용
 	public static String useBrNoHtml(String str) {
+		
 		if(str == null) return null;
 		
-		return str.replaceAll("<", "&lt;")
+		return str.replaceAll("<","&lt;")
 				  .replaceAll(">", "&gt;")
-				  .replaceAll("\r\n", "<br>")
-				  .replaceAll("\r", "<br>")
+				  .replaceAll("\r\n","<br>")
+				  .replaceAll("\r","<br>")
 				  .replaceAll("\n", "<br>");
 	}
-	
-	//HTML �±׸� ������� ����
+
+	//HTML 태그를 허용하지 않음
 	public static String useNoHtml(String str) {
 		if(str == null) return null;
 		
@@ -29,17 +30,33 @@ public class StringUtil {
 				  .replaceAll(">", "&gt;");
 	}
 	
-	//Ư�� ���ڿ� ���Ŀ� ...���� ó��
-	public static String shortWords(int length, String content) {
+	//특정 문자열 이후에 ...으로 처리
+	public static String shortWords(int length,String content) {
 		if(content == null) return null;
 		
-		if(content.length() > length) {
-			return content.substring(0,length) + " ...";
+		if(content.length()>length) {
+			return content.substring(0,length) + "...";
 		}
 		return content;
+		
 	}
-	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

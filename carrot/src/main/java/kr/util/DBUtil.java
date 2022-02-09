@@ -10,25 +10,22 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 public class DBUtil {
-	//context.xml¿¡¼­ ¼³Á¤ Á¤º¸¸¦ ÀĞ¾îµé¿© Ä¿³Ø¼ÇÇ®·ÎºÎÅÍ Ä¿³Ø¼ÇÀ» ÇÒ´ç ¹ŞÀ½
-	public static Connection getConnection()throws Exception{
+	//context.xmlì—ì„œ ì„¤ì • ì •ë³´ë¥¼ ì½ì–´ì™€ì„œ ì»¤ë„¥ì…˜í’€ë¡œë¶€í„° ì»¤ë„¥ì…˜ì„ í• ë‹¹ë°›ëŠ” ì‘ì—….
+	public static Connection getConnection() throws Exception{
 		Context initCtx = new InitialContext();
 		DataSource ds = (DataSource)initCtx.lookup("java:comp/env/jdbc/xe");
-		return ds.getConnection();		
+		return ds.getConnection();
 	}
-	//ÀÚ¿øÁ¤¸®
-	public static void executeClose(ResultSet rs, PreparedStatement pstmt, 
-			                                              Connection conn) {
-		if(rs!=null)try {rs.close();}catch(SQLException e) {}
-		if(pstmt!=null)try {pstmt.close();}catch(SQLException e) {}
-		if(conn!=null)try {conn.close();}catch(SQLException e) {}
+	
+	//ìì›ì •ë¦¬
+	public static void executeClose(ResultSet rs,PreparedStatement pstmt, Connection conn) {
+		if(rs!=null)try {rs.close();}catch(SQLException e) {};
+		if(pstmt!=null)try {pstmt.close();}catch(SQLException e) {};
+		if(conn!=null)try {conn.close();}catch(SQLException e) {};
 	}
+	
+	
 }
-
-
-
-
-
 
 
 
