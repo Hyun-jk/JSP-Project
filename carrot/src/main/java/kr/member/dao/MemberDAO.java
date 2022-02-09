@@ -118,7 +118,7 @@ public class MemberDAO {
 			try {
 				conn = DBUtil.getConnection();
 				sql = "SELECT * FROM Amember m JOIN Amember_detail d "
-					+ "ON m.amem_num=d.amem_num WHERE m.amem_num=?";
+					+ "ON m.amember_num=d.amember_num WHERE m.amember_num=?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, amember_num);
 				rs=pstmt.executeQuery();
