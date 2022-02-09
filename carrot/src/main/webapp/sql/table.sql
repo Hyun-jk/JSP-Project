@@ -113,10 +113,12 @@ CREATE TABLE Aboard(
 	category varchar2(1) not null,
 	title varchar2(150) not null,
 	content clob not null,
+	auth_num number(1) not null,
 	reg_date date default sysdate,
 	reply_num number,
 	constraint Aboard_pk primary key(Aboard_num),
 	constraint Aboard_fk1 foreign key(Amember_num) references Amember(Amember_num)
+	constraint Aboard_fk2 foreign key(auth_num) references Amember(Amember_num)
 );
 ALTER TABLE Aboard ADD CONSTRAINT Aboard_fk3 foreign key(reply_num) references Aboard(Aboard_num);
 create sequence Aboard_seq;

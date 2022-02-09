@@ -7,7 +7,7 @@ public class BoardVO {
 	private int Aboard_num;//글 번호
 	private int Amember_num;//회원 번호
 	private int auth_num;//회원 등급
-	private String category;//카테고리
+	private int category;//카테고리 0:공지, 1:FAQ, 2:일대일문의
 	private String title;//글 제목
 	private String content;//내용
 	private Date reg_date;//가입일
@@ -31,12 +31,13 @@ public class BoardVO {
 	public void setAuth_num(int auth_num) {
 		this.auth_num = auth_num;
 	}
-	public String getCategory() {
+	public int getCategory() {
 		return category;
 	}
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
+	
 	public String getTitle() {
 		return title;
 	}
