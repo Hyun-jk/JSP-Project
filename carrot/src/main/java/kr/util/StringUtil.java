@@ -1,7 +1,7 @@
 package kr.util;
 
 public class StringUtil {
-	//HTML 태그를 허용하면서 줄바꿈
+	//HTML �±׸� ����ϸ鼭 �ٹٲ�
 	public static String useBrHtml(String str) {
 		if(str == null) return null;
 		
@@ -10,7 +10,7 @@ public class StringUtil {
 				  .replaceAll("\n", "<br>");
 	}
 	
-	//HTML 태그를 허용하지 않으면서 줄바꿈
+	//HTML �±׸� ������� �����鼭 �ٹٲ�
 	public static String useBrNoHtml(String str) {
 		if(str == null) return null;
 		
@@ -21,7 +21,7 @@ public class StringUtil {
 				  .replaceAll("\n", "<br>");
 	}
 	
-	//HTML 태그를 허용하지 않음
+	//HTML �±׸� ������� ����
 	public static String useNoHtml(String str) {
 		if(str == null) return null;
 		
@@ -29,7 +29,7 @@ public class StringUtil {
 				  .replaceAll(">", "&gt;");
 	}
 	
-	//특정 문자열 이후에 ...으로 처리
+	//Ư�� ���ڿ� ���Ŀ� ...���� ó��
 	public static String shortWords(int length, String content) {
 		if(content == null) return null;
 		
