@@ -110,8 +110,7 @@ public class ProductVO {
 		this.buyer_num = buyer_num;
 	}
 
-	}
+}
 
 
 
-	
