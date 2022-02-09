@@ -107,4 +107,78 @@ public class MemberDAO {
 		return vo;
 	}
 	
+	//회원 상세정보 
+			public MemberVO getMember(int amember_num)throws Exception{
+			Connection conn =null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			MemberVO vo =null;
+			String sql =null;
+			
+			try {
+				conn = DBUtil.getConnection();
+				sql = "SELECT * FROM Amember m JOIN Amember_detail d "
+					+ "ON m.amem_num=d.amem_num WHERE m.amem_num=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, amember_num);
+				rs=pstmt.executeQuery();
+				
+				if(rs.next()) {
+					vo = new MemberVO();
+					vo.setAmember_num(rs.getInt("amember_num"));
+					vo.setAuth(rs.getInt("auth"));
+					vo.setId(rs.getString("id"));
+					vo.setPassword(rs.getString("password"));
+					vo.setName(rs.getString("name"));
+					vo.setNickname(rs.getString("nickname"));
+					vo.setAge(rs.getDate("age"));
+					vo.setPhone(rs.getString("phone"));
+					vo.setAddress(rs.getString("address"));
+					vo.setAddress_favor(rs.getString("address_favor"));
+					vo.setEmail(rs.getString("email"));
+					vo.setPhoto(rs.getString("photo"));
+					vo.setRate(rs.getDouble("rate"));
+					vo.setReg_date(rs.getDate("reg_date"));	
+					
+				}
+			}catch(Exception e){
+				throw new Exception(e);
+			}finally {
+				DBUtil.executeClose(rs, pstmt, conn);
+			}
+			return vo;
+		}
+		//회원정보수정
+			public void updateMember(MemberVO member)throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String sql = null;
+				
+				try {
+					//커넥션풀로부터 커넥션을 할당
+					conn = DBUtil.getConnection();
+					sql = "UPDATE Amember_detail SET name=?,phone=?,email=?, "
+						+ "address=?,Address_favor=?, "
+						+ "WHERE Amember_num=?";
+					//PreparedStatement 객체 생성
+					pstmt = conn.prepareStatement(sql);
+					//?에 데이터 바인딩
+					pstmt.setString(1, member.getNickname());
+					pstmt.setString(2, member.getPhone());
+					pstmt.setString(3, member.getEmail());
+					pstmt.setString(4, member.getAddress());
+					pstmt.setString(5, member.getAddress_favor());
+					pstmt.setInt(7, member.getAmember_num());
+					
+					//SQL문 실행
+					pstmt.executeUpdate();
+					
+				}catch(Exception e) {
+					throw new Exception(e);
+				}finally {
+					//자원정리
+					DBUtil.executeClose(null, pstmt, conn);
+				}
+			}
+	
 }
