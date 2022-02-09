@@ -6,7 +6,6 @@ CREATE TABLE Amember(
 	constraint amember_pk primary key(Amember_num)
 );
 
-
 /*Amember_detail(회원 상세 정보 테이블)*/
 CREATE TABLE Amember_detail(
 	Amember_num number not null,
@@ -26,31 +25,6 @@ CREATE TABLE Amember_detail(
 );
 create sequence Amember_seq;
 
-/*Aproduct(상품정보 테이블)*/
-CREATE TABLE Aproduct(
-	Aproduct_num number not null,
-	Amember_num number not null.
-	photo1 varchar2(150) not null,
-	photo2 varchar2(150),
-	photo3 varchar2(150),
-	photo4 varchar2(150),
-	photo5 varchar2(150),
-	title varchar2(150) not null,
-	price varchar2(9) not null,
-	content clob not null,
-	category number(2) not null,
-	reg_date date default SYSDATE,
-	modify_date date,
-	complete number(1) default 0,
-	buyer_num number,
-	constraint Aproduct_pk primary key(Aproduct_num),
-	constraint Aproduct_fk1 foreign key (Amember_num) references Amember(Amember_num),
-	constraint Aproduct_fk2 foreign key (category) references Acategory(category),
-	constraint Aproduct_fk3 foreign key (buyer_num) references Amember(Amember_num)
-);
-create sequence aproduct_seq;
-
-
 /*Acategory(상품 분류 정보 테이블)*/
 CREATE TABLE Acategory(
 	category number(2) not null,
@@ -68,13 +42,37 @@ INSERT INTO acategory
 	SELECT 6, '스포츠' FROM DUAL UNION ALL
 	SELECT 7, '생활/가구' FROM DUAL;
 
+/*Aproduct(상품정보 테이블)*/
+CREATE TABLE Aproduct(
+	Aproduct_num number not null,
+	Amember_num number not null,
+	photo1 varchar2(150) not null,
+	photo2 varchar2(150),
+	photo3 varchar2(150),
+	photo4 varchar2(150),
+	photo5 varchar2(150),
+	title varchar2(150) not null,
+	price number(9) not null,
+	content clob not null,
+	category number(2) not null,
+	reg_date date default SYSDATE,
+	modify_date date,
+	complete number(1) default 0,
+	buyer_num number,
+	constraint Aproduct_pk primary key(Aproduct_num),
+	constraint Aproduct_fk1 foreign key (Amember_num) references Amember(Amember_num),
+	constraint Aproduct_fk2 foreign key (category) references Acategory(category),
+	constraint Aproduct_fk3 foreign key (buyer_num) references Amember(Amember_num)
+);
+create sequence aproduct_seq;
+
 /*Amyproduct(찜한 상품 테이블)*/
 CREATE TABLE Amyproduct(
 	Amyproduct_num number not null,
 	Aproduct_num number not null,
 	Amember_num number not null,
 	constraint Amyproduct_pk primary key(Amyproduct_num),
-	constraint Amyproduct_fk1 foreign key(Aproduct_num) references Aproudct(Aproduct_num),
+	constraint Amyproduct_fk1 foreign key(Aproduct_num) references Aproduct(Aproduct_num),
 	constraint Amyproduct_fk2 foreign key(Amember_num) references Amember(Amember_num)
 );
 create sequence Amyproduct_seq;
@@ -89,8 +87,8 @@ CREATE TABLE Amanner(
 	buyer_num number not null,
 	constraint Amanner_pk primary key(Amanner_num),
 	constraint Amanner_fk1 foreign key(Amember_num) references Amember(Amember_num),
-	constraint Amanner_fk2 foreign key(Aproduct_num) references Aproudct(Aproduct_num,
-	constraint Amanner_fk3 foreign key(buyer_num) references Aproduct(buyer_num)
+	constraint Amanner_fk2 foreign key(Aproduct_num) references Aproduct(Aproduct_num),
+	constraint Amanner_fk3 foreign key(buyer_num) references Amember(Amember_num)
 );
 create sequence Amanner_seq;
 
@@ -102,26 +100,25 @@ CREATE TABLE Acomment(
 	content varchar2(900) not null,
 	Acomment_parent number,
 	reg_date date default sysdate,
-	constraint Acomment_pk primary key(Acommnent_num),
+	constraint Acomment_pk primary key(Acomment_num),
 	constraint Acomment_fk1 foreign key(Amember_num) references Amember(Amember_num),
-	constraint Acomment_fk2 foreign key(Aproduct_num) references Aproudct(Aproduct_num),
-	constraint Acomment_fk3 foreign key(Acomment_parent) references Acomment(Acomment_num)
+	constraint Acomment_fk2 foreign key(Aproduct_num) references Aproduct(Aproduct_num)
 );
+ALTER TABLE Acomment ADD CONSTRAINT Acomment_fk3 foreign key(Acomment_parent) references Acomment(Acomment_num);
 
 /*Aboard(공지 및 회원 상담 테이블)*/
 CREATE TABLE Aboard(
 	Aboard_num number not null,
 	Amember_num number not null,
-	auth_num number(1) not null,
 	category varchar2(1) not null,
 	title varchar2(150) not null,
 	content clob not null,
 	reg_date date default sysdate,
 	reply_num number,
 	constraint Aboard_pk primary key(Aboard_num),
-	constraint Aboard_fk1 foreign key(Amember_num) references Amember(Amember_num),
-	constraint Acomment_fk2 foreign key(auth) references Amember(auth)
+	constraint Aboard_fk1 foreign key(Amember_num) references Amember(Amember_num)
 );
+ALTER TABLE Aboard ADD CONSTRAINT Aboard_fk3 foreign key(reply_num) references Aboard(Aboard_num);
 create sequence Aboard_seq;
 
 /*Achat(채팅 정보 테이블)*/
@@ -131,10 +128,7 @@ CREATE TABLE Achat(
 	content varchar2(900) not null,
 	send_date date default sysdate,
 	read_date date,
-	read number(1) default 1
+	read number(1) default 1,
 	constraint Achat_fk1 foreign key(Amember_num) references Amember(Amember_num),
 	constraint Achat_fk2 foreign key(opponent_num) references Amember(Amember_num)
 );
-
-
-
