@@ -3,22 +3,25 @@ package kr.product.vo;
 import java.sql.Date;
 
 public class ProductVO {
-	private int Aproduct_num; 
-	private int Amember_num;
-	private String photo1; 
-	private String photo2; 
-	private String photo3; 
-	private String photo4; 
-	private String photo5; 	
-	private String title; 
-	private String price; 
-	private String content; 
-	private String category; 
-	private Date reg_date; 
-	private Date modify_date; 
-	private int complete; 
-	private int buyer_num;
+	private int Aproduct_num; // 상품번호
+	private int Amember_num;  //상품을 판매하는 회원번호
+	private String photo1; 	  //상품 사진 1번파일
+	private String photo2; 	  //상품 사진 2번파일
+	private String photo3; 	  //상품 사진 3번파일
+	private String photo4; 	  //상품 사진 4번파일
+	private String photo5; 	  //상품 사진 5번파일
+	private String title; 	  //상품 판매글의 제목
+	private String price; 	  //상품의 가격
+	private String content;   //상품 판매글의 내용
+	private String category;  //상품 분류 번호
+	private Date reg_date; 	  //상품 판매글의 등록일
+	private Date modify_date; //상품 판매글의 수정일
+	private int complete;  	  //거래여부 완료 0=판매중, 1=거래완료
+	private int buyer_num;	  //상품을 구매한 회원번호
+	private String name;	  //상품 분류명(ex:디지털기기, 생활/가전,남성, 여성,유아,스포츠,생활
+	
 
+	
 	public int getAproduct_num() {
 		return Aproduct_num;
 	}
@@ -108,6 +111,12 @@ public class ProductVO {
 	}
 	public void setBuyer_num(int buyer_num) {
 		this.buyer_num = buyer_num;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
