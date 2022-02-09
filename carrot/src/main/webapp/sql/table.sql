@@ -58,6 +58,16 @@ CREATE TABLE Acategory(
 	constraint Acategory_pk primary key(category)
 );
 
+/*Acategory 초기 데이터 세팅 */
+INSERT INTO acategory
+	SELECT 1, '디지털기기' FROM DUAL UNION ALL
+	SELECT 2, '생활/가전' FROM DUAL UNION ALL
+	SELECT 3, '남성의류/잡화' FROM DUAL UNION ALL
+	SELECT 4, '여성의류/잡화/미용' FROM DUAL UNION ALL
+	SELECT 5, '유아동/유아도서' FROM DUAL UNION ALL
+	SELECT 6, '스포츠' FROM DUAL UNION ALL
+	SELECT 7, '생활/가구' FROM DUAL;
+
 /*Amyproduct(찜한 상품 테이블)*/
 CREATE TABLE Amyproduct(
 	Amyproduct_num number not null,
