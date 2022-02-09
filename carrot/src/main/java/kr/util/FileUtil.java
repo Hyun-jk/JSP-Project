@@ -8,32 +8,27 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class FileUtil {
-	//ÀÎÄÚµù Å¸ÀÔ
+	//ì¸ì½”ë”© íƒ€ì…
 	public static final String ENCODING_TYPE = "utf-8";
-	//ÃÖ´ë ¾÷·Îµå »çÀÌÁî
+	//ìµœëŒ€ ì—…ë¡œë“œ ì‚¬ì´ì¦ˆ
 	public static final int MAX_SIZE = 5*1024*1024;
-	//¾÷·Îµå °æ·Î
+	//ì—…ë¡œë“œ ê²½ë¡œ
 	public static final String UPLOAD_PATH = "/upload";
 	
-	//ÆÄÀÏ ¾÷·Îµå
-	public static MultipartRequest createFile(HttpServletRequest request)
-			                                                 throws Exception{
-		//¾÷·Îµå Àı´ë°æ·Î
+	//íŒŒì¼ ì—…ë¡œë“œ
+	public static MultipartRequest createFile(HttpServletRequest request)throws Exception{
+		//ì—…ë¡œë“œ ì ˆëŒ€ ê²½ë¡œ
 		String upload = request.getServletContext().getRealPath(UPLOAD_PATH);
-		return new MultipartRequest(request,upload,MAX_SIZE,ENCODING_TYPE,
-				                  new DefaultFileRenamePolicy());
+		return new MultipartRequest(request,upload,MAX_SIZE,ENCODING_TYPE,new DefaultFileRenamePolicy());
 	}
-	//ÆÄÀÏ »èÁ¦
-	public static void removeFile(HttpServletRequest request, String filename) {
+	//íŒŒì¼ì‚­ì œ
+	public static void removeFile(HttpServletRequest request,String filename) {
 		if(filename!=null) {
-			//¾÷·Îµå Àı´ë°æ·Î
+			//ì—…ë¡œë“œ ì ˆëŒ€ê²½ë¡œ
 			String upload = request.getServletContext().getRealPath(UPLOAD_PATH);
-			File file = new File(upload + "/" + filename);
+			File file = new File(upload + "/" +filename);
 			if(file.exists()) file.delete();
 		}
 	}
-}
-
-
-
-
+	
+} 

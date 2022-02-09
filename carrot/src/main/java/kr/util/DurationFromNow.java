@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class DurationFromNow {
 	/**
-	 * ÇöÀçºÎÅÍ "yyyyMMddHHmmss" Æ÷¸ËÀÇ ³¯Â¥ Â÷ÀÌ ·¹ÀÌºí
+	 * í˜„ì¬ë¶€í„° "yyyyMMddHHmmss" í¬ë§·ì˜ ë‚ ì§œ ì°¨ì´ ë ˆì´ë¸”
 	 * @param date1
 	 * @return String
 	 */
@@ -22,7 +22,7 @@ public class DurationFromNow {
 	}
 
 	/**
-	 * ÇöÀçºÎÅÍ Date Æ÷¸ËÀÇ ³¯Â¥ Â÷ÀÌ ·¹ÀÌºí
+	 * í˜„ì¬ë¶€í„° Date í¬ë§·ì˜ ë‚ ì§œ ì°¨ì´ ë ˆì´ë¸”
 	 * @param d1
 	 * @return String
 	 */
@@ -31,7 +31,7 @@ public class DurationFromNow {
 	}
 
 	/**
-	 * "yyyyMMddHHmmss" Æ÷¸ËÀÇ ³¯Â¥ Â÷ÀÌ ·¹ÀÌºí
+	 * "yyyyMMddHHmmss" í¬ë§·ì˜ ë‚ ì§œ ì°¨ì´ ë ˆì´ë¸”
 	 * @param date1
 	 * @param date2
 	 * @return String
@@ -46,7 +46,7 @@ public class DurationFromNow {
 	}
 
 	/**
-	 * java.util.Date Æ÷¸ËÀÇ ³¯Â¥ Â÷ÀÌ ·¹ÀÌºí
+	 * java.util.Date í¬ë§·ì˜ ë‚ ì§œ ì°¨ì´ ë ˆì´ë¸”
 	 * @param d1
 	 * @param d2
 	 * @return String
@@ -54,14 +54,14 @@ public class DurationFromNow {
 	public static String getTimeDiffLabel(Date d1, Date d2) {
 		long diff = d2.getTime() - d1.getTime();
 		int sec = (int)(diff / 1000);
-		if (sec < 5) return "5ÃÊ¹Ì¸¸";
-		if (sec < 60) return sec + "ÃÊ Àü";
+		if (sec < 5) return "5ì´ˆë¯¸ë§Œ";
+		if (sec < 60) return sec + "ì´ˆ ì „";
 
 		int min = (int)(sec / 60);
-		if (min < 60) return min + "ºĞ Àü";
+		if (min < 60) return min + "ë¶„ ì „";
 
 		int hour = (int)(min / 60);
-		if (hour < 24) return hour + "½Ã°£ Àü";
+		if (hour < 24) return hour + "ì‹œê°„ ì „";
 
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = (Calendar) c1.clone();
@@ -74,19 +74,19 @@ public class DurationFromNow {
 		}
 
 		if (hour/24 < 30) {
-			if (day == 1) return "¾îÁ¦";
-			if (day == 2) return "2ÀÏÀü";
-			return day + "ÀÏÀü";
+			if (day == 1) return "ì–´ì œ";
+			if (day == 2) return "2ì¼ì „";
+			return day + "ì¼ì „";
 		}
 
 		int month = hour / 24 / 30;
-		if (month == 1) return "ÇÑ ´ŞÀü";
-		if (month == 2) return "µÎ ´ŞÀü";
-		if (month < 12) return month + "´ŞÀü";
+		if (month == 1) return "í•œ ë‹¬ì „";
+		if (month == 2) return "ë‘ ë‹¬ì „";
+		if (month < 12) return month + "ë‹¬ì „";
 
 		int year = month / 12;
-		if (year == 1) return "ÀÛ³â";
-		return year + "³âÀü";
+		if (year == 1) return "ì‘ë…„";
+		return year + "ë…„ì „";
 
 	}
 }

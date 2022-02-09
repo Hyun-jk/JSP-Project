@@ -1,13 +1,13 @@
-/*Amember(È¸¿øÁ¤º¸ Å×ÀÌºí)*/
+/*Amember(íšŒì›ì •ë³´ í…Œì´ë¸”)*/
 CREATE TABLE Amember(
 	Amember_num number not null,
 	id varchar2(30) unique not null,
-	auth number(1) default 2 not null, /*È¸¿ø µî±Ş:0ÀÌ Å»ÅğÈ¸¿ø, 1ÀÌ Á¤ÁöÈ¸¿ø,2 ÀÏ¹İÈ¸¿ø,3 °ü¸®ÀÚ*/
+	auth number(1) default 2 not null, /*íšŒì› ë“±ê¸‰:0ì´ íƒˆí‡´íšŒì›, 1ì´ ì •ì§€íšŒì›,2 ì¼ë°˜íšŒì›,3 ê´€ë¦¬ì*/
 	constraint amember_pk primary key(Amember_num)
 );
 
 
-/*Amember_detail(È¸¿ø »ó¼¼ Á¤º¸ Å×ÀÌºí)*/
+/*Amember_detail(íšŒì› ìƒì„¸ ì •ë³´ í…Œì´ë¸”)*/
 CREATE TABLE Amember_detail(
 	Amember_num number not null,
 	name varchar2(30) not null,
@@ -25,7 +25,7 @@ CREATE TABLE Amember_detail(
 );
 create sequence Amember_seq;
 
-/*Aproduct(»óÇ°Á¤º¸ Å×ÀÌºí)*/
+/*Aproduct(ìƒí’ˆì •ë³´ í…Œì´ë¸”)*/
 CREATE TABLE Aproduct(
 	Aproduct_num number not null,
 	Amember_num number not null.
@@ -50,14 +50,14 @@ CREATE TABLE Aproduct(
 create sequence aproduct_seq;
 
 
-/*Acategory(»óÇ° ºĞ·ù Á¤º¸ Å×ÀÌºí)*/
+/*Acategory(ìƒí’ˆ ë¶„ë¥˜ ì •ë³´ í…Œì´ë¸”)*/
 CREATE TABLE Acategory(
 	category number(2) not null,
 	name varchar2(90) not null,
 	constraint Acategory_pk primary key(category)
 );
 
-/*Amyproduct(ÂòÇÑ »óÇ° Å×ÀÌºí)*/
+/*Amyproduct(ì°œí•œ ìƒí’ˆ í…Œì´ë¸”)*/
 CREATE TABLE Amyproduct(
 	Amyproduct_num number not null,
 	Aproduct_num number not null,
@@ -68,7 +68,7 @@ CREATE TABLE Amyproduct(
 );
 create sequence Amyproduct_seq;
 
-/*Amanner(¸Å³Ê Æò°¡ Á¤º¸ Å×ÀÌºí)*/
+/*Amanner(ë§¤ë„ˆ í‰ê°€ ì •ë³´ í…Œì´ë¸”)*/
 CREATE TABLE Amanner(
 	Amanner_num number not null,
 	Amember_num number not null,
@@ -83,7 +83,7 @@ CREATE TABLE Amanner(
 );
 create sequence Amanner_seq;
 
-/*Acomment(»óÇ° ´ñ±Û Å×ÀÌºí)*/
+/*Acomment(ìƒí’ˆ ëŒ“ê¸€ í…Œì´ë¸”)*/
 CREATE TABLE Acomment(
 	Acomment_num number not null,
 	Amember_num number not null,
@@ -94,11 +94,10 @@ CREATE TABLE Acomment(
 	constraint Acomment_pk primary key(Acommnent_num),
 	constraint Acomment_fk1 foreign key(Amember_num) references Amember(Amember_num),
 	constraint Acomment_fk2 foreign key(Aproduct_num) references Aproudct(Aproduct_num),
-	constraint Acomment_fk3 foreign key(Acomment_parent) /*????*/
+	constraint Acomment_fk3 foreign key(Acomment_parent) references Acomment(Acomment_num)
 );
 
-
-/*Aboard(°øÁö ¹× È¸¿ø »ó´ã Å×ÀÌºí)*/
+/*Aboard(ê³µì§€ ë° íšŒì› ìƒë‹´ í…Œì´ë¸”)*/
 CREATE TABLE Aboard(
 	Aboard_num number not null,
 	Amember_num number not null,
@@ -114,7 +113,7 @@ CREATE TABLE Aboard(
 );
 create sequence Aboard_seq;
 
-/*Achat(Ã¤ÆÃ Á¤º¸ Å×ÀÌºí)*/
+/*Achat(ì±„íŒ… ì •ë³´ í…Œì´ë¸”)*/
 CREATE TABLE Achat(
 	Amember_num number not null,
 	opponent_num number not null,
@@ -125,17 +124,6 @@ CREATE TABLE Achat(
 	constraint Achat_fk1 foreign key(Amember_num) references Amember(Amember_num),
 	constraint Achat_fk2 foreign key(opponent_num) references Amember(Amember_num)
 );
-
-
-
-
-
-
-
-
-
-
-
 
 
 
