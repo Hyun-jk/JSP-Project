@@ -11,7 +11,7 @@ public class ProductVO {
 	private String photo4; 	  //상품 사진 4번파일
 	private String photo5; 	  //상품 사진 5번파일
 	private String title; 	  //상품 판매글의 제목
-	private String price; 	  //상품의 가격
+	private int price; 	      //상품의 가격
 	private String content;   //상품 판매글의 내용
 	private String category;  //상품 분류 번호
 	private Date reg_date; 	  //상품 판매글의 등록일
@@ -69,10 +69,10 @@ public class ProductVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public String getContent() {
