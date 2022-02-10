@@ -53,7 +53,7 @@ label{
 	width:130px;
 	float:left;
 }
-input[type="text"],input[type="password"],input[type="email"]{
+input[type="text"]:not([name="phone"]),input[type="password"],input[type="email"]{
 	width:200px;
 }
 #register_form input[id="id"]{
