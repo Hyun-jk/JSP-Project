@@ -16,7 +16,7 @@
 	<!-- 일반회원으로 로그인 -->
 	<c:if test="${!empty user_num && user_auth == 2}">
 	<h4>My page</h4>
-	<a href="${pageContext.request.contextPath}/">회원정보 수정</a>
+	<a href="${pageContext.request.contextPath}/member/maPageDetail.do">회원정보 수정</a>
 	<hr class="line" noshade="noshade">
 	<h4><a href="${pageContext.request.contextPath}/">찜한 상품</a></h4>
 	<hr class="line" noshade="noshade">
