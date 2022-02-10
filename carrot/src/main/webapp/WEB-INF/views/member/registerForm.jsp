@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 가입</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 </head>
 <body>
@@ -16,17 +17,21 @@
 			<li>
 				<label for="id">아이디</label>
 				<input type="text" name="id" id="id">
-				<input type="button" value="아이디 중복 검사" onclick="validateId();">
-				<span id="notice_id"></span>
+				<span id="duplicated" class="caution"></span>
+				<br><span id="word_only" class="caution"><i class="bi bi-exclamation-triangle"></i>
+				4~30자의 영문자, 숫자만 사용 가능</span>
 			</li>
 			<li>
 				<label for="password">비밀번호</label>
 				<input type="password" name="password" id="password">
+				<span id="contain_chars" class="caution"></span>
+				<br><span id="wrong_chars" class="caution"><i class="bi bi-exclamation-triangle"></i>
+				6~30자의 영문자, 숫자, 특수문자 !@#$%^&*만 사용 가능</span>
 			</li>
 			<li>
 				<label for="password_re">비밀번호 확인</label>
 				<input type="password" id="password_re">
-				<span id="notice_password"></span>
+				<span id="identical" class="caution"></span>
 			</li>
 			<li>
 				<label for="name">이름</label>
@@ -97,34 +102,63 @@
 			this.nextSibling.remove(); // 태그 삭제
 		}
 	}
-	
-	// 아이디 중복 검사 처리
-	function validateId() {
+
+	// 아이디 처리
+	let id = document.getElementById('id');
+	let duplicated = document.getElementById('duplicated');
+	let isValidId = false;
+	// 아이디 입력 제한	
+	id.addEventListener('keydown', validateChars, false);
+	// 아이디 중복 검사
+	id.addEventListener('blur', function() {
+		if(!id.value) {
+			isValidId = false;
+			duplicated.textContent = '';
+			return isValidId;
+		}
 		
-	}
+		$.ajax({
+			url:'checkId.do',
+			type:'post',
+			data:{id:id.value},
+			dataType:'json',
+			cache:false,
+			timeout:10000,
+			success:function(param) {
+				if(param.result=='idNotFound') {
+					isValidId = true;
+					duplicated.textContent = '사용 가능한 아이디';
+					duplicated.style.color = 'blue';
+				}
+				else if(param.result=='idDuplicated') {
+					isValidId = false;
+					duplicated.textContent = '중복된 아이디';
+					duplicated.style.color = 'red';
+				}
+				else {
+					alert('아이디 중복 검사시 오류 발생!');
+					isValidId = false;
+					duplicated.textContent = '';
+				}
+			},
+			error:function() {
+				alert('네트워크 오류 발생!');
+				isValidId = false;
+				duplicated.textContent = '';
+			}
+		}); // end of ajax
+	}, false); // end of addEventListener
 	
-	// 비밀번호 확인 처리
+	// 비밀번호 처리
 	let password = document.getElementById('password');
 	let password_re = document.getElementById('password_re');
-	let notice_password = document.getElementById('notice_password');
-	password.addEventListener('keyup', function() {
-		notice_password.textContent = '';
-		password_re.value = '';
-	}, false);
-	password_re.addEventListener('keyup', function() {
-		password_re.value = password_re.value.trim();
-		if(!password_re.value) { // 아무것도 입력하지 않은 경우
-			notice_password.textContent = '';
-		}
-		else if(password.value!=password_re.value) { // 비밀번호와 비밀번호 확인이 불일치하는 경우
-			notice_password.textContent = '비밀번호 불일치!';
-			notice_password.style.color = 'red';
-		}
-		else {
-			notice_password.textContent = '비밀번호 일치';
-			notice_password.style.color = 'blue';
-		}
-	}, false);
+	let isValidPassword = false;
+	// 비밀번호 입력 제한
+	password.addEventListener('keydown', validateChars, false);
+	password.addEventListener('blur', hasSpecialChars, false);
+	// 비밀번호와 비밀번호 확인 대조
+	password.addEventListener('keyup', checkPassword, false);
+	password_re.addEventListener('keyup', checkPassword, false);	
 	
 	// 유효성 검증
 	document.getElementById('register').onsubmit = function() {
@@ -132,8 +166,36 @@
 		
 		// Not Null 여부 처리
 		isValid = validateNotNull(event);
+
+		// 아이디 및 비밀번호 최소 길이 처리
+		if(id.value.length<4 && isValid) {
+			document.getElementById('word_only').style.color = 'red';
+			document.getElementById('duplicated').textContent = '';
+			id.focus();
+			isValid = false;
+		}
+		if(password.value.length<6 && isValid) {
+			document.getElementById('wrong_chars').style.color = 'red';
+			document.getElementById('contain_chars').textContent = '';
+			password.focus();
+			isValid = false;		
+		}
 		
-		// 비밀번호와 비밀번호 확인 일치 여부 처리
+		// 아이디 중복 검사 처리
+		if(!isValidId && isValid) {
+			alert('이미 사용 중이거나 탈퇴한 아이디입니다!')
+			id.focus();
+			isValid = isValidId;
+		}
+		
+		// 비밀번호 특수문자 포함 여부 처리
+		if(!isValidPassword && isValid) {
+			alert('비밀번호에 특수문자가 1개 이상 포함되어야 합니다!')
+			password.focus();
+			isValid = isValidPassword;
+		}
+		
+		// 비밀번호와 비밀번호 확인 대조 처리
 		if(password.value!=password_re.value && isValid) {
 			alert('비밀번호와 비밀번호 확인이 불일치합니다!');
 			password_re.value = '';

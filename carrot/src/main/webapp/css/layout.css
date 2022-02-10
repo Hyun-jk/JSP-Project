@@ -39,7 +39,7 @@ a:hover{
 	color:#999999;
 }
 
-/*회원가입, 수정폼*/
+/*수정폼*/
 form{
 	width:600px;
 	margin:0 auto;
@@ -56,15 +56,17 @@ label{
 input[type="text"]:not([name="phone"]),input[type="password"],input[type="email"]{
 	width:200px;
 }
-#register_form input[id="id"]{
-	width:113px;
-}
-input[id="zipcode"]{
-	width:95px;
-}
 .form-notice{
 	margin-left:130px;
 }
+
+/* 회원 가입 폼 */
+#register .caution {
+	padding-left: 1.6em;
+	color: gray;
+	font-size: 0.8em;
+}
+
 /*목록*/
 form#search_form{
 	border:none;

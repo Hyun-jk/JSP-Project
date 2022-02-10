@@ -43,3 +43,67 @@ function validateBytesLength(obj) {
 }
 // 사용 예제: 길이 제한이 필요한 <input> 요소의 id와 바이트 길이를 객체 형식 인자로 전달
 // validateBytesLength({title:150,name:30,passwd:12});
+
+function validateChars() {
+	this.value = this.value.trim(); // 입력 필드에서 공백 제거
+	if(!this.value) return; // 아무것도 입력하지 않은 경우 함수 실행 종료
+	
+	let pattern;
+	let caution;
+	if(this.id=='id') { // 이벤트가 발생한 요소의 id가 id인 경우
+		pattern = new RegExp(/[^a-zA-Z0-9]/);
+		caution = document.getElementById('word_only');
+	}
+	else if(this.id=='password') { // 이벤트가 발생한 요소의 id가 password인 경우
+		pattern = new RegExp(/[^a-zA-Z0-9!@#\$%\^&\*]/);
+		caution = document.getElementById('wrong_chars');
+	}
+		
+	let isValidChar = !pattern.test(this.value); // 허용하는 문자인지 여부 확인
+	
+	if(!isValidChar) { // 허용되지 않는 문자를 입력한 경우
+		caution.style.color = 'red'; // 주의 문구 색 변경
+		this.value = ''; // 입력 값 초기화
+	}
+	else { // 허용되는 문자를 입력한 경우
+		caution.style.color = ''; // 주의 문구 색 초기화
+	}
+}
+
+function hasSpecialChars() {
+	if(!this.value) return; // 아무것도 입력하지 않은 경우 함수 실행 종료
+	
+	let pattern = new RegExp(/[!@#\$%\^&\*]/);
+	let caution = document.getElementById('contain_chars');
+	
+	isValidPassword = pattern.test(this.value);
+	if(!isValidPassword) {
+		caution.textContent = '특수문자 1개 이상 필수';
+		caution.style.color = 'red';
+	}
+	else {
+		caution.textContent = '';
+	}
+}
+
+function checkPassword() {
+	let caution = document.getElementById('identical');
+	if(this.id=='password') {
+		caution.textContent = '';
+		password_re.value = '';
+	}
+	else if(this.id='password_re') {
+		password_re.value = password_re.value.trim();
+		if(!password_re.value) { // 아무것도 입력하지 않은 경우
+			caution.textContent = '';
+		}
+		else if(password.value!=password_re.value) { // 비밀번호와 비밀번호 확인이 불일치하는 경우
+			caution.textContent = '비밀번호 불일치!';
+			caution.style.color = 'red';
+		}
+		else {
+			caution.textContent = '비밀번호 일치';
+			caution.style.color = 'blue';
+		}
+	}
+}
