@@ -40,7 +40,11 @@ INSERT INTO acategory
 	SELECT 4, '여성의류/잡화/미용' FROM DUAL UNION ALL
 	SELECT 5, '유아동/유아도서' FROM DUAL UNION ALL
 	SELECT 6, '스포츠' FROM DUAL UNION ALL
-	SELECT 7, '생활/가구' FROM DUAL;
+	SELECT 7, '생활/가구' FROM DUAL UNION ALL
+	SELECT 8, '운영정책' FROM DUAL UNION ALL
+	SELECT 9,'구매/판매' FROM DUAL UNION ALL
+	SELECT 10,'거래매너' FROM DUAL UNION ALL
+	SELECT 11,'이용제재' FROM DUAL UNION ALL;
 
 /*Aproduct(상품정보 테이블)*/
 CREATE TABLE Aproduct(
@@ -118,9 +122,9 @@ CREATE TABLE Aboard(
 	reply_num number,
 	constraint Aboard_pk primary key(Aboard_num),
 	constraint Aboard_fk1 foreign key(Amember_num) references Amember(Amember_num)
-	constraint Aboard_fk2 foreign key(auth_num) references Amember(Amember_num)
 );
 ALTER TABLE Aboard ADD CONSTRAINT Aboard_fk3 foreign key(reply_num) references Aboard(Aboard_num);
+ALTER TABLE Aboard ADD ALTER TABLE aboard ADD(auth_num number(1) not null);
 create sequence Aboard_seq;
 
 /*Achat(채팅 정보 테이블)*/

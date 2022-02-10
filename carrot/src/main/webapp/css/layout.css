@@ -106,6 +106,24 @@ table td, table th{
 	/*사각형의 모서리 둥근 정도를 지정하는 속성인 데 50%를 지정하면 완전한 원이 됨*/
 	border-radius:50%;
 }
+/*My page sidebar css*/
+#My-sidebar{
+	margin-right:15px;
+	float:left;
+	widht:200px;
+	hegiht:100%;
+	border-right-style:solid;
+	border-width:1px;
+}
+#My-content{
+	float:left;	
+}
+.line{
+	width:80%;
+}
+
+
+
 /*글상세*/
 .detail-img{
 	max-width:500px;
