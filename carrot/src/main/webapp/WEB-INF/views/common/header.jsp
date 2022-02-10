@@ -22,7 +22,7 @@
 		<a href="${pageContext.request.contextPath}/member/myPage.do">MY페이지</a>
 	</c:if>
 	<c:if test="${!empty user_num && user_auth == 3}">
-		<a href="${pageContext.request.contextPath}/member/memberList.do">회원관리</a>
+		<a href="${pageContext.request.contextPath}/member/myPage.do">관리자 페이지</a>
 	</c:if>
 </div>
 <!-- header 끝 -->

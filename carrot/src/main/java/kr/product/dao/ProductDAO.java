@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import kr.product.vo.CategoryVO;
 import kr.product.vo.ProductVO;
+import kr.util.DBUtil;
 
 public class ProductDAO {
 	//싱글턴 패턴
@@ -111,5 +115,35 @@ public class ProductDAO {
 	//상품삭제
 
 
-
+	// 카테고리 목록
+	public List<CategoryVO> getListCategory() throws Exception {
+		List<CategoryVO> list = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT * FROM acategory ORDER BY category";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<CategoryVO>();
+			while(rs.next()) {
+				CategoryVO vo = new CategoryVO();
+				vo.setCategory(rs.getInt("category"));
+				vo.setName(rs.getString("name"));
+				list.add(vo);
+			}
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return list;
+	}
 }
