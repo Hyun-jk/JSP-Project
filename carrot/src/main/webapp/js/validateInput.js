@@ -9,7 +9,8 @@ function validateNotNull(event) {
 				let word = list[i].querySelector('label').textContent; // <label> 요소 사이의 문자열 추출
 				let post = (word.charCodeAt(word.length-1) - '가'.charCodeAt(0)) % 28 > 0 ? '을' : '를'; // 마지막 글자의 받침 유무에 따라 적절한 조사 선택
 				alert(word + post + ' 입력하세요!');
-				input.focus();
+				if(input.name=='address') list[i].querySelector('input[type=button]').focus(); // address의 경우 버튼에 포커스 가도록 처리
+				else input.focus();
 				event.preventDefault(); // submit의 기본 이벤트 제거
 				return false; // for문의 반복을 멈추고 함수 실행 종료
 			}

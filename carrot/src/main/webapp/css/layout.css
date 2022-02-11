@@ -66,6 +66,9 @@ input[type="text"]:not([name="phone"]),input[type="password"],input[type="email"
 	color: gray;
 	font-size: 0.8em;
 }
+#register input[name="address"] {
+	width:160px;
+}
 
 /*목록*/
 form#search_form{
