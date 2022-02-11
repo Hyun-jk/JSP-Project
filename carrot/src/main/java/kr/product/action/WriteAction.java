@@ -29,7 +29,7 @@ public class WriteAction implements Action {
 		product.setTitle(request.getParameter("title"));		
 	    product.setPrice(Integer.parseInt(request.getParameter("price")));
 	    product.setContent(request.getParameter("content"));
-	    product.setCategory(request.getParameter("category"));
+	    product.setCategory(Integer.parseInt(request.getParameter("category")));
 	    product.setNickname(request.getParameter("nickname"));
 	    
 	   //ProductDAO 호출
@@ -37,7 +37,7 @@ public class WriteAction implements Action {
 	    dao.registerProduct(product);
 	   		
 	  	//JSP 경로 반환
-	  	return "/WEB-INF/views/write.jsp";			
+	  	return "/WEB-INF/views/product/write.jsp";			
 				
 	}
 
