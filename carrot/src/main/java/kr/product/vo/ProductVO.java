@@ -16,11 +16,11 @@ public class ProductVO {
 	private String category;  //상품 분류 번호
 	private Date reg_date; 	  //상품 판매글의 등록일
 	private Date modify_date; //상품 판매글의 수정일
-	private int complete;  	  //거래여부 완료 0=판매중, 1=거래완료
+	private int complete;  	  //거래 완료 여부 0=판매중, 1=거래완료
 	private int buyer_num;	  //상품을 구매한 회원번호
 	private String nickname;  //상품 판매자 닉네임
-	
-	
+	private int status; // 상품 표시 여부 1=미표시, 2=표시
+
 	public int getAproduct_num() {
 		return Aproduct_num;
 	}
@@ -119,6 +119,12 @@ public class ProductVO {
 		this.nickname = nickname;
 	}
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 }
 
 
