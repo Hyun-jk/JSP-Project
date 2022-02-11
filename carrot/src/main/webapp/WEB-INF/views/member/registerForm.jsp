@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 가입</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 </head>
 <body>
@@ -62,7 +62,7 @@
 			</li>
 			<li>
 				<label for="email">이메일</label>
-				<input type="email" name="email" id="email">
+				<input type="email" name="email" id="email" class="nullable">
 			</li>
 		</ul>
 		<div class="align-center">
