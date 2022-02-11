@@ -3,4 +3,4 @@
 <script type="text/javascript">
 	alert('회원정보를 수정했습니다.');
 	location.href='myPageDetail.do';
-</script>
+</script> 
