@@ -13,13 +13,16 @@ public class ProductVO {
 	private String title; 	  //상품 판매글의 제목
 	private int price; 	      //상품의 가격
 	private String content;   //상품 판매글의 내용
-	private String category;  //상품 분류 번호
+	private int category;  //상품 분류 번호
 	private Date reg_date; 	  //상품 판매글의 등록일
 	private Date modify_date; //상품 판매글의 수정일
 	private int complete;  	  //거래 완료 여부 0=판매중, 1=거래완료
 	private int buyer_num;	  //상품을 구매한 회원번호
 	private String nickname;  //상품 판매자 닉네임
 	private int status; // 상품 표시 여부 1=미표시, 2=표시
+	private int replies; // 댓글 수
+	private int chats; // 채팅 수
+	private int likes; // 좋아요 수
 
 	public int getAproduct_num() {
 		return Aproduct_num;
@@ -81,10 +84,10 @@ public class ProductVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCategory() {
+	public int getCategory() {
 		return category;
 	}
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
 	public Date getReg_date() {
@@ -124,6 +127,24 @@ public class ProductVO {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getReplies() {
+		return replies;
+	}
+	public void setReplies(int replies) {
+		this.replies = replies;
+	}
+	public int getChats() {
+		return chats;
+	}
+	public void setChats(int chats) {
+		this.chats = chats;
+	}
+	public int getLikes() {
+		return likes;
+	}
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 }
 

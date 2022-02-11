@@ -18,8 +18,8 @@ public class RegisterAction implements Action {
 		
 		// 자바빈 생성
 		MemberVO vo = new MemberVO();
-		vo.setId(request.getParameter("id"));
-		vo.setPassword(request.getParameter("password"));
+		vo.setId(request.getParameter("id").toUpperCase()); // 아이디는 DB에 대문자로 저장
+		vo.setPassword(request.getParameter("password").toUpperCase()); // 비밀번호는 DB에 대문자로 저장
 		vo.setName(request.getParameter("name"));
 		vo.setNickname(request.getParameter("nickname"));
 		vo.setAge(Date.valueOf(request.getParameter("age")));

@@ -11,7 +11,7 @@ public class WriteFormAction implements Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		
 		//JSP 경로 반환
-		return "/WEB-INF/views/writeForm.jsp";
+		return "/WEB-INF/views/product/writeForm.jsp";
 	}
 
 }

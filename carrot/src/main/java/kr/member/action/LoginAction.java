@@ -16,8 +16,8 @@ public class LoginAction implements Action {
 		request.setCharacterEncoding("UTF-8");
 		
 		// 전송된 데이터 반환
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
+		String id = request.getParameter("id").toUpperCase(); // 사용자 입력 값을 대문자로 변환
+		String password = request.getParameter("password").toUpperCase(); // 사용자 입력 값을 대문자로 변환
 		
 		MemberDAO dao = MemberDAO.getInstance();
 		MemberVO db_vo = dao.checkMember(id);
