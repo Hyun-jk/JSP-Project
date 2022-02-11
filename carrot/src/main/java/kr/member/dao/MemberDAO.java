@@ -117,7 +117,7 @@ public class MemberDAO {
 			
 			try {
 				conn = DBUtil.getConnection();
-				sql = "SELECT * FROM Amember m JOIN Amember_detail d "
+				sql = "SELECT * FROM amember m JOIN amember_detail d "
 					+ "ON m.amember_num=d.amember_num WHERE m.amember_num=?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, amember_num);
@@ -155,22 +155,21 @@ public class MemberDAO {
 				String sql = null;
 				
 				try {
-					//커넥션풀로부터 커넥션을 할당
+					
 					conn = DBUtil.getConnection();
-					sql = "UPDATE Amember_detail SET name=?,phone=?,email=?, "
-						+ "address=?,Address_favor=?, "
-						+ "WHERE Amember_num=?";
-					//PreparedStatement 객체 생성
+					sql = "UPDATE amember_detail SET nickname=?,phone=?,email=?, "
+						+ "address=?,address_favor=? "
+						+ "WHERE amember_num=?";
+					
 					pstmt = conn.prepareStatement(sql);
-					//?에 데이터 바인딩
+					
 					pstmt.setString(1, member.getNickname());
 					pstmt.setString(2, member.getPhone());
 					pstmt.setString(3, member.getEmail());
 					pstmt.setString(4, member.getAddress());
 					pstmt.setString(5, member.getAddress_favor());
-					pstmt.setInt(7, member.getAmember_num());
+					pstmt.setInt(6, member.getAmember_num());
 					
-					//SQL문 실행
 					pstmt.executeUpdate();
 					
 				}catch(Exception e) {
@@ -180,5 +179,46 @@ public class MemberDAO {
 					DBUtil.executeClose(null, pstmt, conn);
 				}
 			}
-	
+			//비밀번호 수정
+			public void updatePassword(String password, int amember_num)throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String sql = null;
+				
+				try {
+					conn = DBUtil.getConnection();
+					sql = "UPDATE amember_detail SET password=? WHERE amember_num=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, password);
+					pstmt.setInt(2, amember_num);
+					pstmt.executeUpdate();
+				}catch(Exception e) {
+					throw new Exception (e);
+				}finally {
+					DBUtil.executeClose(null, pstmt, conn);
+					
+				}
+			}
+			//프로필 사진 수정
+			public void updateMyPhoto(String photo, int amember_num)throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String sql =null;
+
+				try {
+					conn = DBUtil.getConnection();
+					sql="UPDATE Amember_detail SET photo=? WHERE amember_num=?";
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setString(1, photo);
+					pstmt.setInt(2, amember_num);
+
+					pstmt.executeUpdate();
+
+				}catch(Exception e){
+					throw new Exception(e);
+				}finally {
+					DBUtil.executeClose(null, pstmt, conn);
+
+				}
+			}			
 }
