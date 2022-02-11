@@ -95,6 +95,8 @@ public class MemberDAO {
 				vo.setAuth(rs.getInt("auth"));
 				vo.setPassword(rs.getString("password"));
 				vo.setPhoto(rs.getString("photo"));
+				vo.setAddress_favor(rs.getString("address_favor"));
+				vo.setAddress(rs.getString("address"));
 			}	
 		}
 		catch(Exception e) {

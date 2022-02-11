@@ -18,12 +18,15 @@ public class ProductVO {
 	private Date modify_date; //상품 판매글의 수정일
 	private int complete;  	  //거래 완료 여부 0=판매중, 1=거래완료
 	private int buyer_num;	  //상품을 구매한 회원번호
-	private String nickname;  //상품 판매자 닉네임
 	private int status; // 상품 표시 여부 1=미표시, 2=표시
+	
+	// 테이블에 없지만 필요한 정보
+	private String nickname;  //상품 판매자 닉네임
+	private String address; // 판매자 동네
 	private int replies; // 댓글 수
 	private int chats; // 채팅 수
 	private int likes; // 좋아요 수
-
+	
 	public int getAproduct_num() {
 		return Aproduct_num;
 	}
@@ -114,19 +117,25 @@ public class ProductVO {
 	public void setBuyer_num(int buyer_num) {
 		this.buyer_num = buyer_num;
 	}
-
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-	
 	public int getStatus() {
 		return status;
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	// 테이블에 없지만 필요한 정보
+	public String getNickname() {
+		return nickname;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public int getReplies() {
 		return replies;
