@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 
-import kr.board.dao.BoardDAO;
 import kr.controller.Action;
 import kr.product.dao.ProductDAO;
 import kr.product.vo.AddressVO;

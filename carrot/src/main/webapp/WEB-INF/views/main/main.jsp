@@ -53,6 +53,7 @@
 	<ul class="list-main">
 		<c:forEach var="product" items="${list}">
 		<li>
+			<a href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${product.aproduct_num}">
 			<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
 			<div class="title">${product.title}</div>
 			<div class="price">
@@ -67,6 +68,7 @@
 			<div class="info">
 				관심 ${product.likes} · 댓글 ${product.replies} · 채팅 ${product.chats}
 			</div>
+			</a>
 		</li>
 		</c:forEach>
 	</ul>

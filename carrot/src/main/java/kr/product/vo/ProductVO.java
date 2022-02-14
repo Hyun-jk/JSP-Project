@@ -23,10 +23,12 @@ public class ProductVO {
 	// 테이블에 없지만 필요한 정보
 	private String nickname;  //상품 판매자 닉네임
 	private String address; // 판매자 동네
+	private double rate; // 판매자 매너 점수
+	private String cname; // 상품 분류명
 	private int replies; // 댓글 수
 	private int chats; // 채팅 수
 	private int likes; // 좋아요 수
-	
+
 	public int getAproduct_num() {
 		return Aproduct_num;
 	}
@@ -128,14 +130,26 @@ public class ProductVO {
 	public String getNickname() {
 		return nickname;
 	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public double getRate() {
+		return rate;
+	}
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	public String getCname() {
+		return cname;
+	}
+	public void setCname(String cname) {
+		this.cname = cname;
 	}
 	public int getReplies() {
 		return replies;

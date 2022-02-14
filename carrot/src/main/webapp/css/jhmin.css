@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+/* 물품 상세 정보 */
+ul.detail {
+	width: 600px;
+	margin: 25px auto 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+ul.detail li {
+	margin: 0;
+	padding: 5px 0;
+}
+ul.detail img {
+	object-fit:cover;
+	object-position:center;
+	width: 600px;
+	height: 600px;
+	border-radius: 10%;
+	background-color: lightgray;
+}
+ul.detail hr {
+	width: 600px;
+	border-style: solid;
+	color: lightgray;
+}
+.gray {
+	color: gray;
+}
+.bold {
+	font-weight: bold;
+}
+/* 물품 상세 정보 : 판매자 */
+li.seller {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+li.seller div {
+	margin: 0;
+	padding: 0 5px;
+}
+li.seller div.who {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+li.seller div.who img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+li.seller div.who div {
+	
+}
+li.seller div.manner {
+	
+}
+/* 물품 상세 정보 : 글 */
+
+/* 물품 상세 정보 : 댓글 */

@@ -29,7 +29,7 @@ public class UpdateMyPhotoAction implements Action{
 			mapAjax.put("result", "logout");
 		}else {//로그인 된 경우
 			ProductDAO dao = ProductDAO.getInstance();
-			ProductVO db_product = dao.getProduct(Amember_num); //이전 이미지 파일 정보 일기
+			ProductVO db_product = (ProductVO)dao.getProduct(Amember_num).get(0); //이전 이미지 파일 정보 일기
 				
 			//전송된 파일 업로드 처리
 			MultipartRequest multi = FileUtil.createFile(request);
