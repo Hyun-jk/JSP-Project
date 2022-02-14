@@ -29,22 +29,20 @@ public class ProductDAO {
 			conn = DBUtil.getConnection();
 			//SQL문 작성
 			sql = "INSERT INTO aproduct (Aproduct_num,Amember_num,photo1,photo2,photo3,photo4,photo5,"
-					+ "title,price,content,category,nickname,reg_date) VALUES(aproduct_seq.nextval,?,?,?,?,?,?,?,?,?,?,?,SYSDATE)";			    
+					+ "title,price,content,category,reg_date) VALUES(aproduct_seq.nextval,?,?,?,?,?,?,?,?,?,?,SYSDATE)";			    
 			//PreparedStatement 객체 생성
 			pstmt = conn.prepareStatement(sql);
 			//?에 데이터 바인딩
-			pstmt.setInt(1, product.getAproduct_num());
-			pstmt.setInt(2, product.getAmember_num());
-			pstmt.setString(3, product.getPhoto1());
-			pstmt.setString(4, product.getPhoto2());
-			pstmt.setString(5, product.getPhoto3());
-			pstmt.setString(6, product.getPhoto4());
-			pstmt.setString(7, product.getPhoto5());
-			pstmt.setString(8, product.getTitle());
-			pstmt.setInt(9, product.getPrice());
-			pstmt.setString(10, product.getContent());
-			pstmt.setInt(11, product.getCategory());
-			pstmt.setString(12, product.getNickname());
+			pstmt.setInt(1, product.getAmember_num());
+			pstmt.setString(2, product.getPhoto1());
+			pstmt.setString(3, product.getPhoto2());
+			pstmt.setString(4, product.getPhoto3());
+			pstmt.setString(5, product.getPhoto4());
+			pstmt.setString(6, product.getPhoto5());
+			pstmt.setString(7, product.getTitle());
+			pstmt.setInt(8, product.getPrice());
+			pstmt.setString(9, product.getContent());
+			pstmt.setInt(10, product.getCategory());
 
 			//SQL문 실행
 			pstmt.executeUpdate();
