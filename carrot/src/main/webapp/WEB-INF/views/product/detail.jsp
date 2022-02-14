@@ -13,45 +13,99 @@
 <body>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<ul class="detail">
+	<ul class="detail flex-column">
 		<li>
 			<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
 		</li>
-		<li class="seller">
-			<div class="who">
+<!-- 판매자 프로필, 매너 평가 시작 -->
+		<li class="seller flex-row space-between">
+			<div class="who flex-row">
 				<c:if test="${empty seller.photo}">
 				<img src="${pageContext.request.contextPath}/images/face.png">
 				</c:if>
 				<c:if test="${!empty seller.photo}">
 				<img src="${pageContext.request.contextPath}/upload/${seller.photo}">
 				</c:if>	
-				<div>		
+				<div class="flex-cloumn">	
 					<div>${seller.nickname}</div>
 					<div>${seller.address}</div>
 				</div>
 			</div>
 			<div class="manner">
-				<div>
+				<div class>
 					<c:if test="${empty seller.rate}">
 					정보가 없습니다.
 					</c:if>
 					<c:if test="${!empty seller.rate}">
-						${seller.rate}
+					${seller.rate}
 					</c:if>
 				</div>
 				<div>매너 평점</div>
 			</div>
 		</li>
-		<hr>
-		<li>
-			<div class="bold">${product.title}</div>
+		<li><hr></li>
+<!-- 판매자 프로필, 매너 평가 끝 -->
+<!-- 물품 판매글 시작 -->
+		<li class="product flex-column">
+			<div class="title">${product.title}</div>
 			<div class="gray"><a>${category.name}</a> · ${product.reg_date}</div>
-			<div class="bold"><fmt:formatNumber value="${product.price }"/>원</div>
-			<div>${product.content}</div>
-			<br>
-			<div class="gray"><a>댓글 ${product.replies}</a> · 채팅 ${product.chats} · 관심 ${product.likes}</div>
+			<div class="subtitle"><fmt:formatNumber value="${product.price }"/>원</div>
+			<div class="content">${product.content}</div>
+			<div class="gray"><a href="#" id="toggle_replies">댓글 ${product.replies}</a> · 채팅 ${product.chats} · 관심 ${product.likes}</div>
 		</li>
-		<hr>
+		<li><hr></li>
+<!-- 물품 판매글 끝 -->
+<!-- 버튼들 시작 -->
+		<li class="flex-row space-between">
+			<i class="bi bi-heart" id="like"></i>
+			<div class="other">
+				<input type="button" class="big" value="이전으로" onclick="history.go(-1);">
+				<c:choose>
+					<c:when test="${user_num==product.amember_num}">
+					<input type="button" class="big point" value="상품 수정하기" onclick="location.href = 'modifyForm.do?aproduct_num=${product.aproduct_num}';">
+					</c:when>
+					<c:when test="${user_num==product.buyer_num}">
+					<input type="button" class="big point" value="거래 후기 남기기" onclick="">
+					</c:when>
+					<c:otherwise>
+					<input type="button" class="big point" value="채팅으로 거래하기" onclick="location.href = 'chat.do?aproduct_num=${product.aproduct_num}';" <c:if test="${empty user_num}">disabled title="로그인하세요"</c:if>>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</li>
+		<li><hr></li>
+<!-- 버튼들 끝 -->
+<!-- 댓글 시작 -->
+		<li id="comment_wrap" style="display: none;">
+		</li>
+<!-- 댓글 끝 -->
+<!-- 실시간 중고 더보기 시작 -->
+		<li>
+			<div class="title">실시간 중고 더보기</div>
+			<ul class="list-other">
+				<c:forEach var="other" items="${listProduct}">
+				<li>
+					<a href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${other.aproduct_num}">
+					<img src="${pageContext.request.contextPath}/upload/${other.photo1}">
+					<div class="title">${other.title}</div>
+					<div class="price">
+						<c:if test="${other.price==0}">
+						나눔
+						</c:if>
+						<c:if test="${other.price>0}">
+						<fmt:formatNumber value="${other.price}"/>원
+						</c:if>
+					</div>
+					<div class="address">${other.address}</div>
+					<div class="info">
+						관심 ${other.likes} · 댓글 ${other.replies} · 채팅 ${other.chats}
+					</div>
+					</a>
+				</li>
+				</c:forEach>
+			</ul>
+		</li>
+<!-- 실시간 중고 더보기 끝 -->
 	</ul>
 </div>
 </body>

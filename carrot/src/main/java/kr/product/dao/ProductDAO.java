@@ -398,8 +398,9 @@ public class ProductDAO {
 				product.setReplies(rs.getInt("replies"));
 				product.setLikes(rs.getInt("likes"));
 				// 판매글 상태
-				product.setComplete(rs.getInt("complete"));
 				product.setStatus(rs.getInt("status"));
+				product.setComplete(rs.getInt("complete"));
+				product.setBuyer_num(rs.getInt("buyer_num"));
 				list.add(product);
 				
 				// 판매자 정보
