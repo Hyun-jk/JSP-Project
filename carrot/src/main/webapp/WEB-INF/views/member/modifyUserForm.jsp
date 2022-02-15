@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-	$(function() {
+	$(function() { 
 		$('#modify_form').submit(function() {
 			if ($('#nickname').val().trim() == '') {
 				alert('닉네임을 입력하세요!');

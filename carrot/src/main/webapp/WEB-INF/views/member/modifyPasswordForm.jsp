@@ -55,7 +55,7 @@
 });
 </script>
 </head>
-<body>
+<body> 
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<h2>비밀번호 수정</h2>

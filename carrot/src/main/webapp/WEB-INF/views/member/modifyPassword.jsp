@@ -12,4 +12,4 @@
 		alert('아이디 또는 비밀번호 불일치');
 		history.go(-1);
 	</script>
-</c:if>
+</c:if> 
