@@ -57,67 +57,79 @@ public class ProductDAO {
 		}
 	}
 
-	//상품수정
-	public void updateProduct(ProductVO product)throws Exception{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
+	 //상품수정
+    public void updateProduct(ProductVO product)throws Exception{
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       String sql = null;
+       String sub_sql = "";
+       int cnt = 0;
+       
+       try {
+          conn = DBUtil.getConnection();
+          
+          if(product.getPhoto1()!=null) sub_sql += ",photo1=?";
+          if(product.getPhoto2()!=null) sub_sql += ",photo2=?";
+          if(product.getPhoto3()!=null) sub_sql += ",photo3=?";
+          if(product.getPhoto4()!=null) sub_sql += ",photo4=?";
+          if(product.getPhoto5()!=null) sub_sql += ",photo5=?";
+          
+          sql ="UPDATE aproduct SET title=?,price=?,category=?" + sub_sql 
+             + ",content=?,modify_date=SYSDATE,complete=? WHERE Aproduct_num=?";
+          
+          //PreparedStatement 객체 생성
+          pstmt = conn.prepareStatement(sql);
+          //?에 데이터 바인딩
+          pstmt.setString(++cnt, product.getTitle());
+          pstmt.setInt(++cnt, product.getPrice());
+          pstmt.setInt(++cnt, product.getCategory());
+          if(product.getPhoto1()!=null) pstmt.setString(++cnt, product.getPhoto1());
+          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto2());
+          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto3());
+          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto4());
+          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto5());
+          pstmt.setString(++cnt, product.getContent());
+          pstmt.setInt(++cnt, product.getComplete());
+          pstmt.setInt(++cnt, product.getAproduct_num());
+          
+          //SQL문 실행
+          pstmt.executeUpdate();
+          
+       }catch(Exception e) {
+          throw new Exception(e);
+       }finally {
+          //자원정리
+          DBUtil.executeClose(null, pstmt, conn);
+       }
+    }
+    
 
-		try {
-			//커넥션풀로부터 커넥션 할당
-			conn = DBUtil.getConnection();
-			//SQL문 작성
-			sql = "UPDATE aproduct SET Photo1=?, Photo2=?, Photo3=?, Photo4=?, "
-					+ "Photo5=?, Title=?, Price=?, Content=?, Category=?  WHERE Aproduct_num=?";
-			//PreparedStatement 객체 생성
-			pstmt = conn.prepareStatement(sql);
-			//?에 데이터를 바인딩
-			pstmt.setString(1, product.getPhoto1());
-			pstmt.setString(2, product.getPhoto2());
-			pstmt.setString(3, product.getPhoto3());
-			pstmt.setString(4, product.getPhoto4());
-			pstmt.setString(5, product.getPhoto5());
-			pstmt.setString(6, product.getTitle());
-			pstmt.setInt(7, product.getPrice());
-			pstmt.setString(8, product.getContent());
-			pstmt.setInt(9, product.getCategory());
-			pstmt.setInt(10, product.getAproduct_num());
+    //상품삭제
+    public void deleteProduct(int num)throws Exception{
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       String sql = null;
 
-			//SQL문 실행
-			pstmt.executeUpdate();
+       try {
+          //커넥션풀로부터 커넥션 할당
+          conn = DBUtil.getConnection();
+          //SQL문 작성
+          sql = "DELETE FROM aproduct WHERE Aproduct_num=?";
+          //PreparedStatement 객체 생성
+          pstmt = conn.prepareStatement(sql);
+          //?에 데이터 바인딩
+          pstmt.setInt(1, num);
 
-		}catch(Exception e) {
-			throw new Exception(e);
-		}finally {
-			DBUtil.executeClose(null, pstmt, conn);
+          //SQL문 실행
+          pstmt.executeUpdate();
 
-		}
-	}
-	//상품삭제
-		public void deleteProduct(int num)throws Exception{
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			String sql = null;
+       }catch(Exception e) {
+          throw new Exception(e);
+       }finally {
+          DBUtil.executeClose(null, pstmt, conn);
+       }
+    }
 
-			try {
-				//커넥션풀로부터 커넥션 할당
-				conn = DBUtil.getConnection();
-				//SQL문 작성
-				sql = "DELETE FROM aproduct WHERE Aproduct_num=?";
-				//PreparedStatement 객체 생성
-				pstmt = conn.prepareStatement(sql);
-				//?에 데이터 바인딩
-				pstmt.setInt(1, num);
-
-				//SQL문 실행
-				pstmt.executeUpdate();
-
-			}catch(Exception e) {
-				throw new Exception(e);
-			}finally {
-				DBUtil.executeClose(null, pstmt, conn);
-			}
-		}
 
 	// 동네 목록
 	public List<AddressVO> getListAddress() throws Exception {
@@ -332,103 +344,102 @@ public class ProductDAO {
 		return list;
 	}
 	
-	// 물품 상세 정보
-	public List getProduct(int aproduct_num) throws Exception {
-		List list = null;
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		
-		try {
-			conn = DBUtil.getConnection();
-			
-			sql = "SELECT p.*, m.nickname, m.photo, m.address, m.rate, c.name AS cname, "
-				+ "ch.chats, cmt.replies, my.likes FROM aproduct p "
-				// 판매자 정보 결합
-				+ "JOIN amember_detail m ON p.amember_num=m.amember_num "
-				// 상품 분류명 결합
-				+ "JOIN acategory c ON p.category=c.category "
-				// 채팅 수 계산
-				+ "JOIN (SELECT aproduct.aproduct_num, COUNT(achat.aproduct_num) AS chats "
-					+ "FROM aproduct LEFT JOIN achat "
-					+ "ON aproduct.aproduct_num=achat.aproduct_num "
-					+ "GROUP BY aproduct.aproduct_num) ch "
-				+ "ON p.aproduct_num=ch.aproduct_num "
-				// 댓글 수 계산
-				+ "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
-					+ "FROM aproduct LEFT JOIN acomment "
-					+ "ON aproduct.aproduct_num=acomment.aproduct_num "
-					+ "GROUP BY aproduct.aproduct_num) cmt "
-				+ "ON p.aproduct_num=cmt.aproduct_num "
-				// 관심 상품 수 계산
-				+ "JOIN (SELECT aproduct.aproduct_num, COUNT(amyproduct.aproduct_num) AS likes "
-					+ "FROM aproduct LEFT JOIN amyproduct "
-					+ "ON aproduct.aproduct_num=amyproduct.aproduct_num "
-					+ "GROUP BY aproduct.aproduct_num) my "
-				+ "ON p.aproduct_num=my.aproduct_num "
-				// 조건절
-				+ "WHERE p.aproduct_num=?";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, aproduct_num);
-			
-			rs = pstmt.executeQuery();
-			list = new ArrayList();
-			if(rs.next()) {
-				// 물품 상세 정보
-				ProductVO product = new ProductVO();
-				product.setAproduct_num(aproduct_num);
-				product.setAmember_num(rs.getInt("amember_num"));
-				// 사진
-				product.setPhoto1(rs.getString("photo1"));
-				product.setPhoto2(rs.getString("photo2"));
-				product.setPhoto3(rs.getString("photo3"));
-				product.setPhoto4(rs.getString("photo4"));
-				product.setPhoto5(rs.getString("photo5"));
-				// 판매글 정보
-				product.setTitle(rs.getString("title"));
-				product.setContent(rs.getString("content"));
-				product.setReg_date(rs.getDate("reg_date"));
-				product.setModify_date(rs.getDate("modify_date"));
-				product.setPrice(rs.getInt("price"));
-				// 채팅, 댓글, 관심
-				product.setChats(rs.getInt("chats"));
-				product.setReplies(rs.getInt("replies"));
-				product.setLikes(rs.getInt("likes"));
-				// 판매글 상태
-				product.setStatus(rs.getInt("status"));
-				product.setComplete(rs.getInt("complete"));
-				product.setBuyer_num(rs.getInt("buyer_num"));
-				list.add(product);
-				
-				// 판매자 정보
-				MemberVO member = new MemberVO();
-				member.setNickname(rs.getString("nickname"));
-				member.setAddress(rs.getString("address"));
-				member.setPhoto(rs.getString("photo"));
-				member.setRate(rs.getDouble("rate"));
-				list.add(member);
-				
-				// 카테고리 정보
-				CategoryVO category = new CategoryVO();
-				category.setCategory(rs.getInt("category"));
-				category.setName(rs.getString("cname"));
-				list.add(category);
-			}
-		}
-		catch(Exception e) {
-			throw new Exception();
-		}
-		finally {
-			DBUtil.executeClose(rs, pstmt, conn);
-		}
-		
-		return list;
-	}
-	
+	 // 물품 상세 정보
+	   public List<Object> getProduct(int aproduct_num) throws Exception {
+	      List<Object> list = null;
+	      
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String sql = null;
+	      
+	      try {
+	         conn = DBUtil.getConnection();
+	         
+	         sql = "SELECT p.*, m.nickname, m.photo, m.address, m.rate, c.name AS cname, "
+	            + "ch.chats, cmt.replies, my.likes FROM aproduct p "
+	            // 판매자 정보 결합
+	            + "JOIN amember_detail m ON p.amember_num=m.amember_num "
+	            // 상품 분류명 결합
+	            + "JOIN acategory c ON p.category=c.category "
+	            // 채팅 수 계산
+	            + "JOIN (SELECT aproduct.aproduct_num, COUNT(achat.aproduct_num) AS chats "
+	               + "FROM aproduct LEFT JOIN achat "
+	               + "ON aproduct.aproduct_num=achat.aproduct_num "
+	               + "GROUP BY aproduct.aproduct_num) ch "
+	            + "ON p.aproduct_num=ch.aproduct_num "
+	            // 댓글 수 계산
+	            + "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
+	               + "FROM aproduct LEFT JOIN acomment "
+	               + "ON aproduct.aproduct_num=acomment.aproduct_num "
+	               + "GROUP BY aproduct.aproduct_num) cmt "
+	            + "ON p.aproduct_num=cmt.aproduct_num "
+	            // 관심 상품 수 계산
+	            + "JOIN (SELECT aproduct.aproduct_num, COUNT(amyproduct.aproduct_num) AS likes "
+	               + "FROM aproduct LEFT JOIN amyproduct "
+	               + "ON aproduct.aproduct_num=amyproduct.aproduct_num "
+	               + "GROUP BY aproduct.aproduct_num) my "
+	            + "ON p.aproduct_num=my.aproduct_num "
+	            // 조건절
+	            + "WHERE p.aproduct_num=?";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setInt(1, aproduct_num);
+	         
+	         rs = pstmt.executeQuery();
+	         list = new ArrayList<Object>();
+	         if(rs.next()) {
+	            // 물품 상세 정보
+	            ProductVO product = new ProductVO();
+	            product.setAproduct_num(aproduct_num);
+	            product.setAmember_num(rs.getInt("amember_num"));
+	            // 사진
+	            product.setPhoto1(rs.getString("photo1"));
+	            product.setPhoto2(rs.getString("photo2"));
+	            product.setPhoto3(rs.getString("photo3"));
+	            product.setPhoto4(rs.getString("photo4"));
+	            product.setPhoto5(rs.getString("photo5"));
+	            // 판매글 정보
+	            product.setTitle(rs.getString("title"));
+	            product.setContent(rs.getString("content"));
+	            product.setReg_date(rs.getDate("reg_date"));
+	            product.setModify_date(rs.getDate("modify_date"));
+	            product.setPrice(rs.getInt("price"));
+	            // 채팅, 댓글, 관심
+	            product.setChats(rs.getInt("chats"));
+	            product.setReplies(rs.getInt("replies"));
+	            product.setLikes(rs.getInt("likes"));
+	            // 판매글 상태
+	            product.setComplete(rs.getInt("complete"));
+	            product.setStatus(rs.getInt("status"));
+	            list.add(product);
+	            
+	            // 판매자 정보
+	            MemberVO member = new MemberVO();
+	            member.setNickname(rs.getString("nickname"));
+	            member.setAddress(rs.getString("address"));
+	            member.setPhoto(rs.getString("photo"));
+	            member.setRate(rs.getDouble("rate"));
+	            list.add(member);
+	            
+	            // 카테고리 정보
+	            CategoryVO category = new CategoryVO();
+	            category.setCategory(rs.getInt("category"));
+	            category.setName(rs.getString("cname"));
+	            list.add(category);
+	         }
+	      }
+	      catch(Exception e) {
+	         throw new Exception();
+	      }
+	      finally {
+	         DBUtil.executeClose(rs, pstmt, conn);
+	      }
+	      
+	      return list;
+	   }
+
 	// 관심 상품 추가
 	public void insertMyProduct(MyProductVO vo) throws Exception {
 		Connection conn = null;
@@ -516,32 +527,32 @@ public class ProductDAO {
 		}
 	}
 
-		//사진등록
-		public void updateMyPhoto(String photo1, Integer amember_num) throws Exception{
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			String sql = null;
+	 //사진등록
+    public void updateMyPhoto(String photo1, Integer amember_num) throws Exception{
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       String sql = null;
 
-			try {
-				//커넥션풀로부터 커넥션을 할당
-				conn = DBUtil.getConnection();
+       try {
+          //커넥션풀로부터 커넥션을 할당
+          conn = DBUtil.getConnection();
 
-				//SQL문 작성
-				sql = "UPDATE amember_detail SET photo1=? WHERE amember_num=?";
+          //SQL문 작성
+          sql = "UPDATE aproduct_detail SET photo1=? WHERE amember_num=?";
 
-				//PreparedStatement 객체 생성
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, photo1);
-				pstmt.setInt(2, amember_num);
+          //PreparedStatement 객체 생성
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setString(1, photo1);
+          pstmt.setInt(2, amember_num);
 
-				//SQL문 실행
-				pstmt.executeUpdate();
+          //SQL문 실행
+          pstmt.executeUpdate();
 
-			}catch(Exception e) {
-				throw new Exception(e);
-			}finally {
-				//자원정리
-				DBUtil.executeClose(null, pstmt, conn);
-			}
-		}
-	}
+       }catch(Exception e) {
+          throw new Exception(e);
+       }finally {
+          //자원정리
+          DBUtil.executeClose(null, pstmt, conn);
+       }
+    }
+ }

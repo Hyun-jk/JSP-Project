@@ -68,6 +68,8 @@
 				<c:choose>
 					<c:when test="${user_num==product.amember_num}">
 					<input type="button" class="big point" value="상품 수정하기" onclick="location.href = 'modifyForm.do?aproduct_num=${product.aproduct_num}';">
+					 <input type="button" value="삭제하기" onclick="location.href='deleteForm.do?aproduct_num=${product.aproduct_num}'">
+					
 					</c:when>
 					<c:when test="${user_num==product.buyer_num}">
 					<input type="button" class="big point" value="거래 후기 남기기" onclick="">
