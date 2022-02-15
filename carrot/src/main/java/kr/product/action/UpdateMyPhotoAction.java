@@ -24,25 +24,24 @@ public class UpdateMyPhotoAction implements Action{
 		Map<String,String> mapAjax = new HashMap<String,String>();
 		
 		HttpSession session = request.getSession();
-		Integer Amember_num = (Integer)session.getAttribute("Amember_num");
-		if(Amember_num==null) {//로그인이 되지 않은 경우
+		Integer amember_num = (Integer)session.getAttribute("amember_num");
+		if(amember_num == null) {//로그인이 되지 않은 경우
 			mapAjax.put("result", "logout");
+			
 		}else {//로그인 된 경우
 			ProductDAO dao = ProductDAO.getInstance();
-			ProductVO db_product = (ProductVO)dao.getProduct(Amember_num).get(0); //이전 이미지 파일 정보 일기
+			int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
+			ProductVO db_product = dao.getProduct(aproduct_num); //이전 이미지 파일 정보 일기
 				
 			//전송된 파일 업로드 처리
 			MultipartRequest multi = FileUtil.createFile(request);
 			//서버에 저장된 파일명 반환
 			String photo1 = multi.getFilesystemName("photo1");
 			
-			//프로필 수정       파일명    mem_num (회원번호)
-			dao.updateMyPhoto(photo1, Amember_num);
+			//수정              파일명    
+			dao.updateMyPhoto(photo1, aproduct_num);
 			
-			//세션에 저장된 프로필 사진 정보 갱신
-			session.setAttribute("user_photo", photo1);
-			
-			//이전 프로필 이미지 삭제
+			//이전 사진 삭제
 			FileUtil.removeFile(request, db_product.getPhoto1());
 			
 			mapAjax.put("result", "success");			

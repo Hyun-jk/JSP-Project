@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-	$(function({
+	$(function(){
 		let photo_path = $('.my-photo').attr('src');
 		let my_photo;
 		
-		$('#photo_btn').click(function({
+		$('#photo_btn').click(function(){
 			$('#photo_choice').show();
 			$(this).hide();
 		});
@@ -26,7 +26,7 @@
 			$('#photo_btn').show();
 		});
 		
-		
+		//이미지 선택 및 이미지 미리보기
 		$('#photo').change(function(){
 			my_photo = this.files[0];
 			if(!my_photo){
@@ -85,8 +85,8 @@
 				}
 			});
 		
-		}));
-	}))
+		});
+	});
 </script>
 </head>
 <body>

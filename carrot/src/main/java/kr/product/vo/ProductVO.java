@@ -2,6 +2,8 @@ package kr.product.vo;
 
 import java.sql.Date;
 
+import kr.member.vo.MemberVO;
+
 public class ProductVO {
 	private int Aproduct_num; // 상품번호
 	private int Amember_num;  //상품을 판매하는 회원번호
@@ -23,8 +25,10 @@ public class ProductVO {
 	// 테이블에 없지만 필요한 정보
 	private String nickname;  //상품 판매자 닉네임
 	private String address; // 판매자 동네
-	private double rate; // 판매자 매너 점수
-	private String cname; // 상품 분류명
+
+	private MemberVO memberVO; // 판매자 정보
+	private CategoryVO categoryVO; // 카테고리 정보
+	
 	private int replies; // 댓글 수
 	private int chats; // 채팅 수
 	private int likes; // 좋아요 수
@@ -139,18 +143,20 @@ public class ProductVO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public double getRate() {
-		return rate;
+	
+	public MemberVO getMemberVO() {
+		return memberVO;
 	}
-	public void setRate(double rate) {
-		this.rate = rate;
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
-	public String getCname() {
-		return cname;
+	public CategoryVO getCategoryVO() {
+		return categoryVO;
 	}
-	public void setCname(String cname) {
-		this.cname = cname;
+	public void setCategoryVO(CategoryVO categoryVO) {
+		this.categoryVO = categoryVO;
 	}
+
 	public int getReplies() {
 		return replies;
 	}

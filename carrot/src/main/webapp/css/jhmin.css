@@ -1,12 +1,252 @@
 @charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+
+/* 공통 : 컬러 */
+:root {
+	--point: #9789e8;
+	--point-hover: #8474e4;
+	--light-gray: #ddd;
+	--light-gray-hover: #ccc;
+	--light-gray-disabled: #999;
+	--light-black: #333;
+	--light-white: #f8f8f8;
+	--gray: #808080;
+	--gray-hover: #a9a9a9;
+}
+body {
+	color: var(--light-black);
+}
+.gray,.gray * {
+	color: var(--gray);
+}
+
+/* 공통 : 레이아웃 */
+* {
+	box-sizing: border-box;
+}
+.page-main {
+	width: 1200px;
+}
+ul {
+	margin: 0 auto;
+	padding: 0;
+}
+.flex-column {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.space-between {
+	justify-content: space-between;
+}
+.space-evenly {
+	justify-content: space-evenly;
+}
+input,select,textarea {
+	margin: 5px;
+	padding: 10px;
+}
+input:focus,select:focus {
+	outline-color: var(--point);
+}
+
+/* 공통 : 꾸미기 */
+hr {
+	margin: 0 auto;
+	padding: 0;
+	width: 600px;
+	border-style: solid;
+	color: var(--light-gray);
+}
+.info {
+	font-size: 0.8rem;
+}
+.title {
+	font-size: 1.6rem;
+	font-weight: bold;
+}
+.subtitle {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+a,a:link{ /* layout.css와 충돌 */
+	color: inherit !important;
+}
+a:hover {
+	text-decoration: none;
+	color: var(--gray-hover) !important;
+	cursor: pointer;
+}
+
+/* 아이콘 버튼 */
+i.bi {
+	margin: 5px;
+	padding: 5px;
+	font-size: 1.6rem;
+	color: var(--point);
+	transition: all 0.5s ease;
+	cursor: pointer;
+}
+i.bi:hover {
+	color: var(--point-hover);
+}
+
+/* 페이징 버튼 */
+.paging a {
+	font-size: 1rem;
+	font-weight: bold;
+	display: inline-block;
+	margin: 5px 0;
+	padding: 10px 15px;
+	border-radius: 10px;
+	color: var(--light-black);
+	background: var(--light-gray);
+	transition: all 0.5s ease;
+	cursor: pointer;
+}
+.paging a:hover {
+	background: var(--light-gray-hover);
+}
+.paging span {
+	font-size: 1rem;
+	font-weight: bold;
+	display: inline-block;
+	margin: 5px 0;
+	padding: 10px 15px;
+	border-radius: 10px;
+	color: var(--light-white) !important;
+	background: var(--point);
+	cursor: default;
+}
+
+/* 텍스트 버튼 */
+input[type="button"],input[type="submit"] {
+	font-size: 1rem;
+	font-weight: bold;
+	margin: 0 5px;
+	padding: 10px;
+	border-radius: 5px;
+	color: var(--light-black);
+	border: 3px solid var(--light-gray);
+	background: var(--light-gray);
+	transition: all 0.5s ease;
+	cursor: pointer;
+}
+input[type="button"]:not(:disabled):hover {
+	border: 3px solid var(--light-gray-hover);
+	background: var(--light-gray-hover);
+}
+input[type="button"]:disabled {
+	color: #aaa;
+	cursor: default;
+}
+input[type="button"].big {
+	font-size: 1.2rem;
+	font-weight: bold;
+	padding: 10px;
+	border-radius: 5px;
+	color: var(--light-black);
+	border: 3px solid var(--light-gray);
+	background: var(--light-gray);
+}
+input[type="button"].big:not(:disabled):hover {
+	border: 3px solid var(--light-gray-hover);
+	background: var(--light-gray-hover);
+}
+input[type="button"].point  {
+	border: 3px solid var(--point);
+	color: var(--light-white);
+	background: var(--point);
+}
+input[type="button"].point:not(:disabled):hover {
+	border: 3px solid var(--point-hover);
+	background: var(--point-hover);
+}
+input[type="button"].point:disabled {
+	border: 3px solid var(--light-gray-disabled);
+	background: var(--light-gray-disabled);
+	cursor: default;
+}
+
+/* 메인 : 검색 바 */
+form#search {
+	margin: 0 auto;
+	padding: 0;
+	width: 800px;
+	border: none;
+}
+form#search ul {
+
+}
+form#search ul li input[type="search"] {
+	width: 250px;
+}
+
+/* 메인 : 동네 선택 */
+.modal {
+	z-index: 1;
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+	display: none; 
+	background-color: rgba(0, 0, 0, 0.4);
+}
+.modal.show {
+	display: block; 
+}
+.modal-content { 
+	position: absolute; 
+	top: 20%; 
+	left: 50%;
+	padding: 25px; 
+	text-align: center; 
+	background-color: var(--light-white); 
+	border-radius: 10px; 
+	box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.15); 
+	transform: translateX(-50%) translateY(-20%);
+}
+
+/* 메인 : 물품 목록 */
+ul.list-main {
+	margin: 0 auto;
+	padding: 0;
+	width: 1100px;
+}
+ul.list-main li {
+	margin: 5px;
+	padding: 5px;
+}
+ul.list-main li .title {
+	font-size: 1rem;
+}
+ul.list-main li .price {
+	font-weight: bold;
+	font-size: 1rem;
+}
+ul.list-main li .address {
+	font-size: 0.8rem;
+}
+ul.list-main li img {
+	object-fit:cover;
+	object-position:center;
+	width: 200px;
+	height: 200px;
+	border-radius: 10%;
+}
 
 /* 물품 상세 정보 */
 ul.detail {
 	width: 600px;
 	margin: 25px auto 0;
 	padding: 0;
-	display: flex;
-	flex-direction: column;
 }
 ul.detail li {
 	margin: 0;
@@ -20,32 +260,17 @@ ul.detail img {
 	border-radius: 10%;
 	background-color: lightgray;
 }
-ul.detail hr {
-	width: 600px;
-	border-style: solid;
-	color: lightgray;
-}
-.gray {
-	color: gray;
-}
-.bold {
-	font-weight: bold;
-}
+
 /* 물품 상세 정보 : 판매자 */
 li.seller {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
+
 }
 li.seller div {
 	margin: 0;
 	padding: 0 5px;
 }
 li.seller div.who {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	
 }
 li.seller div.who img {
 	width: 50px;
@@ -58,6 +283,74 @@ li.seller div.who div {
 li.seller div.manner {
 	
 }
+
 /* 물품 상세 정보 : 글 */
+ul.detail li.product div {
+	padding-top: 5px;
+}
+ul.detail li.product div.content {
+	margin-bottom: 50px;
+}
+
+/* 물품 상세 정보 : 관심 */
+i.bi#like {
+	margin: 0 5px;
+	padding: 0;
+	font-size: 2.5em;
+}
 
 /* 물품 상세 정보 : 댓글 */
+
+/* 물품 상세 정보: 실시간 중고 더보기 */
+ul.list-other {
+	margin: 0 auto;
+	padding: 0;
+	width: 600px;
+}
+ul.list-other li {
+	margin: 10px 0;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+}
+ul.list-other li .title {
+	font-size: 1rem;
+}
+ul.list-other li .price {
+	font-weight: bold;
+	font-size: 1rem;
+}
+ul.list-other li .address {
+	font-size: 0.8rem;
+}
+ul.list-other li img {
+	object-fit:cover;
+	object-position:center;
+	width: 180px;
+	height: 180px;
+	border-radius: 10%;
+}
+
+/* 채팅 */
+ul.chat-main {
+	margin: 0 auto;
+	padding: 0;
+	width: 480px;
+	height: 600px;
+	overflow: auto;
+}
+#send_area input[type="text"] {
+	width: 400px;
+}
+.chat-me {
+	
+}
+.chat-you {
+	
+}
+.chat-nickname {
+	
+}
+.chat-content {
+	
+}

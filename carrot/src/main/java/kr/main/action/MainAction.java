@@ -36,8 +36,17 @@ public class MainAction implements Action{
 		
 		String category = request.getParameter("category");
 		String keyword = request.getParameter("keyword");
-		String address = request.getParameter("address");
-		if(address==null) address = (String)request.getSession().getAttribute("user_address");
+		String sido = request.getParameter("sido");
+		if(sido==null) sido = "";
+		String sigungu = request.getParameter("sigungu");
+		if(sigungu==null) sigungu = "";
+		String bname = request.getParameter("bname");
+		if(bname==null) bname = "";
+		String address = "";
+		if(!sido.isEmpty()) address += sido;
+		if(!sigungu.isEmpty()) address += " " + sigungu;
+		if(!bname.isEmpty()) address += " " + bname;
+		if(address.isEmpty()) address = (String)request.getSession().getAttribute("user_address");
 		
 		int count = dao.getCountProduct(category, keyword, address);
 		List<ProductVO> list = null;
