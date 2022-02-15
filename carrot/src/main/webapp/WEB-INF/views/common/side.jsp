@@ -45,8 +45,8 @@
 		<h4><a href="${pageContext.request.contextPath}/">상품관리</a></h4>
 		<hr class="line" noshade="noshade">
 		
-		<h4><a href="${pageContext.request.contextPath}/">공지사항</a></h4>
-		<a href="${pageContext.request.contextPath}/">자주묻는 질문(FAQ)</a><br> 
+		<h4><a href="${pageContext.request.contextPath}/board/adminBoard.do">공지사항</a></h4>
+		<a href="${pageContext.request.contextPath}/board/adminBoardFAQ.do">자주묻는 질문(FAQ)</a><br> 
 		<a href="${pageContext.request.contextPath}/">1:1 문의</a>
 		<hr class="line" noshade="noshade">
 	</c:if>
