@@ -1,7 +1,26 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
 
-/* 공통 */
+/* 공통 : 컬러 */
+:root {
+	--point: #9789e8;
+	--point-hover: #8474e4;
+	--light-gray: #ddd;
+	--light-gray-hover: #ccc;
+	--light-gray-disabled: #999;
+	--light-black: #333;
+	--light-white: #f8f8f8;
+	--gray: #808080;
+	--gray-hover: #a9a9a9;
+}
+body {
+	color: var(--light-black);
+}
+.gray,.gray * {
+	color: var(--gray);
+}
+
+/* 공통 : 레이아웃 */
 * {
 	box-sizing: border-box;
 }
@@ -29,15 +48,24 @@ ul {
 .space-evenly {
 	justify-content: space-evenly;
 }
+input,select {
+	margin: 5px;
+	padding: 10px;
+}
+input:focus,select:focus {
+	outline-color: var(--point);
+}
+
+/* 공통 : 꾸미기 */
 hr {
 	margin: 0 auto;
 	padding: 0;
 	width: 600px;
 	border-style: solid;
-	color: lightgray;
+	color: var(--light-gray);
 }
-.gray {
-	color: gray;
+.info {
+	font-size: 0.8rem;
 }
 .title {
 	font-size: 1.6rem;
@@ -47,44 +75,74 @@ hr {
 	font-size: 1.2rem;
 	font-weight: bold;
 }
+a,a:link{ /* layout.css와 충돌 */
+	color: inherit !important;
+}
 a:hover {
 	text-decoration: none;
+	color: var(--gray-hover) !important;
 	cursor: pointer;
 }
-input,select {
-	margin: 5px;
-	padding: 10px;
-}
+
+/* 아이콘 버튼 */
 i.bi {
 	margin: 5px;
 	padding: 5px;
 	font-size: 1.6rem;
+	color: var(--point);
 	transition: all 0.5s ease;
 	cursor: pointer;
 }
 i.bi:hover {
-	color: #8474e4;
+	color: var(--point-hover);
 }
 
-/* 버튼 */
+/* 페이징 버튼 */
+.paging a {
+	font-size: 1rem;
+	font-weight: bold;
+	display: inline-block;
+	margin: 5px 0;
+	padding: 10px 15px;
+	border-radius: 10px;
+	color: var(--light-black);
+	background: var(--light-gray);
+	transition: all 0.5s ease;
+	cursor: pointer;
+}
+.paging a:hover {
+	background: var(--light-gray-hover);
+}
+.paging span {
+	font-size: 1rem;
+	font-weight: bold;
+	display: inline-block;
+	margin: 5px 0;
+	padding: 10px 15px;
+	border-radius: 10px;
+	color: var(--light-white) !important;
+	background: var(--point);
+	cursor: default;
+}
+
+/* 텍스트 버튼 */
 input[type="button"],input[type="submit"] {
 	font-size: 1rem;
 	font-weight: bold;
 	margin: 0 5px;
 	padding: 10px;
 	border-radius: 5px;
-	color: #333;
-	border: 3px solid #ddd;
-	background: #ddd;
+	color: var(--light-black);
+	border: 3px solid var(--light-gray);
+	background: var(--light-gray);
 	transition: all 0.5s ease;
 	cursor: pointer;
 }
 input[type="button"]:not(:disabled):hover {
-	border: 3px solid #ccc;
-	background: #ccc;
+	border: 3px solid var(--light-gray-hover);
+	background: var(--light-gray-hover);
 }
 input[type="button"]:disabled {
-	font-weight: normal;
 	color: #aaa;
 	cursor: default;
 }
@@ -93,26 +151,26 @@ input[type="button"].big {
 	font-weight: bold;
 	padding: 10px;
 	border-radius: 5px;
-	color: #333;
-	border: 3px solid #ddd;
-	background: #ddd;
+	color: var(--light-black);
+	border: 3px solid var(--light-gray);
+	background: var(--light-gray);
 }
 input[type="button"].big:not(:disabled):hover {
-	border: 3px solid #ccc;
-	background: #ccc;
+	border: 3px solid var(--light-gray-hover);
+	background: var(--light-gray-hover);
 }
 input[type="button"].point  {
-	border: 3px solid #9789e8;
-	color: #fff;
-	background: #9789e8;
+	border: 3px solid var(--point);
+	color: var(--light-white);
+	background: var(--point);
 }
 input[type="button"].point:not(:disabled):hover {
-	border: 3px solid #8474e4;
-	background: #8474e4;
+	border: 3px solid var(--point-hover);
+	background: var(--point-hover);
 }
 input[type="button"].point:disabled {
-	border: 3px solid #888;
-	background: #888;
+	border: 3px solid var(--light-gray-disabled);
+	background: var(--light-gray-disabled);
 	cursor: default;
 }
 
@@ -150,7 +208,7 @@ form#search ul li input[type="search"] {
 	left: 50%;
 	padding: 25px; 
 	text-align: center; 
-	background-color: #fff; 
+	background-color: var(--light-white); 
 	border-radius: 10px; 
 	box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.15); 
 	transform: translateX(-50%) translateY(-20%);
@@ -175,10 +233,6 @@ ul.list-main li .price {
 }
 ul.list-main li .address {
 	font-size: 0.8rem;
-}
-ul.list-main li .info {
-	font-size: 0.8rem;
-	color: gray;
 }
 ul.list-main li img {
 	object-fit:cover;
@@ -272,10 +326,6 @@ ul.list-other li .price {
 }
 ul.list-other li .address {
 	font-size: 0.8rem;
-}
-ul.list-other li .info {
-	font-size: 0.8rem;
-	color: gray;
 }
 ul.list-other li img {
 	object-fit:cover;

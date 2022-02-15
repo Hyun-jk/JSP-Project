@@ -9,6 +9,7 @@ import java.util.List;
 import kr.member.vo.MemberVO;
 import kr.product.vo.AddressVO;
 import kr.product.vo.CategoryVO;
+import kr.product.vo.MyProductVO;
 import kr.product.vo.ProductVO;
 import kr.util.DBUtil;
 
@@ -426,6 +427,93 @@ public class ProductDAO {
 		}
 		
 		return list;
+	}
+	
+	// 관심 상품 추가
+	public void insertMyProduct(MyProductVO vo) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+
+			sql = "INSERT INTO amyproduct (amyproduct_num, aproduct_num, amember_num) "
+				+ "VALUES (amyproduct_seq.NEXTVAL, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, vo.getAproduct_num());
+			pstmt.setInt(2, vo.getAmember_num());
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	// 관심 상품 존재 확인
+	public boolean existsMyProduct(MyProductVO vo) throws Exception {
+		boolean exist = false;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT * FROM amyproduct WHERE aproduct_num=? AND amember_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, vo.getAproduct_num());
+			pstmt.setInt(2, vo.getAmember_num());
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				exist = true;
+			}
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return exist;
+	}
+	
+	// 관심 상품 삭제
+	public void deleteMyProduct(MyProductVO vo) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "DELETE FROM amyproduct WHERE aproduct_num=? AND amember_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, vo.getAproduct_num());
+			pstmt.setInt(2, vo.getAmember_num());
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
 	}
 
 		//사진등록

@@ -21,16 +21,16 @@
 				<i class="bi bi-map-fill"></i>
 				<div class="modal">
 					<div class="modal-content flex-row">
-					<select name="sido">
-						<option value="" selected>시/도 선택</option>
-					</select>
-					<select name="sigungu" style="display: none;">
-						<option value="" selected>시/군/구 선택</option>
-					</select>
-					<select name="bname" style="display: none;">
-						<option value="" selected>읍/면/동 선택</option>
-					</select>
-					<i class="bi bi-search"></i>
+						<select name="sido">
+							<option value="" selected>시/도 선택</option>
+						</select>
+						<select name="sigungu" style="display: none;">
+							<option value="" selected>시/군/구 선택</option>
+						</select>
+						<select name="bname" style="display: none;">
+							<option value="" selected>읍/면/동 선택</option>
+						</select>
+						<i class="bi bi-search"></i>
 					</div>
 				</div>
 				<select name="category">
@@ -44,15 +44,11 @@
 			</li>
 			<li class="flex-row">
 				<input type="button" value="목록" onclick="location.href = 'main.do';">
-				<input type="button" value="물품 등록" onclick="location.href = '${pageContext.request.contextPath}/product/writeForm.do';" <c:if test="${empty user_num}">disabled title="로그인하세요"</c:if>>
+				<input type="button" class="point" value="물품 등록" onclick="location.href = '${pageContext.request.contextPath}/product/writeForm.do';" <c:if test="${empty user_num}">disabled title="로그인하세요"</c:if>>
 			</li>
 		</ul>
 	</form>
 <!-- 동네 선택, 카테고리 선택, 검색 끝 -->
-	<div class="list-space align-right">
-		
-		
-	</div>
 <!-- 목록 출력 시작 -->
 	<c:if test="${count==0}">
 	<div class="result-display">
@@ -75,14 +71,14 @@
 				</c:if>
 			</div>
 			<div class="address">${product.address}</div>
-			<div class="info">
+			<div class="info gray">
 				관심 ${product.likes} · 댓글 ${product.replies} · 채팅 ${product.chats}
 			</div>
 			</a>
 		</li>
 		</c:forEach>
 	</ul>
-	<div class="align-center">
+	<div class="align-center paging">
 		${pagingHtml}
 	</div>
 	</c:if>
@@ -113,13 +109,13 @@
 	// 동네 대분류, 중분류, 소분류 만들기
 	const arrayAddress = [];
 	<c:forEach var="item" items="${listAddress}" varStatus="status">
-		arrayAddress.push({
-			address:"${item.address}",
-			sido:"${item.sido}",
-			sigungu:"${item.sigungu}",
-			bname:"${item.bname}",
-			index:${status.index}
-		})
+	arrayAddress.push({
+		address:"${item.address}",
+		sido:"${item.sido}",
+		sigungu:"${item.sigungu}",
+		bname:"${item.bname}",
+		index:${status.index}
+	})
 	</c:forEach>
 	let distinctSido = [...new Map(arrayAddress.map(item => [item.sido, item])).values()];
 	let distinctSigungu = [...new Map(arrayAddress.map(item => [item.sigungu, item])).values()];
@@ -158,24 +154,23 @@
 			}
 		}
 	}, false);
-	
+	// 소분류 선택시 submit 이벤트 발생
 	bname.addEventListener('change', function() {
 		search.submit();
 	}, false);
+	// 중분류, 소분류 초기화
+	function removeOptions(selectElement) {
+		var i, L = selectElement.options.length - 1;
+		for(i = L; i >= 1; i--) {
+			selectElement.remove(i);
+		}
+	}
 	
 	// 카테고리 선택시 submit 이벤트 발생
 	let category = document.getElementsByName('category')[0];
 	category.addEventListener('change', function() {
 		search.submit();
 	}, false)
-	
-
-	function removeOptions(selectElement) {
-		var i, L = selectElement.options.length - 1;
-		for(i = L; i >= 1; i--) {
-			selectElement.remove(i);
-		}
-	}	
 </script>
 </body>
 </html>

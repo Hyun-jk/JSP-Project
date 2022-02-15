@@ -51,13 +51,18 @@
 			<div class="gray"><a>${category.name}</a> · ${product.reg_date}</div>
 			<div class="subtitle"><fmt:formatNumber value="${product.price }"/>원</div>
 			<div class="content">${product.content}</div>
-			<div class="gray"><a href="#" id="toggle_replies">댓글 ${product.replies}</a> · 채팅 ${product.chats} · 관심 ${product.likes}</div>
+			<div class="gray"><a href="#" id="toggle_replies">댓글 ${product.replies}</a> · 채팅 ${product.chats} · 관심 <span id="current_likes">${product.likes}</span></div>
 		</li>
 		<li><hr></li>
 <!-- 물품 판매글 끝 -->
 <!-- 버튼들 시작 -->
 		<li class="flex-row space-between">
+			<c:if test="${exist}">
+			<i class="bi bi-heart-fill" id="like"></i>
+			</c:if>
+			<c:if test="${!exist}">
 			<i class="bi bi-heart" id="like"></i>
+			</c:if>
 			<div class="other">
 				<input type="button" class="big" value="이전으로" onclick="history.go(-1);">
 				<c:choose>
@@ -97,7 +102,7 @@
 						</c:if>
 					</div>
 					<div class="address">${other.address}</div>
-					<div class="info">
+					<div class="info gray">
 						관심 ${other.likes} · 댓글 ${other.replies} · 채팅 ${other.chats}
 					</div>
 					</a>
@@ -108,5 +113,39 @@
 <!-- 실시간 중고 더보기 끝 -->
 	</ul>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	// 관심 상품 토글
+	like_btn = document.getElementById('like');
+	current_likes = document.getElementById('current_likes');	
+	like_btn.addEventListener('click', function() {
+		$.ajax({
+			url:'toggleMyProduct.do',
+			type:'post',
+			data:{aproduct_num:${product.aproduct_num}},
+			dataType:'json',
+			success:function(param) {
+				if(param.result=='logout') {
+					alert('로그인 후 관심 상품에 담을 수 있습니다!');
+				}
+				else if(param.result=='insert') {
+					alert('관심 상품에 담겼습니다!');
+					like_btn.classList.remove('bi-heart');
+					like_btn.classList.add('bi-heart-fill');
+					current_likes.textContent = Number(current_likes.textContent) + 1;
+				}
+				else if(param.result=='delete') {
+					alert('관심 상품에서 제외되었습니다!');
+					like_btn.classList.remove('bi-heart-fill');
+					like_btn.classList.add('bi-heart');
+					current_likes.textContent = Number(current_likes.textContent) -1;
+				}
+			},
+			error:function() {
+				alert('네트워크 오류 발생!');
+			}
+		}); // end of ajax
+	}, false);
+</script>
 </body>
 </html>
