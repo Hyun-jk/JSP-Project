@@ -97,21 +97,11 @@ public class ChatDAO {
 		try {
 			conn = DBUtil.getConnection();
 			
-			sql = "SELECT * FROM (SELECT r.*, ROWNUM AS rnum "
-					// 로그인한 사용자 정보 결합
-					+ "FROM (SELECT c.*, m.nickname, m.photo, m.rate, "
-					// 상대방 정보 결합
-					+ "o.nickname AS o_nickname, o.photo AS o_photo, o.rate AS o_rate, "
-					// 상품 정보 결합
-					+ "p.title, p.photo1, p.price "
-					+ "FROM achat c JOIN amember_detail m ON c.amember_num=m.amember_num "
-					+ "JOIN amember_detail o ON c.opponent_num=o.amember_num "
-					+ "JOIN aproduct p ON c.aproduct_num=p.aproduct_num "
+			sql = "SELECT * FROM (SELECT r.*, ROWNUM AS rnum FROM (SELECT * FROM achat "
 					// 회원 번호, 상품 번호 및 읽음 여부 조건절
-					+ "WHERE (c.amember_num=? OR c.opponent_num=?) "
-					+ "AND c.aproduct_num=? AND c.read<? "
+					+ "WHERE (amember_num=? OR opponent_num=?) AND aproduct_num=? AND read<? "
 					// 최신순 정렬
-					+ "ORDER BY c.send_date DESC) r) "
+					+ "ORDER BY send_date DESC) r) "
 				+ "WHERE rnum>=? AND rnum<=?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -134,29 +124,102 @@ public class ChatDAO {
 				chat.setContent(rs.getString("content"));
 				chat.setSend_date(rs.getString("send_date"));
 				chat.setRead_date(rs.getString("read_date"));
-				chat.setRead(rs.getInt("read"));
-				
-				// 로그인한 사용자 정보 저장
+				chat.setRead(rs.getInt("read"));				
+				list.add(chat);
+			}
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return list;
+	}
+
+	// 채팅 중인 상대방과 물품 정보 불러오기
+	public ChatVO getChatVO(int aproduct_num, int opponent_num) throws Exception {
+		ChatVO chat = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			// 판매자 정보 및 물품 정보 불러오기
+			sql = "SELECT p.*, m.nickname, m.photo, m.rate "
+				+ "FROM aproduct p JOIN amember_detail m ON p.amember_num=m.amember_num "
+				+ "WHERE aproduct_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, aproduct_num);
+			rs = pstmt.executeQuery();
+			chat = new ChatVO();
+			if(rs.next()) {
+				chat.setAproduct_num(aproduct_num);
+				// 판매자 정보 저장
 				MemberVO member = new MemberVO();
 				member.setNickname(rs.getString("nickname"));
 				member.setPhoto(rs.getString("photo"));
 				member.setRate(rs.getDouble("rate"));
-				chat.setMemberVO(member);
-				// 상대방 정보 저장
-				MemberVO opponent = new MemberVO();
-				opponent.setNickname(rs.getString("o_nickname"));
-				opponent.setPhoto(rs.getString("o_photo"));
-				opponent.setRate(rs.getDouble("o_rate"));
-				chat.setOpponentVO(opponent);
-				// 채팅 중인 상품 정보 저장
+				chat.setOpponentVO(member);
+				// 채팅 중인 물품 정보 저장
 				ProductVO product = new ProductVO();
 				product.setTitle(rs.getString("title"));
 				product.setPhoto1(rs.getString("photo1"));
 				product.setPrice(rs.getInt("price"));
+				product.setAmember_num(rs.getInt("amember_num"));
+				Integer buyer_num = rs.getInt("buyer_num");
+				if(buyer_num!=null) {
+					product.setBuyer_num(buyer_num);
+				}
+				product.setComplete(rs.getInt("complete"));
+				product.setStatus(rs.getInt("status"));
 				chat.setProductVO(product);
-				
-				list.add(chat);
 			}
+			
+			// 채팅 중인 상대방 정보 불러오기
+			sql = "SELECT nickname, photo, rate FROM amember_detail WHERE amember_num=?";
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1, opponent_num);
+			rs2 = pstmt2.executeQuery();
+			if(rs2.next()) {
+				chat.setOpponent_num(opponent_num);
+				// 채팅 중인 상대방 정보 저장
+				MemberVO opponent = new MemberVO();
+				opponent.setNickname(rs2.getString("nickname"));
+				opponent.setPhoto(rs2.getString("photo"));
+				opponent.setRate(rs2.getDouble("rate"));
+				chat.setOpponentVO(opponent);
+			}
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs2, pstmt2, null);
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return chat;
+	}
+	
+	// 회원별로 채팅 중인 상대방 목록 불러오기
+	public List<ChatVO> getListChatByUser(int amember_num) throws Exception {
+		List<ChatVO> list = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			
 		}
 		catch(Exception e) {
 			throw new Exception(e);

@@ -25,6 +25,10 @@
 .align-right{
 	text-align:right;
 }
+.align-left {
+	text-align:left;
+}
+
 /*메인*/
 a:link{
 	text-decoration:none;
