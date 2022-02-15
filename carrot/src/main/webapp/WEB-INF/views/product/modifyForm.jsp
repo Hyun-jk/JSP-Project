@@ -82,32 +82,20 @@
 </head>
 <body>
 	<div class="page-main">
+		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 		<h2>상품 수정</h2>
-		<c:forEach var="info" items="${list}" varStatus="status">
-			<c:if test="${status.index == 0}">
-				<c:set var="product" value="${info}"/>
-			</c:if>
-			<c:if test="${status.index == 0}">
-				<c:set var="member" value="${info}"/>
-			</c:if>
-			<c:if test="${status.index == 0}">
-				<c:set var="category" value="${info}"/>
-			</c:if>
-		</c:forEach>
 		<form action="modify.do" method="post" enctype="multipart/form-data"
 			id="modify_form">
 			<input type="hidden" name="aproduct_num" value="${product.aproduct_num}">
 
 			<ul>
 				<li><label for="photo1">상품이미지*</label> 
-				<c:if test="${empty member.photo1}">
-					<img src="${pageContext.request.contextPath}/images/photo.png"
+					<img src="${pageContext.request.contextPath}/upload/${product.photo1}"
 						width="100" height="100" class="my-photo1">
 					<br>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="file" name="photo1" id="photo1" accept="image/gif,image/png,image/jpeg">
-					<br> 
-			   </c:if>
+					<br>
 				</li>
 				<br>
 				<li><label for="photo2">상품이미지2</label> 
@@ -156,6 +144,7 @@
 			</ul>
 			<div class="align-center">
 				<input type="submit" value="수정하기">
+				<input type="button" value="삭제하기" onclick="location.href='deleteForm.do?aproduct_num=${product.aproduct_num}'">
 			</div>
 		</form>
 	</div>

@@ -30,7 +30,8 @@ public class UpdateMyPhotoAction implements Action{
 			
 		}else {//로그인 된 경우
 			ProductDAO dao = ProductDAO.getInstance();
-			ProductVO db_product = (ProductVO)dao.getProduct(amember_num).get(0); //이전 이미지 파일 정보 일기
+			int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
+			ProductVO db_product = dao.getProduct(aproduct_num); //이전 이미지 파일 정보 일기
 				
 			//전송된 파일 업로드 처리
 			MultipartRequest multi = FileUtil.createFile(request);
@@ -38,10 +39,7 @@ public class UpdateMyPhotoAction implements Action{
 			String photo1 = multi.getFilesystemName("photo1");
 			
 			//수정              파일명    
-			dao.updateMyPhoto(photo1, amember_num);
-			
-			//세션에 저장된 사진 정보 갱신
-			session.setAttribute("user_photo", photo1);
+			dao.updateMyPhoto(photo1, aproduct_num);
 			
 			//이전 사진 삭제
 			FileUtil.removeFile(request, db_product.getPhoto1());

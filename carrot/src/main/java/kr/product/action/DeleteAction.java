@@ -25,17 +25,16 @@ public class DeleteAction implements Action{
 		int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
 
 		ProductDAO dao = ProductDAO.getInstance();		 
-		List<Object> db_list = dao.getProduct(aproduct_num);
+		ProductVO db_product = dao.getProduct(aproduct_num);
 		//상품 삭제
 		dao.deleteProduct(aproduct_num);
         
-		ProductVO product =(ProductVO) db_list.get(0);
 		//상품 이미지 삭제
-		FileUtil.removeFile(request, product.getPhoto1());
-		FileUtil.removeFile(request, product.getPhoto2());
-		FileUtil.removeFile(request, product.getPhoto3());
-		FileUtil.removeFile(request, product.getPhoto4());
-		FileUtil.removeFile(request, product.getPhoto5());
+		FileUtil.removeFile(request, db_product.getPhoto1());
+		FileUtil.removeFile(request, db_product.getPhoto2());
+		FileUtil.removeFile(request, db_product.getPhoto3());
+		FileUtil.removeFile(request, db_product.getPhoto4());
+		FileUtil.removeFile(request, db_product.getPhoto5());
 		
 		request.setAttribute("aproduct_num", aproduct_num);
 

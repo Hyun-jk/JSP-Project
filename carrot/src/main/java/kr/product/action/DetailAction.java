@@ -23,11 +23,10 @@ public class DetailAction implements Action {
 		int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
 		
 		// 상품 상세 정보
-		List list = dao.getProduct(aproduct_num);
+		ProductVO product = dao.getProduct(aproduct_num);
 		
-		ProductVO product = (ProductVO)list.get(0);
-		MemberVO seller = (MemberVO)list.get(1);
-		CategoryVO category = (CategoryVO)list.get(2);
+		MemberVO seller = product.getMemberVO();
+		CategoryVO category = product.getCategoryVO();
 		
 		// 제목에 HTML 태그를 허용하지 않음
 		product.setTitle(StringUtil.useNoHtml(product.getTitle()));

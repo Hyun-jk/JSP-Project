@@ -35,30 +35,28 @@ public class ModifyAction implements Action{
 		String photo5 = multi.getFilesystemName("photo5");
 		
 		ProductDAO dao = ProductDAO.getInstance();
-		List<Object> db_list = dao.getProduct(aproduct_num);
+		ProductVO db_product = dao.getProduct(aproduct_num);
 		
-		ProductVO list = (ProductVO) new ProductVO();
-		list.setAproduct_num(aproduct_num);
-		list.setPhoto1(multi.getParameter("Photo1"));
-		list.setPhoto2(multi.getParameter("Photo2"));
-		list.setPhoto3(multi.getParameter("Photo3"));
-		list.setPhoto4(multi.getParameter("Photo4"));
-		list.setPhoto5(multi.getParameter("Photo5"));
-		list.setTitle(multi.getParameter("title"));		
-		list.setPrice(Integer.parseInt(multi.getParameter("price")));
-		list.setContent(multi.getParameter("content"));
-		list.setCategory(Integer.parseInt(multi.getParameter("category")));
-	    list.setAmember_num(amember_num);
+		ProductVO product = (ProductVO) new ProductVO();
+		product.setAproduct_num(aproduct_num);
+		product.setPhoto1(photo1);
+		product.setPhoto2(photo2);
+		product.setPhoto3(photo3);
+		product.setPhoto4(photo4);
+		product.setPhoto5(photo5);
+		product.setTitle(multi.getParameter("title"));		
+		product.setPrice(Integer.parseInt(multi.getParameter("price")));
+		product.setContent(multi.getParameter("content"));
+		product.setCategory(Integer.parseInt(multi.getParameter("category")));
+	    product.setAmember_num(amember_num);
 	
-	    dao.updateProduct(list);
-		
-	    ProductVO product =(ProductVO) db_list.get(0);
+	    dao.updateProduct(product);
 	    
-	    if(photo1 != null) FileUtil.removeFile(request, product.getPhoto1());
-		if(photo2 != null) FileUtil.removeFile(request, product.getPhoto2());
-		if(photo3 != null) FileUtil.removeFile(request, product.getPhoto3());
-		if(photo4 != null) FileUtil.removeFile(request, product.getPhoto4());
-		if(photo5 != null) FileUtil.removeFile(request, product.getPhoto5());
+	    if(photo1 != null) FileUtil.removeFile(request, db_product.getPhoto1());
+		if(photo2 != null) FileUtil.removeFile(request, db_product.getPhoto2());
+		if(photo3 != null) FileUtil.removeFile(request, db_product.getPhoto3());
+		if(photo4 != null) FileUtil.removeFile(request, db_product.getPhoto4());
+		if(photo5 != null) FileUtil.removeFile(request, db_product.getPhoto5());
 		
 		request.setAttribute("aproduct_num", aproduct_num);
 		

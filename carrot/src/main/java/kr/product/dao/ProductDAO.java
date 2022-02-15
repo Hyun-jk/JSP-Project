@@ -85,9 +85,9 @@ public class ProductDAO {
           pstmt.setInt(++cnt, product.getCategory());
           if(product.getPhoto1()!=null) pstmt.setString(++cnt, product.getPhoto1());
           if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto2());
-          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto3());
-          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto4());
-          if(product.getPhoto2()!=null) pstmt.setString(++cnt, product.getPhoto5());
+          if(product.getPhoto3()!=null) pstmt.setString(++cnt, product.getPhoto3());
+          if(product.getPhoto4()!=null) pstmt.setString(++cnt, product.getPhoto4());
+          if(product.getPhoto5()!=null) pstmt.setString(++cnt, product.getPhoto5());
           pstmt.setString(++cnt, product.getContent());
           pstmt.setInt(++cnt, product.getComplete());
           pstmt.setInt(++cnt, product.getAproduct_num());
@@ -345,8 +345,8 @@ public class ProductDAO {
 	}
 	
 	 // 물품 상세 정보
-	   public List<Object> getProduct(int aproduct_num) throws Exception {
-	      List<Object> list = null;
+	   public ProductVO getProduct(int aproduct_num) throws Exception {
+		   ProductVO product = null;
 	      
 	      Connection conn = null;
 	      PreparedStatement pstmt = null;
@@ -388,10 +388,9 @@ public class ProductDAO {
 	         pstmt.setInt(1, aproduct_num);
 	         
 	         rs = pstmt.executeQuery();
-	         list = new ArrayList<Object>();
 	         if(rs.next()) {
 	            // 물품 상세 정보
-	            ProductVO product = new ProductVO();
+	            product = new ProductVO();
 	            product.setAproduct_num(aproduct_num);
 	            product.setAmember_num(rs.getInt("amember_num"));
 	            // 사진
@@ -413,7 +412,6 @@ public class ProductDAO {
 	            // 판매글 상태
 	            product.setComplete(rs.getInt("complete"));
 	            product.setStatus(rs.getInt("status"));
-	            list.add(product);
 	            
 	            // 판매자 정보
 	            MemberVO member = new MemberVO();
@@ -421,13 +419,13 @@ public class ProductDAO {
 	            member.setAddress(rs.getString("address"));
 	            member.setPhoto(rs.getString("photo"));
 	            member.setRate(rs.getDouble("rate"));
-	            list.add(member);
+	            product.setMemberVO(member);
 	            
 	            // 카테고리 정보
 	            CategoryVO category = new CategoryVO();
 	            category.setCategory(rs.getInt("category"));
 	            category.setName(rs.getString("cname"));
-	            list.add(category);
+	            product.setCategoryVO(category);
 	         }
 	      }
 	      catch(Exception e) {
@@ -437,7 +435,7 @@ public class ProductDAO {
 	         DBUtil.executeClose(rs, pstmt, conn);
 	      }
 	      
-	      return list;
+	      return product;
 	   }
 
 	// 관심 상품 추가
@@ -528,7 +526,7 @@ public class ProductDAO {
 	}
 
 	 //사진등록
-    public void updateMyPhoto(String photo1, Integer amember_num) throws Exception{
+    public void updateMyPhoto(String photo1, int aproduct_num) throws Exception{
        Connection conn = null;
        PreparedStatement pstmt = null;
        String sql = null;
@@ -538,12 +536,12 @@ public class ProductDAO {
           conn = DBUtil.getConnection();
 
           //SQL문 작성
-          sql = "UPDATE aproduct_detail SET photo1=? WHERE amember_num=?";
+          sql = "UPDATE aproduct_detail SET photo1=? WHERE aproduct_num=?";
 
           //PreparedStatement 객체 생성
           pstmt = conn.prepareStatement(sql);
           pstmt.setString(1, photo1);
-          pstmt.setInt(2, amember_num);
+          pstmt.setInt(2, aproduct_num);
 
           //SQL문 실행
           pstmt.executeUpdate();
