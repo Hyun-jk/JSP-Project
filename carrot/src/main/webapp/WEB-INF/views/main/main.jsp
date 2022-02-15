@@ -44,7 +44,7 @@
 			</li>
 			<li class="flex-row">
 				<input type="button" value="목록" onclick="location.href = 'main.do';">
-				<input type="button" class="point" value="물품 등록" onclick="location.href = '${pageContext.request.contextPath}/product/writeForm.do';" <c:if test="${empty user_num}">disabled title="로그인하세요"</c:if>>
+				<input type="button" class="point" value="물품 등록" onclick="location.href = '${pageContext.request.contextPath}/product/writeForm.do';" <c:if test="${empty user_num}">disabled title="로그인 후 물품을 등록할 수 있습니다"</c:if>>
 			</li>
 		</ul>
 	</form>
