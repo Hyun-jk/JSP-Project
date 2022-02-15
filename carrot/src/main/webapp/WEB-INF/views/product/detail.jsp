@@ -75,7 +75,7 @@
 					<input type="button" class="big point" value="거래 후기 남기기" onclick="">
 					</c:when>
 					<c:otherwise>
-					<input type="button" class="big point" value="채팅으로 거래하기" onclick="location.href = 'chat.do?aproduct_num=${product.aproduct_num}';" <c:if test="${empty user_num}">disabled title="로그인하세요"</c:if>>
+					<input type="button" class="big point" value="채팅으로 거래하기" onclick="location.href = 'chat.do?aproduct_num=${product.aproduct_num}&opponent_num=${product.amember_num}';" <c:if test="${empty user_num}">disabled title="로그인 후 채팅으로 거래할 수 있습니다"</c:if>>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -89,7 +89,7 @@
 <!-- 실시간 중고 더보기 시작 -->
 		<li>
 			<div class="title">실시간 중고 더보기</div>
-			<ul class="list-other">
+			<ul class="list-other flex-row space-between">
 				<c:forEach var="other" items="${listProduct}">
 				<li>
 					<a href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${other.aproduct_num}">
@@ -118,36 +118,38 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	// 관심 상품 토글
-	like_btn = document.getElementById('like');
-	current_likes = document.getElementById('current_likes');	
+	let like_btn = document.getElementById('like');
+	let current_likes = document.getElementById('current_likes');	
 	like_btn.addEventListener('click', function() {
 		$.ajax({
 			url:'toggleMyProduct.do',
 			type:'post',
 			data:{aproduct_num:${product.aproduct_num}},
 			dataType:'json',
+			timeout:10000,
 			success:function(param) {
 				if(param.result=='logout') {
 					alert('로그인 후 관심 상품에 담을 수 있습니다!');
 				}
 				else if(param.result=='insert') {
-					alert('관심 상품에 담겼습니다!');
 					like_btn.classList.remove('bi-heart');
 					like_btn.classList.add('bi-heart-fill');
 					current_likes.textContent = Number(current_likes.textContent) + 1;
 				}
 				else if(param.result=='delete') {
-					alert('관심 상품에서 제외되었습니다!');
 					like_btn.classList.remove('bi-heart-fill');
 					like_btn.classList.add('bi-heart');
 					current_likes.textContent = Number(current_likes.textContent) -1;
 				}
+				else {
+					alert('관심 상품 추가/삭제에 실패했습니다!')
+				}
 			},
 			error:function() {
-				alert('네트워크 오류 발생!');
+				alert('네트워크 오류가 발생했습니다!');
 			}
 		}); // end of ajax
-	}, false);
+	}, false); // end of addEventListener
 </script>
 </body>
 </html>

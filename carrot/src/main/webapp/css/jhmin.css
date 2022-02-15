@@ -48,7 +48,7 @@ ul {
 .space-evenly {
 	justify-content: space-evenly;
 }
-input,select {
+input,select,textarea {
 	margin: 5px;
 	padding: 10px;
 }
@@ -306,10 +306,6 @@ ul.list-other {
 	margin: 0 auto;
 	padding: 0;
 	width: 600px;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-between;
 }
 ul.list-other li {
 	margin: 10px 0;
@@ -333,4 +329,28 @@ ul.list-other li img {
 	width: 180px;
 	height: 180px;
 	border-radius: 10%;
+}
+
+/* 채팅 */
+ul.chat-main {
+	margin: 0 auto;
+	padding: 0;
+	width: 480px;
+	height: 600px;
+	overflow: auto;
+}
+#send_area input[type="text"] {
+	width: 400px;
+}
+.chat-me {
+	
+}
+.chat-you {
+	
+}
+.chat-nickname {
+	
+}
+.chat-content {
+	
 }
