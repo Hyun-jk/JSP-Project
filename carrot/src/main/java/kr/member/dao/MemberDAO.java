@@ -3,6 +3,8 @@ package kr.member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.member.vo.MemberVO;
 import kr.util.DBUtil;
@@ -95,8 +97,6 @@ public class MemberDAO {
 				vo.setAuth(rs.getInt("auth"));
 				vo.setPassword(rs.getString("password"));
 				vo.setPhoto(rs.getString("photo"));
-				vo.setAddress_favor(rs.getString("address_favor"));
-				vo.setAddress(rs.getString("address"));
 			}	
 		}
 		catch(Exception e) {
@@ -222,5 +222,186 @@ public class MemberDAO {
 					DBUtil.executeClose(null, pstmt, conn);
 
 				}
-			}			
+			}	
+			//회원 탈퇴
+			public void deleteMember(int amember_num) throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				PreparedStatement pstmt2 = null;
+				String sql = null;
+				
+				try {
+					conn= DBUtil.getConnection();
+					conn.setAutoCommit(false);
+					
+					sql="UPDATE amember SET auth=0 WHERE amember_num=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1,amember_num);
+					pstmt.executeUpdate();
+					
+					sql="DELETE FROM amember_detail WHERE amember_num=?";
+					pstmt2=conn.prepareStatement(sql);
+					pstmt2.setInt(1, amember_num);
+					pstmt.executeUpdate();
+					
+					conn.commit();
+				}catch(Exception e){
+					conn.rollback();
+					throw new Exception(e);
+				}finally {
+					DBUtil.executeClose(null, pstmt, null);
+					DBUtil.executeClose(null, pstmt2, conn);
+				}
+				
+				
+			}
+			
+		//관리자
+			//총 회원 수
+			public int getMemberCountByAdmin(String keyfield, String keyword) throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = null;
+				String sub_sql = "";
+				int count = 0;
+				
+				try {
+					conn = DBUtil.getConnection();
+					
+					if(keyword != null && !"".equals(keyword)) {
+						if(keyfield.equals("1")) sub_sql = "WHERE id LIKE ?";
+						else if(keyfield.equals("2")) sub_sql = "WHERE name LIKE ?";
+						else if(keyfield.equals("3")) sub_sql = "WHERE email LIKE ?";
+					}
+					sql="SELECT COUNT(*) FROM amember m "
+					   + "LEFT OUTER JOIN amember_detail d USING(amember_num)" + sub_sql;
+					pstmt = conn.prepareStatement(sql);
+					if(keyword != null && !"".equals(keyword)) {
+						pstmt.setString(1, "%" + keyword + "%");
+					}
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						count = rs.getInt(1);
+					}
+				}catch(Exception e) {
+					throw new Exception(e);
+				}finally {
+					DBUtil.executeClose(rs, pstmt, conn);
+				}
+				
+				return count;
+			}
+			//회원 목록 
+			public List<MemberVO> getListMemberByAdmin(int startRow, int endRow,
+					                             String keyfield, String keyword)throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				List<MemberVO> list = null;
+				String sql = null;
+				String sub_sql = "";
+				int cnt = 0;
+				
+				try {
+					conn = DBUtil.getConnection();
+					
+					if(keyword != null && !"".equals(keyword)) {
+						if(keyfield.equals("1")) sub_sql = "WHERE id LIKE ?";
+						else if(keyfield.equals("2")) sub_sql = "WHERE name LIKE ?";
+						else if(keyfield.equals("3")) sub_sql = "WHERE email LIKE ?";
+					}
+					sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM "
+					    + "(SELECT * FROM amember m LEFT OUTER JOIN amember_detail d "
+					    + "USING(amember_num) "+ sub_sql + "ORDER BY reg_date DESC NULLS LAST)a) "
+					    + "WHERE rnum >=? AND rnum <= ?";
+					
+					pstmt = conn.prepareStatement(sql);
+					if(keyword != null && !"".equals(keyword)) {
+						pstmt.setString(++cnt, "%" + keyword + "%");
+					}
+					pstmt.setInt(++cnt, startRow);
+					pstmt.setInt(++cnt, endRow);
+					
+					rs = pstmt.executeQuery();
+					list = new ArrayList<MemberVO>();
+					while(rs.next()) {
+						MemberVO vo = new MemberVO();
+						vo.setAmember_num(rs.getInt("amember_num"));
+						vo.setId(rs.getString("id"));
+						vo.setAuth(rs.getInt("auth"));
+						vo.setName(rs.getString("name"));
+						vo.setNickname(rs.getString("nickname"));
+						vo.setPassword(rs.getString("password"));
+						vo.setPhone(rs.getString("phone"));
+						vo.setEmail(rs.getString("email"));
+						vo.setAddress(rs.getString("address"));
+						vo.setAddress_favor(rs.getString("address_favor"));
+						vo.setPhoto(rs.getString("photo"));
+						vo.setReg_date(rs.getDate("reg_date"));
+						
+						list.add(vo);
+					}
+					
+				}catch(Exception e) {
+					throw new Exception(e);
+				}finally {
+					DBUtil.executeClose(rs, pstmt, conn);
+				}
+				
+				return list;
+			}
+			//회원 정보 수정
+			public void updateMemberByAdmin(MemberVO vo)throws Exception{
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				PreparedStatement pstmt2 = null;
+				String sql = null;
+				
+				try {
+					//커넥션풀로부터 커넥션을 할당
+					conn = DBUtil.getConnection();
+
+					conn.setAutoCommit(false);
+					
+					sql = "UPDATE amember SET auth=? WHERE amember_num=?";
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setInt(1, vo.getAuth());
+					pstmt.setInt(2, vo.getAmember_num());
+					
+					pstmt.executeUpdate();
+					
+					sql = "UPDATE amember_detail SET name=?,phone=?,email=?,"
+						+ "address=?,address_favor=? "
+						+ "WHERE mem_num=?";
+					
+					pstmt2 = conn.prepareStatement(sql);
+					
+					pstmt2.setString(1, vo.getName());
+					pstmt2.setString(2, vo.getPhone());
+					pstmt2.setString(3, vo.getEmail());
+					pstmt2.setString(4, vo.getAddress());
+					pstmt2.setString(5, vo.getAddress_favor());
+					pstmt2.setInt(6, vo.getAmember_num());
+					
+					pstmt2.executeUpdate();
+					
+					
+					conn.commit();
+				}catch(Exception e) {
+					
+					conn.rollback();
+					throw new Exception(e);
+				}finally {
+					//자원정리
+					DBUtil.executeClose(null, pstmt2, null);
+					DBUtil.executeClose(null, pstmt, conn);
+				}
+			}
+			
+			
 }
+
+
