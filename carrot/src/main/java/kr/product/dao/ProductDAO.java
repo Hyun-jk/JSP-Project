@@ -282,7 +282,10 @@ public class ProductDAO {
 				+ "FROM (SELECT * FROM (SELECT p.*, d.address "
 					+ "FROM aproduct p JOIN amember_detail d ON p.amember_num=d.amember_num) "
 					// 상품별 채팅 수 계산
-					+ "JOIN (SELECT aproduct.aproduct_num, COUNT(achat.aproduct_num) AS chats "
+					+ "JOIN (SELECT aproduct.aproduct_num, "
+						+ "CASE WHEN COUNT(DISTINCT achat.amember_num)>0 " // 채팅 중인 회원 번호 수가 0보다 크면
+							+ "THEN COUNT(DISTINCT achat.amember_num)-1 " // 판매자를 제외해야 하므로 회원 번호 수 -1
+							+ "ELSE 0 END AS chats " // 그 외에는 0
 						+ "FROM aproduct LEFT JOIN achat "
 						+ "ON aproduct.aproduct_num=achat.aproduct_num "
 						+ "GROUP BY aproduct.aproduct_num) "
@@ -363,7 +366,10 @@ public class ProductDAO {
 	            // 상품 분류명 결합
 	            + "JOIN acategory c ON p.category=c.category "
 	            // 채팅 수 계산
-	            + "JOIN (SELECT aproduct.aproduct_num, COUNT(achat.aproduct_num) AS chats "
+	            + "JOIN (SELECT aproduct.aproduct_num, "
+	            	+ "CASE WHEN COUNT(DISTINCT achat.amember_num)>0 " // 채팅 중인 회원 번호 수가 0보다 크면
+	            		+ "THEN COUNT(DISTINCT achat.amember_num)-1 " // 판매자를 제외해야 하므로 회원 번호 수 -1
+	            		+ "ELSE 0 END AS chats " // 그 외에는 0
 	               + "FROM aproduct LEFT JOIN achat "
 	               + "ON aproduct.aproduct_num=achat.aproduct_num "
 	               + "GROUP BY aproduct.aproduct_num) ch "
