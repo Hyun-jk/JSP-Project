@@ -175,9 +175,7 @@ public class ChatDAO {
 				product.setPrice(rs.getInt("price"));
 				product.setAmember_num(rs.getInt("amember_num"));
 				Integer buyer_num = rs.getInt("buyer_num");
-				if(buyer_num!=null) {
-					product.setBuyer_num(buyer_num);
-				}
+				product.setBuyer_num(buyer_num);
 				product.setComplete(rs.getInt("complete"));
 				product.setStatus(rs.getInt("status"));
 				chat.setProductVO(product);

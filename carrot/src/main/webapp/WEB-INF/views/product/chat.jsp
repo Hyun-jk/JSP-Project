@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
 <body>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<div class="flex-row justify-center">
+	<div class="chat flex-row justify-center">
 <!-- 상품별 채팅방 목록 시작 -->
 		<ul class="chat-other flex-column">
 			<li>
@@ -26,27 +27,53 @@
 <!-- 상품별 채팅방 목록 끝 -->
 <!-- 대화 중 시작 -->
 		<ul class="chat-main flex-column">
-<!-- 헤더 : 상대방 정보 시작 -->
-			<li class="chat-header" id="who_area">
+<!-- 헤더 시작 -->
+			<li class="chat-header who-area">
+				<div class="chat-title">${opponent.nickname}</div>
+				<div class="chat-subtitle">매너 평점 <b>${opponent.rate}</b></div>
 			</li>
 			<li><hr></li>
-<!-- 헤더 : 상대방 정보 끝 -->
-<!-- 헤더 : 상품 정보 시작 -->
-			<li class="chat-header flex-row space-between" id="header_area">
+			<c:if test="${!empty param.aproduct_num}">
+			<li class="chat-header product-area flex-row space-between">
+				<div class="flex-row align-start">
+					<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
+					<div class="flex-column">
+						<div class="chat-title">${product.title}</div>
+						<div class="chat-subtitle"><b><fmt:formatNumber value="${product.price}"/></b>원</div>
+					</div>
+				</div>
+				<c:choose>
+				<c:when test="${product.status==1}">
+				<button type="button" class="point square" disabled>삭제된 물품</button>
+				</c:when>
+				<c:when test="${product.amember_num==user_num && product.complete!=1}">
+				<button type="button" class="point square" onclick="">거래 완료하기</button>
+				</c:when>
+				<c:when test="${product.buyer_num==user_num}">
+				<button type="button" class="point square" onclick="">거래 후기 남기기</button>
+				</c:when>
+				<c:when test="${product.complete==1}">
+				<button type="button" class="point square" disabled>거래 완료된 물품</button>
+				</c:when>
+				<c:otherwise>
+				<button type="button" class="reverse-point square" onclick="location.href = 'detail.do?aproduct_num=${param.aproduct_num}'">물품 정보 보러가기</button>
+				</c:otherwise>
+				</c:choose>
 			</li>
 			<li><hr></li>
-<!-- 헤더 : 상품 정보 끝 -->
+			</c:if>
+<!-- 헤더 끝 -->
 <!-- 주고 받은 메시지 불러오기 시작 -->		
-			<li>
-				<ul class="flex-column" id="read_area">
+			<li class="read-area">
+				<ul class="flex-column">
 				
 				</ul>
 			</li>
-<!-- 주고 받은 메시지 불러오기 끝 -->
 			<li><hr></li>
+<!-- 주고 받은 메시지 불러오기 끝 -->
 <!-- 메시지 보내기 시작 -->
-			<li id="send_area">
-				<form class="flex-row justify-center">
+			<li>
+				<form class="send-area flex-row justify-center">
 					<input type="text" name="content" id="content">
 					<i class="bi bi-send-fill" id="send"></i>
 				</form>
@@ -59,10 +86,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	// 채팅 메시지 보내기
-	let form = document.getElementsByTagName('form')[0];
+	let send_area = document.getElementsByClassName('send-area')[0];
 	let send_btn = document.getElementById('send');
 	let content = document.getElementById('content');
-	form.addEventListener('submit', function(event) {
+	send_area.addEventListener('submit', function(event) {
 		event.preventDefault(); // 기본 이벤트 제거
 		
 		if(!content.value.trim()) return;
@@ -95,13 +122,19 @@
 		}); // end of ajax
 	}, false); // end of addEventListener
 	send_btn.addEventListener('click', function() {
-		form.submit();
+		send_area.submit();
 	}, false); // end of addEventListener
 	
+	// 채팅 상대방 프로필 사진 가져오기
+	let profile = '${pageContext.request.contextPath}';
+	let photo = '${opponent.photo}';
+	if(!photo) profile += '/images/face.png'; // 프로필 사진을 업로드하지 않은 경우 기본 이미지 경로 사용
+	else profile += '/upload/' + photo;
+	// 페이지 처리 변수 선언
 	let currentPage;
 	let count;
 	let rowCount;
-	// 처음 새로고침
+	// 초기 새로고침
 	getListChat(1);
 	// 1초에 한 번 새로고침
 	// setInterval(function() {
@@ -130,62 +163,40 @@
 					rowCount = param.rowCount;
 	
 					if(pageNum==1) { // 처음 호출시 해당 ID의 div 내부 내용물을 제거
-						$('#who_area').empty();
-						$('#header_area').empty();
-						$('#read_area').empty();
+						$('.read-area ul').empty();
 					}
-					
-					// 채팅 중인 상대방 정보 불러오기
-					let profile = '${pageContext.request.contextPath}';
-					let photo = param.header.opponentVO.photo;
-					if(photo==null) profile += '/images/face.png'; // 프로필 사진을 업로드하지 않은 경우 기본 이미지 경로 사용
-					else profile += '/upload/' + photo;
-					let who = '<div class="chat-nickname">' + param.header.opponentVO.nickname + '</div>';
-					who += '<div>' + param.header.opponentVO.rate + '</div>';
-					$('#who_area').append(who);
-					
-					// 채팅 중인 상품 정보 불러오기
-					let header = '<img src="${pageContext.request.contextPath}/upload/' + param.header.productVO.photo1 + '">';
-					header += '<div class="flex-column">';
-					header += '	<div>' + param.header.productVO.title + '</div>';
-					header += '	<div>' + param.header.productVO.price + '원</div>';
-					header += '</div>';
-					if(param.header.productVO.status==1) { // 판매 종료된 물품
-						header += '<button type="button" class="point square" disabled>삭제된 물품</button>';
-					}
-					else if(param.header.productVO.seller_num==${user_num}) { // 물품 판매자가 로그인한 회원인 경우
-						header += '<button type="button" class="point square" id="complete_btn">거래 완료하기</button>';
-					}
-					else if(param.header.productVO.buyer_num==${user_num}){ // 물품 구매자가 로그인한 회원인 경우
-						header += '<button type="button" class="point square" id="manner_btn">거래 후기 남기기</button>';
-					}
-					else if(param.header.productVO.complete==1) { // 로그인한 회원이 판매자도 구매자도 아니고 거래가 완료된 상품인 경우
-						header += '<button type="button" class="point square" disabled>거래 완료된 물품</button>';
-					}
-					else {
-						header += '<button type="button" class="point square" id="product_btn">물품 정보 보러가기</button>';
-					}
-					$('#header_area').append(header);
 					
 					// 주고 받은 메시지 불러오기
-					$.fn.reverse = [].reverse; // 최신 메시지가 아래에 오게 하기 위한 함수 정의
-					$(param.list).reverse().each(function(index, item) {
+					$(param.list).each(function(index, item) {
+						let lastIndex = $(param.list).length-1;
+						let current = item.amember_num; // 현재 메시지를 보낸 회원 번호
+						let before; let after;
+						if(index>1) before = param.list[index-1].amember_num;
+						else before = null;
+						if(index<lastIndex) after = param.list[index+1].amember_num;
+						else after = null;
+						// 메시지가 담긴 태그 만들기
 						let chat = '<li class="flex-column">';
-						if(item.amember_num==${user_num}) {
-							chat += '	<div class="chat-me align-right">';
+						if(current==${user_num}) { // 현재 메시지를 보낸 회원이 로그인한 사용자인 경우
+							chat += '	<div class="chat-me">';
 						}
-						else {
-							chat += '	<div class="chat-you align-left">';
-							chat += '		<img src="' + profile + '" class="chat-profile">';
+						else { // 현재 메시지를 보낸 회원이 상대방인 경우
+							chat += '	<div class="chat-you">';
+							if(index==lastIndex || (current==before && current!=after)) { // 상대방이 연속해서 메시지를 보낸 경우 프로필은 한 번만 표시
+								chat += '		<img src="' + profile + '" class="chat-profile">';
+							}
 						}
-						chat += '		<div class="chat-content">' + item.content + '</div>';
+						chat += '		<div class="flex-row align-end">'
+						chat += '			<div class="chat-content">' + item.content + '</div>';
+						chat += '			<div class="chat-time">' + item.send_date + '</div>';
+						chat += '		</div>';
 						chat += '	</div>';
 						chat += '</li>';
-						$('#read_area').append(chat);
+						$('.read-area ul').prepend(chat); // 최신 메시지가 아래로
 					}); // end of each
 					
-					// 스크롤 아래로 이동
-					$('#read_area').scrollTop($('#read_area').prop('scrollHeight'));
+					// 초기 새로고침 때는 스크롤 아래로 이동
+					if(pageNum==1) $('.read-area').scrollTop($('.read-area').prop('scrollHeight'));
 					
 					// 스크롤 위로 올리면 이전 메시지 불러오기
 					

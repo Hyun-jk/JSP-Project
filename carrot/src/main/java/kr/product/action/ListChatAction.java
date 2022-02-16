@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import kr.controller.Action;
 import kr.product.dao.ChatDAO;
 import kr.product.vo.ChatVO;
+import kr.util.DurationFromNow;
 import kr.util.PagingUtil;
 
 public class ListChatAction implements Action {
@@ -49,18 +50,17 @@ public class ListChatAction implements Action {
 			List<ChatVO> list = null;
 			if(count>0) {
 				list = dao.getListChat(aproduct_num, user_num, 3, page.getStartCount(), page.getEndCount());
+				for(ChatVO chat : list) {
+					chat.setSend_date(DurationFromNow.getTimeDiffLabel(chat.getSend_date()));
+				}
 			}
 			else {
 				list = Collections.emptyList(); // 데이터가 없는 경우 null 대신 비어 있는 리스트를 반환
 			}
 			
-			// 채팅 중인 상대방 정보, 판매자 정보, 물품 정보 불러오기
-			ChatVO header = dao.getChatVO(aproduct_num, opponent_num);
-			
 			mapAjax.put("count", count);
 			mapAjax.put("rowCount", rowCount);
 			mapAjax.put("list", list);
-			mapAjax.put("header", header);
 			mapAjax.put("result", "success");
 		}
 		

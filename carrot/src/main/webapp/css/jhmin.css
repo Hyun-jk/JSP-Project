@@ -51,6 +51,12 @@ ul {
 .justify-center {
 	justify-content: center;
 }
+.align-start {
+	align-items: flex-start;
+}
+.align-end {
+	align-items: flex-end;
+}
 input,select,textarea {
 	margin: 5px;
 	padding: 10px;
@@ -175,7 +181,18 @@ input[type="button"].point:disabled,button.point:disabled {
 	background: var(--light-gray-disabled);
 	cursor: default;
 }
+input[type="button"].reverse-point,button.reverse-point {
+	border: 3px solid var(--point);
+	color: var(--point);
+	background: transparent;
+}
+input[type="button"].reverse-point:hover,button.reverse-point:hover {
+	border: 3px solid var(--point-hover);
+	color: var(--point-hover);
+	background: transparent;
+}
 button.square {
+	margin: 0;
 	width: 100px;
 	height: 100px;
 	word-wrap: break-word;
@@ -339,22 +356,37 @@ ul.list-other li img {
 	border-radius: 10%;
 }
 
-/* 채팅 */
+/* 채팅 : 레이아웃 */
+.chat {
+	margin-top: 100px;
+}
 ul.chat-main {
 	margin: 0 auto 0 0;
 	padding: 0;
 	width: 480px;
 	height: 600px;
 }
-ul.chat-main form {
+ul.chat-main li hr {
+	margin: 5px 0;
+}
+.chat-header.who-area {
+	text-align: center;
+}
+.chat-header.product-area {
+
+}
+.read-area {
+	height: 360px;
+	overflow-y: auto;
+}
+.send-area { /* layout.css의 form과 충돌 */
 	margin: 0;
 	padding: 0;
 	width: 480px;
 	border: none;
 }
-ul.chat-main ul#read_area {
-	height: 360px;
-	overflow-y: auto;
+.send-area input[type="text"] {
+	width: 400px;
 }
 ul.chat-other {
 	margin: 0 0 0 auto;
@@ -363,16 +395,10 @@ ul.chat-other {
 	height: 600px;
 	overflow-y: auto;
 }
-#send_area input[type="text"] {
-	width: 400px;
-}
 hr.vertical {
-	margin: 0 10px;
+	margin: 0 10px 0;
 	width: 1px;
 	height: 600px;
-}
-.chat-header {
-	
 }
 .chat-header img {
 	width: 100px;
@@ -383,6 +409,9 @@ hr.vertical {
 .chat-me {
 	margin: 0 0 0 auto;
 }
+.chat-me .flex-row {
+	flex-direction: row-reverse;
+}
 .chat-you {
 	margin: 0 auto 0 0;
 }
@@ -392,6 +421,23 @@ hr.vertical {
 	max-width: 360px;
 	border-radius: 15px;
 	font-size: 1.2rem;
+}
+
+/* 채팅 : 꾸미기 */
+.chat-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.chat-subtitle {
+	
+}
+.chat-profile {
+	margin: 10px 10px 0;
+	width: 25px;
+	height: 25px;
+	object-fit: cover;
+	object-position: top;
+	border-radius: 50%;
 }
 .chat-me .chat-content {
 	color: var(--light-white);
@@ -404,16 +450,7 @@ hr.vertical {
 	border-bottom-left-radius: 0;
 }
 .chat-time {
-	
-}
-.chat-nickname {
-	font-size: 1.2rem;
-	font-weight: bold;
-}
-.chat-profile {
-	width: 25px;
-	height: 25px;
-	object-fit: cover;
-	object-position: top;
-	border-radius: 50%;
+	margin: 10px 0;
+	font-size: 0.8em;
+	color: var(--gray);
 }
