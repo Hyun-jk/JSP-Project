@@ -12,8 +12,14 @@ public class BoardVO {
 	private String content;//내용
 	private Date reg_date;//가입일
 	private int reply_num;//댓글 번호
-	private int category_kind;//댓글 카테고리 정보 8:운영정책,9:구매/판매,10:거래매너,11:이용제재
+	private int Aboard_category_num;
 	
+	public int getAboard_category_num() {
+		return Aboard_category_num;
+	}
+	public void setAboard_category_num(int aboard_category_num) {
+		Aboard_category_num = aboard_category_num;
+	}
 	public int getAboard_num() {
 		return Aboard_num;
 	}
@@ -62,11 +68,5 @@ public class BoardVO {
 	}
 	public void setReply_num(int reply_num) {
 		this.reply_num = reply_num;
-	}
-	public int getCategory_kind() {
-		return category_kind;
-	}
-	public void setCategory_kind(int category_kind) {
-		this.category_kind = category_kind;
 	}
 }

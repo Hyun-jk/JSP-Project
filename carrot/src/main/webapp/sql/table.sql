@@ -40,11 +40,7 @@ INSERT INTO acategory
 	SELECT 4, '여성의류/잡화/미용' FROM DUAL UNION ALL
 	SELECT 5, '유아동/유아도서' FROM DUAL UNION ALL
 	SELECT 6, '스포츠' FROM DUAL UNION ALL
-	SELECT 7, '생활/가구' FROM DUAL UNION ALL
-	SELECT 8, '운영정책' FROM DUAL UNION ALL
-	SELECT 9,'구매/판매' FROM DUAL UNION ALL
-	SELECT 10,'거래매너' FROM DUAL UNION ALL
-	SELECT 11,'이용제재' FROM DUAL UNION ALL;
+	SELECT 7, '생활/가구' FROM DUAL;
 
 /*Aproduct(상품정보 테이블)*/
 CREATE TABLE Aproduct(
@@ -68,7 +64,6 @@ CREATE TABLE Aproduct(
 	constraint Aproduct_fk2 foreign key (category) references Acategory(category),
 	constraint Aproduct_fk3 foreign key (buyer_num) references Amember(Amember_num)
 );
-ALTER TABLE Aproduct ADD status NUMBER(1) DEFAULT 2 NOT NULL;
 create sequence aproduct_seq;
 
 /*Amyproduct(찜한 상품 테이블)*/
@@ -121,12 +116,26 @@ CREATE TABLE Aboard(
 	auth_num number(1) not null,
 	reg_date date default sysdate,
 	reply_num number,
+	board_category_num number(2),
 	constraint Aboard_pk primary key(Aboard_num),
 	constraint Aboard_fk1 foreign key(Amember_num) references Amember(Amember_num)
+	constraint Aboard_fk2 foreign key(board_category_num) references Aboard_category(board_category_num)
 );
 ALTER TABLE Aboard ADD CONSTRAINT Aboard_fk3 foreign key(reply_num) references Aboard(Aboard_num);
 ALTER TABLE Aboard ADD ALTER TABLE aboard ADD(auth_num number(1) not null);
 create sequence Aboard_seq;
+
+CREATE TABLE ABOARD_CATEGORY(
+	Aboard_category_num number(2) not null,
+	Aboard_category_name varchar2(90) not null,
+	constraint Aboard_category_pk primary key(Aboard_category_num)
+);
+INSERT INTO Aboard_Category
+	SELECT 1, '운영정책' FROM DUAL UNION ALL
+	SELECT 2,'구매/판매' FROM DUAL UNION ALL
+	SELECT 3,'거래매너' FROM DUAL UNION ALL
+	SELECT 4,'이용제재' FROM DUAL;
+
 
 /*Achat(채팅 정보 테이블)*/
 CREATE TABLE Achat(
@@ -139,5 +148,3 @@ CREATE TABLE Achat(
 	constraint Achat_fk1 foreign key(Amember_num) references Amember(Amember_num),
 	constraint Achat_fk2 foreign key(opponent_num) references Amember(Amember_num)
 );
-ALTER TABLE Achat ADD Aproduct_num NUMBER NOT NULL;
-ALTER TABLE Achat ADD CONSTRAINT Achat_fk3 foreign key(Aproduct_num) references Aproduct(Aproduct_num);
