@@ -38,7 +38,7 @@ public class AdminBoardWriteAction implements Action{
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.adminInsertBoard(board);
 		
-		return "/WEB-INF/views/board/adminWriteBoard.jsp";
+		return "/WEB-INF/views/board/admin_board_write.jsp";
 	}
 
 }

@@ -8,14 +8,13 @@ import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
 
-public class AdminModifyBoardAction implements Action{
+public class AdminBoardModifyFormAction implements Action{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
-		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
+		
 		Integer user_num = (Integer)session.getAttribute("user_num");
 		Integer user_auth = (Integer)session.getAttribute("user_auth");
 		
@@ -25,17 +24,13 @@ public class AdminModifyBoardAction implements Action{
 		if(user_auth != 3) {
 			return "/WEB-INF/views/common/notice.jsp";
 		}
-		
-		BoardDAO dao = BoardDAO.getInstance();
-		BoardVO board = new BoardVO();
 		int aboard_num = Integer.parseInt(request.getParameter("aboard_num"));
+		BoardDAO dao = BoardDAO.getInstance();
+		BoardVO aboard = dao.admingetBoard(aboard_num);
 		
-		board.setAboard_num(aboard_num);
-		board.setTitle(request.getParameter("title"));
-		board.setContent(request.getParameter("content"));
-		dao.adminModifyBoard(board);
+		request.setAttribute("aboard", aboard);
 		
-		return "redirect:/board/adminBoardDetail.do?aboard_num="+aboard_num;
+		return "/WEB-INF/views/board/admin_board_modifyForm.jsp";
 	}
 
 }

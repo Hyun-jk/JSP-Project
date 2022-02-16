@@ -31,12 +31,16 @@ public class MemberBoardFAQListAction implements Action{
 		if(pageNum == null) pageNum = "1";
 		
 		//기몬페이지는 운영정책으로 시작
-		String keyfield = "1";
+		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
+		if(keyfield == null) {
+			keyfield = "1";
+		}
+		if(keyword == null) {
+			keyword="";
+		}
 		
 		BoardDAO dao = BoardDAO.getInstance();
-		
-	
 		int count = dao.getBoardCount(keyfield, keyword, category);
 		
 		//페이지 처리

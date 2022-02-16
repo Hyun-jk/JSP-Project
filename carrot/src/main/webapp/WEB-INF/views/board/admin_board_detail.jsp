@@ -26,7 +26,7 @@
 			<div class="align-right">
 				<c:if test="${user_auth == 3}">
 					<input type="button" value="수정"
-						onclick="location.href='adminModifyBoardForm.do?aboard_num=${board.aboard_num}'">
+						onclick="location.href='adminBoardModifyForm.do?aboard_num=${board.aboard_num}'">
 					<input type="button" value="삭제" id="delete_btn">
 					<script type="text/javascript">
 						let delete_btn = document.getElementById('delete_btn');
@@ -34,7 +34,7 @@
 						delete_btn.onclick = function(){
 							let choice = confirm('삭제하시겠습니까?');
 							if (choice) {
-								location.replace('adminDeleteBoard.do?aboard_num=${board.aboard_num}');
+								location.replace('adminBoardDelete.do?aboard_num=${board.aboard_num}');
 							}
 						}
 					</script>

@@ -63,7 +63,7 @@ $(function(){
 			</c:forEach>
 			</c:if>
 			<div class="align-right">
-				<input type="button" value="글쓰기" onclick="location.href='adminWriteBoardFAQForm.do'">
+				<input type="button" value="글쓰기" onclick="location.href='adminBoardFAQWriteForm.do'">
 			</div>
 			<div class="align-center">
 				${pagingHtml}

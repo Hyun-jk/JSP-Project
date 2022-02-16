@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import kr.board.dao.BoardDAO;
 import kr.controller.Action;
 
-public class AdminDeleteBoardAction implements Action{
+public class AdminBoardDeleteAction implements Action{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

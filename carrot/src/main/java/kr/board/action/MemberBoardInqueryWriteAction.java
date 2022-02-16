@@ -26,7 +26,6 @@ public class MemberBoardInqueryWriteAction implements Action{
 		if(user_auth < 2 && user_auth >= 0) {
 			return "redirect:/common/notice.jsp";
 		}
-		
 		//관리자로 로그인이 된 경우
 		BoardVO board = new BoardVO();
 		board.setAmember_num(user_num);
@@ -40,7 +39,7 @@ public class MemberBoardInqueryWriteAction implements Action{
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.adminInsertBoard(board);
 		
-		return "/WEB-INF/views/board/memberBoardInquery_list.jsp";
+		return "/WEB-INF/views/board/member_boardInquery_list.jsp";
 	}
 
 }

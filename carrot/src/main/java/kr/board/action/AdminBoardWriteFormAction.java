@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
 
-public class AdminWriteBoardFAQFormAction implements Action{
+public class AdminBoardWriteFormAction implements Action{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -22,8 +22,8 @@ public class AdminWriteBoardFAQFormAction implements Action{
 			return "redirect:/common/notice.jsp";
 		}
 		
-		
-		return "/WEB-INF/views/board/admin_boardFAQ_writeForm.jsp";
+		//관리자로 로그인이 된 경우
+		return "/WEB-INF/views/board/admin_board_writeForm.jsp";
 	}
 
 }
