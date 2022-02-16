@@ -14,7 +14,7 @@
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="chat flex-row justify-center">
-<!-- 상품별 채팅방 목록 시작 -->
+<!-- 물품별 채팅방 목록 시작 -->
 		<ul class="chat-other flex-column">
 			<li>
 				<h3>메시지함</h3>
@@ -24,10 +24,10 @@
 			</li>
 		</ul>
 		<hr class="vertical">
-<!-- 상품별 채팅방 목록 끝 -->
-<!-- 대화 중 시작 -->
+<!-- 물품별 채팅방 목록 끝 -->
+<!-- 현재 채팅 시작 -->
 		<ul class="chat-main flex-column">
-<!-- 헤더 시작 -->
+<!-- 현재 채팅 헤더 시작 -->
 			<li class="chat-header who-area">
 				<div class="chat-title">${opponent.nickname}</div>
 				<div class="chat-subtitle">매너 평점 <b>${opponent.rate}</b></div>
@@ -62,7 +62,7 @@
 			</li>
 			<li><hr></li>
 			</c:if>
-<!-- 헤더 끝 -->
+<!-- 현재 채팅 헤더 끝 -->
 <!-- 주고 받은 메시지 불러오기 시작 -->	
 			<li class="read-area">
 				<ul class="flex-column">
@@ -87,7 +87,7 @@
 			</c:if>
 <!-- 메시지 보내기 끝 -->
 		</ul>
-<!-- 대화 중 끝 -->
+<!-- 현재 채팅 끝 -->
 	</div>
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
@@ -203,26 +203,22 @@
 					if(pageNum==1) { // 처음 호출시 <ul> 태그 안의 내용 초기화
 						$('.read-area ul').empty();
 					}
-					
+
 					// 주고 받은 메시지 불러오기
 					$(param.list).each(function(index, item) {
 						let lastIndex = $(param.list).length-1;
-						let current = item.amember_num; // 현재 메시지를 보낸 회원 번호
-						let before; let after;
-						if(index>1) before = param.list[index-1].amember_num;
-						else before = null;
-						if(index<lastIndex) after = param.list[index+1].amember_num;
-						else after = null;
+						
 						// 메시지가 담긴 태그 만들기
 						let chat = '<li class="flex-column">';
-						if(current==${user_num}) { // 현재 메시지를 보낸 회원이 로그인한 사용자인 경우
+						if(item.amember_num==${user_num}) { // 현재 메시지를 보낸 회원이 로그인한 사용자인 경우
 							chat += '	<div class="chat-me">';
 						}
 						else { // 현재 메시지를 보낸 회원이 상대방인 경우
 							chat += '	<div class="chat-you">';
-							if(index==lastIndex || (current==before && current!=after)) { // 상대방이 연속해서 메시지를 보낸 경우 프로필은 한 번만 표시
+							if(index==lastIndex || param.list[index+1].amember_num==${user_num}) { // 상대방이 연속해서 메시지를 보낸 경우 프로필은 한 번만 표시
 								chat += '		<img src="' + profile + '" class="chat-profile">';
 							}
+							
 						}
 						chat += '		<div class="flex-row align-end">'
 						chat += '			<div class="chat-content">' + item.content + '</div>';
