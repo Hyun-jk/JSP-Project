@@ -379,6 +379,9 @@ ul.chat-main li hr {
 	height: 360px;
 	overflow-y: auto;
 }
+.read-area.no-reply {
+	height: 460px;
+}
 .send-area { /* layout.css의 form과 충돌 */
 	margin: 0;
 	padding: 0;

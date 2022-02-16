@@ -33,7 +33,7 @@
 				<div class="chat-subtitle">매너 평점 <b>${opponent.rate}</b></div>
 			</li>
 			<li><hr></li>
-			<c:if test="${!empty param.aproduct_num}">
+			<c:if test="${param.opponent_num!=0}">
 			<li class="chat-header product-area flex-row space-between">
 				<div class="flex-row align-start">
 					<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
@@ -63,7 +63,7 @@
 			<li><hr></li>
 			</c:if>
 <!-- 헤더 끝 -->
-<!-- 주고 받은 메시지 불러오기 시작 -->		
+<!-- 주고 받은 메시지 불러오기 시작 -->	
 			<li class="read-area">
 				<ul class="flex-column">
 				
@@ -72,12 +72,19 @@
 			<li><hr></li>
 <!-- 주고 받은 메시지 불러오기 끝 -->
 <!-- 메시지 보내기 시작 -->
+			<c:if test="${param.opponent_num!=0}">
 			<li>
 				<form class="send-area flex-row justify-center">
 					<input type="text" name="content" id="content">
 					<i class="bi bi-send-fill" id="send"></i>
 				</form>
 			</li>
+			</c:if>
+			<c:if test="${param.opponent_num==0}">
+			<li>
+				<input type="button" value="FAQ 바로가기" onclick="">
+			</li>
+			</c:if>
 <!-- 메시지 보내기 끝 -->
 		</ul>
 <!-- 대화 중 끝 -->
@@ -85,6 +92,13 @@
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+	if(${param.opponent_num}==0) { // 상대방이 관리자인 경우
+		document.getElementsByClassName('read-area')[0].classList.add('no-reply');
+	}
+	else { // 상대방이 일반 회원인 경우
+		document.getElementsByClassName('read-area')[0].classList.remove('no-reply');
+	}
+
 	// 채팅 메시지 보내기
 	let send_area = document.getElementsByClassName('send-area')[0];
 	let send_btn = document.getElementById('send');
@@ -137,9 +151,22 @@
 	// 초기 새로고침
 	getListChat(1);
 	// 1초에 한 번 새로고침
-	// setInterval(function() {
-		// getListChat(1);
-	// }, 1000);
+	setInterval(function() {
+		if(document.visibilityState=='visible') { // 현재 창/탭이 활성화되어 있으면
+			$.ajax({
+				url:'countChat.do',
+				type:'post',
+				data:{aproduct_num:${param.aproduct_num}},
+				dataType:'json',
+				timeout:10000,
+				success:function(param) {
+					if(param.unread>0) { // 안 읽은 메시지가 있으면
+						getListChat(1); // 새로고침
+					}
+				}
+			}); // end of ajax
+		}
+	}, 1000);
 	// 메시지 불러오는 함수 정의
 	function getListChat(pageNum) {
 		currentPage = pageNum;
@@ -149,8 +176,7 @@
 			type:'post',
 			data:{
 				pageNum:pageNum,
-				aproduct_num:${param.aproduct_num},
-				opponent_num:${param.opponent_num}
+				aproduct_num:${param.aproduct_num}
 			},
 			dataType:'json',
 			timeout:10000,
