@@ -106,7 +106,7 @@
 	send_area.addEventListener('submit', function(event) {
 		event.preventDefault(); // 기본 이벤트 제거
 		
-		if(!content.value.trim()) return;
+		if(!content.value.trim()) return; // 아무것도 입력하지 않은 경우 전송하지 않음
 		
 		$.ajax({
 			url:'sendChat.do',
@@ -144,10 +144,13 @@
 	let photo = '${opponent.photo}';
 	if(!photo) profile += '/images/face.png'; // 프로필 사진을 업로드하지 않은 경우 기본 이미지 경로 사용
 	else profile += '/upload/' + photo;
+	
 	// 페이지 처리 변수 선언
 	let currentPage;
+	let currentHeight;
 	let count;
 	let rowCount;
+	
 	// 초기 새로고침
 	getListChat(1);
 	// 1초에 한 번 새로고침
@@ -167,6 +170,14 @@
 			}); // end of ajax
 		}
 	}, 1000);
+	
+	// 스크롤 끝에 도달하면 추가로 채팅 내역 불러오기
+	document.querySelector('.read-area').addEventListener('scroll', function() {
+		if(currentPage<Math.ceil(count/rowCount) && this.scrollTop==0) { // 다음 페이지가 있고 스크롤 끝에 도달하면
+			getListChat(currentPage+1);
+		}
+	}, false);
+	
 	// 메시지 불러오는 함수 정의
 	function getListChat(pageNum) {
 		currentPage = pageNum;
@@ -185,10 +196,11 @@
 					alert('로그인 후 채팅을 읽을 수 있습니다!');	
 				}
 				else if(param.result=='success') {
+					currentHeight = $('.read-area').prop('scrollHeight');
 					count = param.count;
 					rowCount = param.rowCount;
 	
-					if(pageNum==1) { // 처음 호출시 해당 ID의 div 내부 내용물을 제거
+					if(pageNum==1) { // 처음 호출시 <ul> 태그 안의 내용 초기화
 						$('.read-area ul').empty();
 					}
 					
@@ -218,14 +230,12 @@
 						chat += '		</div>';
 						chat += '	</div>';
 						chat += '</li>';
-						$('.read-area ul').prepend(chat); // 최신 메시지가 아래로
+						$('.read-area ul').prepend(chat); // <ul> 태그 안에 최신 메시지가 아래로 오도록 메시지 추가
 					}); // end of each
 					
-					// 초기 새로고침 때는 스크롤 아래로 이동
+					// 초기 새로고침 때는 스크롤 아래로 이동, 그 이후에는 메시지 불러오기 전 스크롤 위치 유지
 					if(pageNum==1) $('.read-area').scrollTop($('.read-area').prop('scrollHeight'));
-					
-					// 스크롤 위로 올리면 이전 메시지 불러오기
-					
+					else $('.read-area').scrollTop($('.read-area').prop('scrollHeight') - currentHeight);
 				}
 				else {
 					alert('채팅을 불러오는 데 실패했습니다!');
