@@ -17,11 +17,46 @@
 <!-- 물품별 채팅방 목록 시작 -->
 		<ul class="chat-other flex-column">
 			<li>
-				<h3>메시지함</h3>
+				검색 UI?
 			</li>
+			<c:if test="${empty listChat}">
 			<li>
-				채팅 목록
+				채팅 중인 물품이 없습니다.
 			</li>
+			</c:if>
+			<c:if test="${!empty listChat}">
+			<li class="list-area">
+				<ul class="flex-column">
+					<c:forEach var="chat" items="${listChat}">
+					<li class="flex-row">
+						<a href="chat.do?aproduct_num=${chat.aproduct_num}&opponent_num=${chat.opponent_num}">
+						<c:if test="${empty chat.opponentVO.photo}">
+						<img src="${pageContext.request.contextPath}/images/face.png" class="list-profile">
+						</c:if>
+						<c:if test="${!empty chat.opponentVO.photo}">
+						<img src="${pageContext.request.contextPath}/upload/${chat.opponentVO.photo}" class="list-profile">
+						</c:if>
+						<div class="flex-column">
+							<div class="flex-row">
+								<div>${chat.opponentVO.nickname}</div>
+								<div>${chat.opponentVO.address}</div>
+								<div>${chat.send_date}</div>
+							</div>
+							<div class="latest-content">${chat.content}</div>
+						</div>
+						<img src="${pageContext.request.contextPath}/upload/${chat.productVO.photo1}" class="list-product">
+						<c:if test="${chat.aproduct_num!=param.aproduct_num}">
+						<div class="chat-selection"></div>
+						</c:if>
+						<c:if test="${chat.aproduct_num==param.aproduct_num}">
+						<div class="chat-selection selected"></div>
+						</c:if>
+						</a>
+					</li>
+					</c:forEach>
+				</ul>
+			</li>
+			</c:if>
 		</ul>
 		<hr class="vertical">
 <!-- 물품별 채팅방 목록 끝 -->
@@ -92,7 +127,7 @@
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-	if(${param.opponent_num}==0) { // 상대방이 관리자인 경우
+	if(${opponent_num}==null) { // 상대방이 관리자인 경우
 		document.getElementsByClassName('read-area')[0].classList.add('no-reply');
 	}
 	else { // 상대방이 일반 회원인 경우
@@ -112,8 +147,8 @@
 			url:'sendChat.do',
 			type:'post',
 			data:{
-				aproduct_num:${param.aproduct_num},
-				opponent_num:${param.opponent_num},
+				aproduct_num:${aproduct_num},
+				opponent_num:${opponent_num},
 				content:content.value
 			},
 			dataType:'json',
@@ -159,7 +194,7 @@
 			$.ajax({
 				url:'countChat.do',
 				type:'post',
-				data:{aproduct_num:${param.aproduct_num}},
+				data:{aproduct_num:${aproduct_num}},
 				dataType:'json',
 				timeout:10000,
 				success:function(param) {
@@ -187,7 +222,7 @@
 			type:'post',
 			data:{
 				pageNum:pageNum,
-				aproduct_num:${param.aproduct_num}
+				aproduct_num:${aproduct_num}
 			},
 			dataType:'json',
 			timeout:10000,

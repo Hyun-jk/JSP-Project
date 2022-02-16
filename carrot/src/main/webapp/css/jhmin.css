@@ -391,13 +391,6 @@ ul.chat-main li hr {
 .send-area input[type="text"] {
 	width: 400px;
 }
-ul.chat-other {
-	margin: 0 0 0 auto;
-	padding: 0;
-	width: 360px;
-	height: 600px;
-	overflow-y: auto;
-}
 hr.vertical {
 	margin: 0 10px 0;
 	width: 1px;
@@ -434,7 +427,7 @@ hr.vertical {
 .chat-subtitle {
 	
 }
-.chat-profile {
+.chat-profile,.list-profile {
 	margin: 10px 10px 0;
 	width: 25px;
 	height: 25px;
@@ -456,4 +449,42 @@ hr.vertical {
 	margin: 10px 0;
 	font-size: 0.8em;
 	color: var(--gray);
+}
+
+/* 채팅 목록 : 레이아웃 */
+ul.chat-other {
+	margin: 0 0 0 auto;
+	padding: 0;
+	width: 400px;
+	height: 600px;
+	overflow-y: auto;
+}
+.list-area {
+	height: 400px;
+	overflow-y: auto;
+}
+.list-product {
+	width: 50px;
+	height: 50px;
+	border-radius: 10px;
+	background-color: var(--light-gray);
+}
+.latest-content {
+	width: 200px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+/* 채팅 목록 : 꾸미기 */
+.chat-selection {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+.chat-selection.selected {
+	background-color: var(--point);
 }

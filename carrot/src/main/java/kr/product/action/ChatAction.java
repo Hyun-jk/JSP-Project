@@ -1,5 +1,8 @@
 package kr.product.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,18 +22,51 @@ public class ChatAction implements Action {
 		}
 		
 		// 로그인되어 있는 경우
-		int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
-		int opponent_num = Integer.parseInt(request.getParameter("opponent_num"));
-		
 		ChatDAO dao = ChatDAO.getInstance();
 		
-		// 채팅 중인 상대방 및 물품 정보 가져오기
-		ChatVO header = dao.getChatVO(aproduct_num, opponent_num);		
-		MemberVO opponent = header.getOpponentVO();
-		ProductVO product = header.getProductVO();
+		// 채팅 중인 물품/상대방 목록 불러오기
+		List<Integer> aproduct_nums = dao.getListChatByUser(user_num);
+		List<ChatVO> listChat = null;
+		if(aproduct_nums!=null) {
+			listChat = new ArrayList<ChatVO>();
+			for(int i : aproduct_nums) {
+				ChatVO chat = dao.getLatestChat(i, user_num);
+				MemberVO opponent = chat.getOpponentVO();
+				String[] addrs = opponent.getAddress().split(" ");
+				opponent.setAddress(addrs[addrs.length-1]);
+				chat.setOpponentVO(opponent);
+				listChat.add(chat);
+			}
+			
+			request.setAttribute("listChat", listChat);
+		}
+		
+		// 채팅 중인 물품/상대방 정보 가져오기
+		Integer aproduct_num;
+		Integer opponent_num;	
+		if(request.getParameter("aproduct_num")!=null) {
+			aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
+		}
+		else {
+			aproduct_num = listChat.get(0).getAproduct_num();
+		}
+		if(request.getParameter("opponent_num")!=null) {
+			opponent_num = Integer.parseInt(request.getParameter("opponent_num"));
+		}
+		else {
+			opponent_num = listChat.get(0).getOpponent_num();	
+		}
+		request.setAttribute("aproduct_num", aproduct_num);
+		request.setAttribute("opponent_num", opponent_num);
 
-		request.setAttribute("opponent", opponent);
-		request.setAttribute("product", product);
+		if(aproduct_num!=null && opponent_num!=null) {
+			ChatVO header = dao.getChatVO(aproduct_num, opponent_num);		
+			ProductVO product = header.getProductVO();
+			MemberVO opponent = header.getOpponentVO();
+			
+			request.setAttribute("product", product);
+			request.setAttribute("opponent", opponent);
+		}
 		
 		// JSP 경로 반환
 		return "/WEB-INF/views/product/chat.jsp";

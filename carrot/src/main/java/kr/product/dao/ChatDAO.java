@@ -197,7 +197,7 @@ public class ChatDAO {
 			}
 			
 			// 채팅 중인 상대방 정보 불러오기
-			sql = "SELECT nickname, photo, rate FROM amember_detail WHERE amember_num=?";
+			sql = "SELECT nickname, photo, address, rate FROM amember_detail WHERE amember_num=?";
 			
 			pstmt2 = conn.prepareStatement(sql);
 			
@@ -210,6 +210,7 @@ public class ChatDAO {
 				MemberVO opponent = new MemberVO();
 				opponent.setNickname(rs2.getString("nickname"));
 				opponent.setPhoto(rs2.getString("photo"));
+				opponent.setAddress(rs2.getString("address"));
 				opponent.setRate(rs2.getDouble("rate"));
 				
 				chat.setOpponentVO(opponent);
@@ -226,9 +227,9 @@ public class ChatDAO {
 		return chat;
 	}
 	
-	// 회원별로 채팅 중인 상대방 목록 불러오기
-	public List<ChatVO> getListChatByUser(int amember_num) throws Exception {
-		List<ChatVO> list = null;
+	// 회원별로 채팅 중인 물품/상대방 목록 불러오기
+	public List<Integer> getListChatByUser(int amember_num) throws Exception {
+		List<Integer> list = null;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -236,7 +237,22 @@ public class ChatDAO {
 		String sql = null;
 		
 		try {
+			conn = DBUtil.getConnection();
 			
+			// 로그인한 회원이 메시지를 주고 받은 물품 번호를 unique하게 추출
+			sql = "SELECT DISTINCT aproduct_num FROM achat WHERE amember_num=? OR opponent_num=?";
+						
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, amember_num); // 로그인한 회원이 메시지를 보낸 물품/상대방 검색
+			pstmt.setInt(2, amember_num); // 로그인한 회원이 메시지를 받은 물품/상대방 검색
+			
+			rs = pstmt.executeQuery();
+			list = new ArrayList<Integer>();
+			while(rs.next()) {
+				list.add(rs.getInt("aproduct_num"));
+			}
+		
 		}
 		catch(Exception e) {
 			throw new Exception(e);
@@ -246,6 +262,52 @@ public class ChatDAO {
 		}
 		
 		return list;
+	}
+	
+	// 가장 최근 메시지 1건 불러오기
+	public ChatVO getLatestChat(int aproduct_num, int amember_num) throws Exception {
+		ChatVO chat = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			// 특정 물품에 대해 회원이 보내거나 받은 메시지 중 가장 최근 1건을 불러오기
+			sql = "SELECT * FROM achat JOIN (SELECT MAX(achat_num) AS achat_num FROM achat "
+				+ "WHERE aproduct_num=? AND (amember_num=? OR opponent_num=?)) USING(achat_num)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, aproduct_num);
+			pstmt.setInt(2, amember_num);
+			pstmt.setInt(3, amember_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt("amember_num")==amember_num) { // 가장 최근 메시지를 로그인한 회원이 보낸 경우
+					chat = getChatVO(aproduct_num, rs.getInt("opponent_num")); // 메시지 받은 회원의 정보를 담은 자바빈 반환
+				}
+				else { // 가장 최근 메시지를 로그인한 회원이 받은 경우
+					chat = getChatVO(aproduct_num, rs.getInt("amember_num")); // 메시지 보낸 회원의 정보를 담은 자바빈 반환
+				}
+				chat.setContent(rs.getString("content"));
+				chat.setSend_date(rs.getString("send_date"));
+				chat.setRead_date(rs.getString("read_date"));
+				chat.setRead(rs.getInt("read"));
+			}
+		}
+		catch (Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+			
+		return chat;
 	}
 	
 	// 안 읽은 메시지 수 구하기
