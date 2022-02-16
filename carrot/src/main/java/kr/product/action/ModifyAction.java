@@ -1,7 +1,5 @@
 package kr.product.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -49,6 +47,7 @@ public class ModifyAction implements Action{
 		product.setContent(multi.getParameter("content"));
 		product.setCategory(Integer.parseInt(multi.getParameter("category")));
 	    product.setAmember_num(amember_num);
+	    product.setStatus(Integer.parseInt(multi.getParameter("status")));
 	
 	    dao.updateProduct(product);
 	    

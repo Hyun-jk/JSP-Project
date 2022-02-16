@@ -134,7 +134,6 @@
 				<li><label for="content">상품설명*</label> <textarea name="content"
 						id="content" cols="30" rows="5">${product.content}</textarea>
 			    </li>
-			   
 			    <li>
 				<label>상품 표시 여부</label>
 				<input type="radio" name="status" value="1" id="status1" <c:if test="${product.status == 1}">checked</c:if>>미표시

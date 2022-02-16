@@ -19,13 +19,7 @@ public class ModifyFormAction implements Action{
 		if(amember_num == null) {//로그인 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
-		
-		/*Integer buyer_num = (Integer)session.getAttribute("user_num");
-		if(buyer_num == null) { //구매자로 로그인
-			return "redirect:/main/main.do";
-		}
-		*/
-		
+
 		int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
 		
 		ProductDAO dao = ProductDAO.getInstance();
