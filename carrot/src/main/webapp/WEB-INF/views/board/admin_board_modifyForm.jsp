@@ -30,7 +30,7 @@
 		<div id="My-content">
 			<div class="page-main">
 				<h2>공지사항 수정</h2>
-				<form action="adminBoardModify.do" method="post" id="modify_form">
+				<form action="adminModifyBoard.do" method="post" id="modify_form">
 					<input type="hidden" name="aboard_num" value="${aboard.aboard_num}">
 					<ul>
 						<li>

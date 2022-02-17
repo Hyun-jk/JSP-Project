@@ -220,19 +220,15 @@ public class BoardDAO {
 		if(board.getCategory()==1) {
 			sub_sql = ",Aboard_category_num";
 			sub_sql2 = ",?";
-		}
-		if(board.getCategory()==2 && board.getAuth_num()==2) {//멤버일대일 질문
+		}else if(board.getCategory()==2) {//일대일 질문
 			sub_sql = ",reply_num";
-			sub_sql2 = ",aboard_seq.currval";
-		}else if(board.getCategory()==2 && board.getAuth_num()==3) {//관리자 일대일 질문 답변
-			sub_sql =",reply_num";
 			sub_sql2 = ",?";
 		}
 		
 		try {
 			conn = DBUtil.getConnection();
 			sql = "INSERT INTO aboard(Aboard_num,Amember_num,category,title,content,reg_date,auth_num "+ sub_sql+")"
-					+ " VALUES(Aboard_seq.nextval,?,?,?,?,SYSDATE,? "+ sub_sql2 +")";
+					+ " VALUES(Aboard_seq.nextval,?,?,?,?,SYSDATE,? "+ sub_sql2+")";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, board.getAmember_num());
 			pstmt.setInt(2, board.getCategory());
@@ -243,12 +239,9 @@ public class BoardDAO {
 			//자주묻는 질문
 			if(board.getCategory()==1) {
 				pstmt.setInt(6, board.getAboard_category_num());
+			}else if(board.getCategory()==2) {//일대일 질문
+				pstmt.setInt(6, board.getReply_num());
 			}
-			
-			if(board.getCategory()==2 && board.getAuth_num()==3) {
-				pstmt.setInt(6, board.getReply_num()); //action부분에서 조건처리해서 넘겨주자
-			}
-			
 			pstmt.executeUpdate();
 		
 		}catch(Exception e) {

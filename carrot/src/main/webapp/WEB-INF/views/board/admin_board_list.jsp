@@ -18,13 +18,13 @@
 			<hr size="1" noshade width="100%">
 			<c:forEach var="board" items="${list}">
 			<ul>
-				<li><a href="adminBoardDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
+				<li><a href="memberBoardDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
 			</ul>
 			<hr>
 			<br>
 			</c:forEach>
 			<div class="align-right">
-				<input type="button" value="글쓰기" onclick="location.href='adminBoardWriteForm.do">
+				<input type="button" value="글쓰기" onclick="location.href='adminWriteBoard.do'">
 			</div>
 			<div class="align-center">
 				${pagingHtml}

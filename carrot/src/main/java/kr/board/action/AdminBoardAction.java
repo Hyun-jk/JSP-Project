@@ -11,7 +11,7 @@ import kr.board.vo.BoardVO;
 import kr.controller.Action;
 import kr.util.PagingUtil;
 
-public class AdminBoardListAction implements Action {
+public class AdminBoardAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
