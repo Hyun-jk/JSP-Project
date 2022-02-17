@@ -8,13 +8,13 @@ import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
 
-public class AdminBoardWriteAction implements Action{
+public class AdminBoardModifyAction implements Action{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		request.setCharacterEncoding("utf-8");
 		
+		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		Integer user_num = (Integer)session.getAttribute("user_num");
 		Integer user_auth = (Integer)session.getAttribute("user_auth");
@@ -23,23 +23,19 @@ public class AdminBoardWriteAction implements Action{
 			return "redirect:/member/loginForm.do";
 		}
 		if(user_auth != 3) {
-			return "redirect:/common/notice.jsp";
+			return "/WEB-INF/views/common/notice.jsp";
 		}
 		
-		//관리자로 로그인이 된 경우
+		BoardDAO dao = BoardDAO.getInstance();
 		BoardVO board = new BoardVO();
+		int aboard_num = Integer.parseInt(request.getParameter("aboard_num"));
+		
+		board.setAboard_num(aboard_num);
 		board.setTitle(request.getParameter("title"));
 		board.setContent(request.getParameter("content"));
-		board.setAuth_num(user_auth);
-		board.setAmember_num(user_num);
-		//공지사항-->0;
-		board.setCategory(0);
+		dao.adminModifyBoard(board);
 		
-		BoardDAO dao = BoardDAO.getInstance();
-		dao.adminInsertBoard(board);
-		
-		return "/WEB-INF/views/board/admin_board_write.jsp";
+		return "redirect:/board/adminBoardDetail.do?aboard_num="+aboard_num;
 	}
 
 }
-

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항</title>
+<title>찜한 상품</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
@@ -14,18 +14,31 @@
 	<div>
 		<jsp:include page="/WEB-INF/views/common/side.jsp"/>
 		<div id="My-content">
-			<h4>공지사항</h4>
+			<h4>찜한 상품</h4>
 			<hr size="1" noshade width="100%">
-			<c:forEach var="board" items="${list}">
-			<ul>
-				<li><a href="adminBoardDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
-			</ul>
-			<hr>
-			<br>
+		<c:if test="${count == 0}">
+		<div class="result-display">
+			찜한 상품이 없습니다
+		</div>
+		</c:if>
+		<c:if test="${count>0}">
+		<table>
+			<tr>
+				<th>상품사진</th>
+				<th>상품명</th>
+				<th>가격</th>
+				<th>거래지역</th>
+			</tr>
+			<c:forEach var ="myProduct" items="${list}">
+			<tr>
+				<td><img src="${pageContext.request.contextPath}/upload/${myProduct.product.photo1}" width="100"></td>
+				<td><a href="detail.do?aboard_num=${myProduct.aproduct_num}">${myProduct.product.title}</a></td>
+				<td>${myProduct.product.price}</td>
+				<td>${myProduct.member.address}</td>
+			</tr>
 			</c:forEach>
-			<div class="align-right">
-				<input type="button" value="글쓰기" onclick="location.href='adminBoardWriteForm.do">
-			</div>
+		</table>
+		</c:if>
 			<div class="align-center">
 				${pagingHtml}
 			</div>

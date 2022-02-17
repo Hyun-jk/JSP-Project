@@ -75,7 +75,7 @@ public class ProductDAO {
           if(product.getPhoto5()!=null) sub_sql += ",photo5=?";
           
           sql ="UPDATE aproduct SET title=?,price=?,category=?" + sub_sql 
-             + ",content=?,modify_date=SYSDATE,complete=?,status=? WHERE Aproduct_num=?";
+             + ",content=?,modify_date=SYSDATE,complete=? WHERE Aproduct_num=?";
           
           //PreparedStatement 객체 생성
           pstmt = conn.prepareStatement(sql);
@@ -90,7 +90,6 @@ public class ProductDAO {
           if(product.getPhoto5()!=null) pstmt.setString(++cnt, product.getPhoto5());
           pstmt.setString(++cnt, product.getContent());
           pstmt.setInt(++cnt, product.getComplete());
-          pstmt.setInt(++cnt, product.getStatus());
           pstmt.setInt(++cnt, product.getAproduct_num());
           
           //SQL문 실행
@@ -531,6 +530,79 @@ public class ProductDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
+	//관심 상품 카운트
+	public int countMyproduct(int user_num)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int count = 0;
+		
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT COUNT(*) FROM amyproduct m JOIN "
+					+ "(SELECT * FROM aproduct p JOIN amember_detail d ON p.amember_num = d.amember_num) "
+					+ "USING(aproduct_num) WHERE m.amember_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally{
+			//자원정리
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		return count;
+	}
+	
+	//관심 상품 목록처리
+	public List<MyProductVO> getMyproduct(int startRow, int endRow, int user_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<MyProductVO> list = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM "
+					+ "(SELECT * FROM amyproduct m JOIN (SELECT * FROM aproduct p JOIN amember_detail d ON p.amember_num = d.amember_num) "
+					+ " USING(aproduct_num) WHERE m.amember_num = ? ) a) WHERE rnum >=? AND rnum <= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user_num);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<MyProductVO>();
+			while(rs.next()) {
+				MyProductVO myProduct = new MyProductVO();
+				myProduct.setAmember_num(rs.getInt("amember_num"));
+				myProduct.setAproduct_num(rs.getInt("aproduct_num"));
+				
+				ProductVO product = new ProductVO();
+				product.setPhoto1(rs.getString("photo1"));
+				product.setTitle(rs.getString("title"));
+				product.setPrice(rs.getInt("price"));
+				myProduct.setProduct(product);
+				
+				MemberVO member = new MemberVO();
+				member.setNickname(rs.getString("nickname"));
+				member.setAddress(rs.getString("address"));
+				myProduct.setMember(member);
+				
+				list.add(myProduct);
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs,pstmt,conn);
+		}
+		return list;
+	}
+	
 
 	 //사진등록
     public void updateMyPhoto(String photo1, int aproduct_num) throws Exception{

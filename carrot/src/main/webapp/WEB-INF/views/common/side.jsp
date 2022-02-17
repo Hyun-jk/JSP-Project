@@ -18,7 +18,7 @@
 	<h4>My page</h4>
 	<a href="${pageContext.request.contextPath}/member/myPageDetail.do">회원정보 수정</a>
 	<hr class="line" noshade="noshade">
-	<h4><a href="${pageContext.request.contextPath}/">찜한 상품</a></h4>
+	<h4><a href="${pageContext.request.contextPath}/member/MyProduct.do">찜한 상품</a></h4>
 	<hr class="line" noshade="noshade">
 
 	<h4>나의 거래 내용</h4>

@@ -11,7 +11,7 @@ import kr.board.vo.BoardVO;
 import kr.controller.Action;
 import kr.util.PagingUtil;
 
-public class MemberBoardFAQListAction implements Action{
+public class AdminBoardListAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -19,9 +19,8 @@ public class MemberBoardFAQListAction implements Action{
 		HttpSession session = request.getSession();
 		//user_num 반환
 		Integer user_num = (Integer)session.getAttribute("user_num");
-		//자주묻는 질문 카테고리
-		int category = 1;
-		
+		//공지사항 카테고리
+		int category = 0;
 		
 		if(user_num == null) {
 			return "redirect:/member/loginForm.do";
@@ -30,17 +29,11 @@ public class MemberBoardFAQListAction implements Action{
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum == null) pageNum = "1";
 		
-		//기몬페이지는 운영정책으로 시작
 		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
-		if(keyfield == null) {
-			keyfield = "1";
-		}
-		if(keyword == null) {
-			keyword="";
-		}
 		
 		BoardDAO dao = BoardDAO.getInstance();
+		
 		int count = dao.getBoardCount(keyfield, keyword, category);
 		
 		//페이지 처리
@@ -55,8 +48,7 @@ public class MemberBoardFAQListAction implements Action{
 		request.setAttribute("list",list);
 		request.setAttribute("pagingHtml",page.getPagingHtml());
 		
-		return"/WEB-INF/views/board/member_boardFAQ_list.jsp";
-		
+		return"/WEB-INF/views/board/admin_board_list.jsp";
 	}
 
 }

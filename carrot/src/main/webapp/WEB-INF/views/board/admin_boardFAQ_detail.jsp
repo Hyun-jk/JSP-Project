@@ -32,7 +32,7 @@
 						delete_btn.onclick = function(){
 							let choice = confirm('삭제하시겠습니까?');
 							if (choice) {
-								location.replace('adminDeleteBoard.do?aboard_num=${board.aboard_num}');
+								location.replace('adminBoardDelete.do?aboard_num=${board.aboard_num}');
 							}
 						}
 					</script>
