@@ -1,6 +1,5 @@
 package kr.product.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,21 +24,9 @@ public class ChatAction implements Action {
 		ChatDAO dao = ChatDAO.getInstance();
 		
 		// 채팅 중인 물품/상대방 목록 불러오기
-		List<Integer> aproduct_nums = dao.getListChatByUser(user_num);
-		List<ChatVO> listChat = null;
-		if(aproduct_nums!=null) {
-			listChat = new ArrayList<ChatVO>();
-			for(int i : aproduct_nums) {
-				ChatVO chat = dao.getLatestChat(i, user_num);
-				MemberVO opponent = chat.getOpponentVO();
-				String[] addrs = opponent.getAddress().split(" ");
-				opponent.setAddress(addrs[addrs.length-1]);
-				chat.setOpponentVO(opponent);
-				listChat.add(chat);
-			}
-			
-			request.setAttribute("listChat", listChat);
-		}
+		List<ChatVO> listChat = dao.getListChatByUser(user_num);
+
+		request.setAttribute("listChat", listChat);
 		
 		// 채팅 중인 물품/상대방 정보 가져오기
 		Integer aproduct_num;

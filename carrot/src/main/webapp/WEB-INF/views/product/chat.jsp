@@ -15,9 +15,15 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="chat flex-row justify-center">
 <!-- 물품별 채팅방 목록 시작 -->
-		<ul class="chat-other flex-column">
-			<li>
-				검색 UI?
+		<ul class="chat-other flex-column justify-start">
+			<li class="flex-row justify-center">
+				<div class="chat-title">메시지함</div>
+			</li>
+			<li class="flex-row justify-center">
+				<select class="search-area">
+					<option value="1">전체</option>
+					<option value="2">거래 중</option>
+				</select>
 			</li>
 			<c:if test="${empty listChat}">
 			<li>
@@ -28,29 +34,37 @@
 			<li class="list-area">
 				<ul class="flex-column">
 					<c:forEach var="chat" items="${listChat}">
-					<li class="flex-row">
-						<a href="chat.do?aproduct_num=${chat.aproduct_num}&opponent_num=${chat.opponent_num}">
-						<c:if test="${empty chat.opponentVO.photo}">
-						<img src="${pageContext.request.contextPath}/images/face.png" class="list-profile">
+					<li>
+						<c:if test="${chat.amember_num==user_num}">
+						<a class="flex-row space-between" href="chat.do?aproduct_num=${chat.aproduct_num}&opponent_num=${chat.opponent_num}">
 						</c:if>
-						<c:if test="${!empty chat.opponentVO.photo}">
-						<img src="${pageContext.request.contextPath}/upload/${chat.opponentVO.photo}" class="list-profile">
+						<c:if test="${chat.amember_num!=user_num}">
+						<a class="flex-row space-between" href="chat.do?aproduct_num=${chat.aproduct_num}&opponent_num=${chat.amember_num}">
 						</c:if>
-						<div class="flex-column">
 							<div class="flex-row">
-								<div>${chat.opponentVO.nickname}</div>
-								<div>${chat.opponentVO.address}</div>
-								<div>${chat.send_date}</div>
+								<c:if test="${empty chat.opponentVO.photo}">
+								<img src="${pageContext.request.contextPath}/images/face.png" class="list-profile">
+								</c:if>
+								<c:if test="${!empty chat.opponentVO.photo}">
+								<img src="${pageContext.request.contextPath}/upload/${chat.opponentVO.photo}" class="list-profile">
+								</c:if>
+								<div class="flex-column">
+									<div class="flex-row">
+										<div class="chat-subtitle"><b>${chat.opponentVO.nickname}</b></div>
+										<div class="chat-time">${chat.opponentVO.address} · ${chat.send_date}</div>
+									</div>
+									<div class="latest-content">${chat.content}</div>
+								</div>
 							</div>
-							<div class="latest-content">${chat.content}</div>
-						</div>
-						<img src="${pageContext.request.contextPath}/upload/${chat.productVO.photo1}" class="list-product">
-						<c:if test="${chat.aproduct_num!=param.aproduct_num}">
-						<div class="chat-selection"></div>
-						</c:if>
-						<c:if test="${chat.aproduct_num==param.aproduct_num}">
-						<div class="chat-selection selected"></div>
-						</c:if>
+							<div class="flex-row">
+								<img src="${pageContext.request.contextPath}/upload/${chat.productVO.photo1}" class="list-product">
+								<c:if test="${chat.aproduct_num!=param.aproduct_num}">
+								<div class="chat-selection"></div>
+								</c:if>
+								<c:if test="${chat.aproduct_num==param.aproduct_num}">
+								<div class="chat-selection selected"></div>
+								</c:if>
+							</div>
 						</a>
 					</li>
 					</c:forEach>
@@ -91,7 +105,7 @@
 				<button type="button" class="point square" disabled>거래 완료된 물품</button>
 				</c:when>
 				<c:otherwise>
-				<button type="button" class="reverse-point square" onclick="location.href = 'detail.do?aproduct_num=${param.aproduct_num}'">물품 정보 보러가기</button>
+				<button type="button" class="reverse-point square" onclick="location.href = 'detail.do?aproduct_num=${aproduct_num}'">물품 정보 보러가기</button>
 				</c:otherwise>
 				</c:choose>
 			</li>
