@@ -282,13 +282,8 @@ public class ProductDAO {
 				+ "FROM (SELECT * FROM (SELECT p.*, d.address "
 					+ "FROM aproduct p JOIN amember_detail d ON p.amember_num=d.amember_num) "
 					// 상품별 채팅 수 계산
-					+ "JOIN (SELECT aproduct.aproduct_num, "
-						+ "CASE WHEN COUNT(DISTINCT achat.amember_num)>0 " // 채팅 중인 회원 번호 수가 0보다 크면
-							+ "THEN COUNT(DISTINCT achat.amember_num)-1 " // 판매자를 제외해야 하므로 회원 번호 수 -1
-							+ "ELSE 0 END AS chats " // 그 외에는 0
-						+ "FROM aproduct LEFT JOIN achat "
-						+ "ON aproduct.aproduct_num=achat.aproduct_num "
-						+ "GROUP BY aproduct.aproduct_num) "
+					+ "JOIN (SELECT COUNT(achatroom_num) AS chats, aproduct_num FROM achatroom "
+						+ "RIGHT JOIN aproduct USING(aproduct_num) GROUP BY aproduct_num) "
 					+ "USING(aproduct_num) "
 					// 상품별 댓글 수 계산
 					+ "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
@@ -347,102 +342,97 @@ public class ProductDAO {
 		return list;
 	}
 	
-	 // 물품 상세 정보
-	   public ProductVO getProduct(int aproduct_num) throws Exception {
-		   ProductVO product = null;
-	      
-	      Connection conn = null;
-	      PreparedStatement pstmt = null;
-	      ResultSet rs = null;
-	      String sql = null;
-	      
-	      try {
-	         conn = DBUtil.getConnection();
-	         
-	         sql = "SELECT p.*, m.nickname, m.photo, m.address, m.rate, c.name AS cname, "
-	            + "ch.chats, cmt.replies, my.likes FROM aproduct p "
-	            // 판매자 정보 결합
-	            + "JOIN amember_detail m ON p.amember_num=m.amember_num "
-	            // 상품 분류명 결합
-	            + "JOIN acategory c ON p.category=c.category "
-	            // 채팅 수 계산
-	            + "JOIN (SELECT aproduct.aproduct_num, "
-	            	+ "CASE WHEN COUNT(DISTINCT achat.amember_num)>0 " // 채팅 중인 회원 번호 수가 0보다 크면
-	            		+ "THEN COUNT(DISTINCT achat.amember_num)-1 " // 판매자를 제외해야 하므로 회원 번호 수 -1
-	            		+ "ELSE 0 END AS chats " // 그 외에는 0
-	               + "FROM aproduct LEFT JOIN achat "
-	               + "ON aproduct.aproduct_num=achat.aproduct_num "
-	               + "GROUP BY aproduct.aproduct_num) ch "
-	            + "ON p.aproduct_num=ch.aproduct_num "
-	            // 댓글 수 계산
-	            + "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
-	               + "FROM aproduct LEFT JOIN acomment "
-	               + "ON aproduct.aproduct_num=acomment.aproduct_num "
-	               + "GROUP BY aproduct.aproduct_num) cmt "
-	            + "ON p.aproduct_num=cmt.aproduct_num "
-	            // 관심 상품 수 계산
-	            + "JOIN (SELECT aproduct.aproduct_num, COUNT(amyproduct.aproduct_num) AS likes "
-	               + "FROM aproduct LEFT JOIN amyproduct "
-	               + "ON aproduct.aproduct_num=amyproduct.aproduct_num "
-	               + "GROUP BY aproduct.aproduct_num) my "
-	            + "ON p.aproduct_num=my.aproduct_num "
-	            // 조건절
-	            + "WHERE p.aproduct_num=?";
-	         
-	         pstmt = conn.prepareStatement(sql);
-	         
-	         pstmt.setInt(1, aproduct_num);
-	         
-	         rs = pstmt.executeQuery();
-	         if(rs.next()) {
-	            // 물품 상세 정보
-	            product = new ProductVO();
-	            product.setAproduct_num(aproduct_num);
-	            product.setAmember_num(rs.getInt("amember_num"));
-	            // 사진
-	            product.setPhoto1(rs.getString("photo1"));
-	            product.setPhoto2(rs.getString("photo2"));
-	            product.setPhoto3(rs.getString("photo3"));
-	            product.setPhoto4(rs.getString("photo4"));
-	            product.setPhoto5(rs.getString("photo5"));
-	            // 판매글 정보
-	            product.setTitle(rs.getString("title"));
-	            product.setContent(rs.getString("content"));
-	            product.setReg_date(rs.getDate("reg_date"));
-	            product.setModify_date(rs.getDate("modify_date"));
-	            product.setPrice(rs.getInt("price"));
-	            // 채팅, 댓글, 관심
-	            product.setChats(rs.getInt("chats"));
-	            product.setReplies(rs.getInt("replies"));
-	            product.setLikes(rs.getInt("likes"));
-	            // 판매글 상태
-	            product.setComplete(rs.getInt("complete"));
-	            product.setStatus(rs.getInt("status"));
-	            
-	            // 판매자 정보
-	            MemberVO member = new MemberVO();
-	            member.setNickname(rs.getString("nickname"));
-	            member.setAddress(rs.getString("address"));
-	            member.setPhoto(rs.getString("photo"));
-	            member.setRate(rs.getDouble("rate"));
-	            product.setMemberVO(member);
-	            
-	            // 카테고리 정보
-	            CategoryVO category = new CategoryVO();
-	            category.setCategory(rs.getInt("category"));
-	            category.setName(rs.getString("cname"));
-	            product.setCategoryVO(category);
-	         }
-	      }
-	      catch(Exception e) {
-	         throw new Exception();
-	      }
-	      finally {
-	         DBUtil.executeClose(rs, pstmt, conn);
-	      }
-	      
-	      return product;
-	   }
+	// 물품 상세 정보
+	public ProductVO getProduct(int aproduct_num) throws Exception {
+		ProductVO product = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT p.*, m.nickname, m.photo, m.address, m.rate, c.name AS cname, "
+				+ "ch.chats, cmt.replies, my.likes FROM aproduct p "
+				// 판매자 정보 결합
+				+ "JOIN amember_detail m ON p.amember_num=m.amember_num "
+				// 상품 분류명 결합
+				+ "JOIN acategory c ON p.category=c.category "
+				// 채팅 수 계산
+				+ "JOIN (SELECT COUNT(achatroom_num) AS chats, aproduct_num FROM achatroom "
+					+ "RIGHT JOIN aproduct USING(aproduct_num) GROUP BY aproduct_num) ch "
+					+ "ON p.aproduct_num=ch.aproduct_num "
+				// 댓글 수 계산
+				+ "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
+					+ "FROM aproduct LEFT JOIN acomment "
+					+ "ON aproduct.aproduct_num=acomment.aproduct_num "
+					+ "GROUP BY aproduct.aproduct_num) cmt "
+				+ "ON p.aproduct_num=cmt.aproduct_num "
+				// 관심 상품 수 계산
+				+ "JOIN (SELECT aproduct.aproduct_num, COUNT(amyproduct.aproduct_num) AS likes "
+					+ "FROM aproduct LEFT JOIN amyproduct "
+					+ "ON aproduct.aproduct_num=amyproduct.aproduct_num "
+					+ "GROUP BY aproduct.aproduct_num) my "
+				+ "ON p.aproduct_num=my.aproduct_num "
+				// 조건절
+				+ "WHERE p.aproduct_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, aproduct_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				// 물품 상세 정보
+				product = new ProductVO();
+				product.setAproduct_num(aproduct_num);
+				product.setAmember_num(rs.getInt("amember_num"));
+				// 사진
+				product.setPhoto1(rs.getString("photo1"));
+				product.setPhoto2(rs.getString("photo2"));
+				product.setPhoto3(rs.getString("photo3"));
+				product.setPhoto4(rs.getString("photo4"));
+				product.setPhoto5(rs.getString("photo5"));
+				// 판매글 정보
+				product.setTitle(rs.getString("title"));
+				product.setContent(rs.getString("content"));
+				product.setReg_date(rs.getDate("reg_date"));
+				product.setModify_date(rs.getDate("modify_date"));
+				product.setPrice(rs.getInt("price"));
+				// 채팅, 댓글, 관심
+				product.setChats(rs.getInt("chats"));
+				product.setReplies(rs.getInt("replies"));
+				product.setLikes(rs.getInt("likes"));
+				// 판매글 상태
+				product.setComplete(rs.getInt("complete"));
+				product.setStatus(rs.getInt("status"));
+				
+				// 판매자 정보
+				MemberVO member = new MemberVO();
+				member.setNickname(rs.getString("nickname"));
+				member.setAddress(rs.getString("address"));
+				member.setPhoto(rs.getString("photo"));
+				member.setRate(rs.getDouble("rate"));
+				product.setMemberVO(member);
+				
+				// 카테고리 정보
+				CategoryVO category = new CategoryVO();
+				category.setCategory(rs.getInt("category"));
+				category.setName(rs.getString("cname"));
+				product.setCategoryVO(category);
+			}
+		}
+		catch(Exception e) {
+			throw new Exception();
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return product;
+	}
 
 	// 관심 상품 추가
 	public void insertMyProduct(MyProductVO vo) throws Exception {
