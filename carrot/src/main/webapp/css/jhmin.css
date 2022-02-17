@@ -451,7 +451,7 @@ hr.vertical {
 	background-color: var(--light-gray);
 	border-bottom-left-radius: 0;
 }
-.chat-time {
+.chat-info {
 	margin: 10px 0;
 	font-size: 0.8em;
 	color: var(--gray);
@@ -473,10 +473,22 @@ ul.chat-other {
 	overflow-y: auto;
 }
 .list-area ul li {
-	margin: 0;
+
 }
 .list-profile {
 	margin-bottom: 10px;
+}
+.list-who {
+	margin: 5px;
+	padding: 5px 0 0;
+}
+.list-area .chat-subtitle {
+	margin: 0;
+	padding: 0;
+}
+.list-area .chat-info {
+	margin: 0;
+	padding: 0 5px;
 }
 .list-product {
 	width: 50px;
@@ -484,7 +496,7 @@ ul.chat-other {
 	border-radius: 10px;
 	background-color: var(--light-gray);
 }
-.latest-content {
+.latest-chat {
 	margin: -5px 5px 5px;
 	padding: 5px 0;
 	width: 240px;
@@ -503,4 +515,8 @@ ul.chat-other {
 }
 .chat-selection.selected {
 	background-color: var(--point);
+}
+.list-stripe {
+	background-color: var(--light-white);
+	border-radius: 5px;
 }

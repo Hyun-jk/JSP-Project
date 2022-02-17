@@ -1,4 +1,4 @@
-package kr.product.action;
+package kr.chat.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,29 +8,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import kr.chat.dao.ChatDAO;
+import kr.chat.vo.ChatVO;
 import kr.controller.Action;
-import kr.product.dao.ChatDAO;
 
-public class CountChatAction implements Action {
+public class SendChatAction implements Action {
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("UTF-8");
-
-		Map<String, Object> mapAjax = new HashMap<String, Object>();
+		request.setCharacterEncoding("UTF-8"); // content가 String이므로 필요
+		
+		Map<String, String> mapAjax = new HashMap<String, String>();
 		
 		Integer user_num = (Integer)request.getSession().getAttribute("user_num");
 		if(user_num==null) { // 로그인되어 있지 않은 경우
 			mapAjax.put("result", "logout");
 		}
 		else { // 로그인되어 있는 경우
-			int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
+			ChatVO chat = new ChatVO();
+			chat.setAchatroom_num(Integer.parseInt(request.getParameter("achatroom_num")));
+			chat.setAproduct_num(Integer.parseInt(request.getParameter("aproduct_num")));
+			chat.setAmember_num(user_num);
+			chat.setOpponent_num(Integer.parseInt(request.getParameter("opponent_num")));
+			chat.setContent(request.getParameter("content"));
 			
-			ChatDAO dao = ChatDAO.getInstance();
+			ChatDAO.getInstance().sendChat(chat);
 			
-			// 안 읽은 메시지 수 구하기
-			int unread = dao.getCountUnread(aproduct_num, user_num);
-			
-			mapAjax.put("unread", unread);
 			mapAjax.put("result", "success");
 		}
 		
@@ -41,5 +44,5 @@ public class CountChatAction implements Action {
 		// JSP 경로 반환
 		return "/WEB-INF/views/common/ajax_view.jsp";
 	}
-	
+
 }

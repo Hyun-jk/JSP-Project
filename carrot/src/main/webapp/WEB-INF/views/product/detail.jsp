@@ -73,7 +73,7 @@
 					<input type="button" class="big point" value="거래 후기 남기기" onclick="">
 					</c:when>
 					<c:otherwise>
-					<input type="button" class="big point" value="채팅으로 거래하기" onclick="location.href = 'chat.do?aproduct_num=${product.aproduct_num}&opponent_num=${product.amember_num}';" <c:if test="${empty user_num}">disabled title="로그인 후 채팅으로 거래할 수 있습니다"</c:if>>
+					<input type="button" class="big point" value="채팅으로 거래하기" id="link_chatroom" <c:if test="${empty user_num}">disabled title="로그인 후 채팅으로 거래할 수 있습니다"</c:if>>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -147,6 +147,34 @@
 				alert('네트워크 오류가 발생했습니다!');
 			}
 		}); // end of ajax
+	}, false); // end of addEventListener
+	
+	// 채팅방 연결
+	document.getElementById('link_chatroom').addEventListener('click', function() {
+		$.ajax({
+			url:'${pageContext.request.contextPath}/chat/linkChatRoom.do',
+			type:'post',
+			data:{
+				aproduct_num:${product.aproduct_num},
+				seller_num:${product.amember_num}
+			},
+			dataType:'json',
+			timeout:10000,
+			success:function(param) {
+				if(param.result=='logout') {
+					alert('로그인 후 채팅할 수 있습니다!');
+				}
+				else if(param.result=='success') {
+					location.href = '${pageContext.request.contextPath}/chat/chat.do?achatroom_num=' + param.achatroom_num;
+				}
+				else {
+					alert('채팅방을 불러오는 데 실패했습니다!');
+				}
+			},
+			error:function() {
+				alert('네트워크 오류가 발생했습니다!');
+			}
+		})
 	}, false); // end of addEventListener
 </script>
 </body>

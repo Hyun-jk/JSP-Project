@@ -1,4 +1,4 @@
-package kr.product.action;
+package kr.chat.action;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,17 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import kr.controller.Action;
-import kr.product.dao.ChatDAO;
-import kr.product.vo.ChatVO;
-import kr.util.DurationFromNow;
+import kr.chat.dao.ChatDAO;
+import kr.chat.vo.ChatVO;
 import kr.util.PagingUtil;
 
 public class ListChatAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("UTF-8");
-
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum==null) pageNum = "1";
 		
@@ -32,30 +29,27 @@ public class ListChatAction implements Action {
 			mapAjax.put("result", "logout");
 		}
 		else { // 로그인되어 있는 경우
-			int aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
+			int achatroom_num = Integer.parseInt(request.getParameter("achatroom_num"));
 			
 			ChatDAO dao = ChatDAO.getInstance();
 			
 			// 페이지 처리
-			int count = dao.getCountChat(aproduct_num, user_num);
+			int count = dao.getCountChat(achatroom_num);
 			int rowCount = 10;
 			PagingUtil page = new PagingUtil(Integer.parseInt(pageNum), count, rowCount, 1, null);
 
 			// 주고 받은 메시지 불러오기
-			List<ChatVO> list = null;
+			List<ChatVO> chats = null;
 			if(count>0) {
-				list = dao.getListChat(aproduct_num, user_num, page.getStartCount(), page.getEndCount());
-				for(ChatVO chat : list) {
-					chat.setSend_date(DurationFromNow.getTimeDiffLabel(chat.getSend_date()));
-				}
+				chats = dao.getListChat(achatroom_num, user_num, page.getStartCount(), page.getEndCount());
 			}
 			else {
-				list = Collections.emptyList(); // 데이터가 없는 경우 null 대신 비어 있는 리스트를 반환
+				chats = Collections.emptyList(); // 데이터가 없는 경우 null 대신 비어 있는 리스트를 반환
 			}
 			
 			mapAjax.put("count", count);
 			mapAjax.put("rowCount", rowCount);
-			mapAjax.put("list", list);
+			mapAjax.put("chats", chats);
 			mapAjax.put("result", "success");
 		}
 		
