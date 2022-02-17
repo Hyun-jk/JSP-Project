@@ -29,18 +29,18 @@ public class ChatAction implements Action {
 		request.setAttribute("listChat", listChat);
 		
 		// 채팅 중인 물품/상대방 정보 가져오기
-		Integer aproduct_num;
-		Integer opponent_num;	
+		Integer aproduct_num = null;
+		Integer opponent_num = null;
 		if(request.getParameter("aproduct_num")!=null) {
 			aproduct_num = Integer.parseInt(request.getParameter("aproduct_num"));
 		}
-		else {
+		else if(listChat.size()>0) {
 			aproduct_num = listChat.get(0).getAproduct_num();
 		}
 		if(request.getParameter("opponent_num")!=null) {
 			opponent_num = Integer.parseInt(request.getParameter("opponent_num"));
 		}
-		else {
+		else if(listChat.size()>0) {
 			opponent_num = listChat.get(0).getOpponent_num();	
 		}
 		request.setAttribute("aproduct_num", aproduct_num);
