@@ -22,7 +22,6 @@ public class BoardDAO {
 	private BoardDAO() {}
 	
 	
-	
 	//멤버 공지사항 및 자주 묻는 질문 총 목록 수,일대일 채팅
 	public int getBoardCount(String keyfield, String keyword, int category) throws Exception {
 		Connection conn = null;
