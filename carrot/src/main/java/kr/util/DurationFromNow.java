@@ -54,7 +54,7 @@ public class DurationFromNow {
 	public static String getTimeDiffLabel(Date d1, Date d2) {
 		long diff = d2.getTime() - d1.getTime();
 		int sec = (int)(diff / 1000);
-		if (sec < 5) return "5초미만";
+		if (sec < 5) return "몇 초 전";
 		if (sec < 60) return sec + "초 전";
 
 		int min = (int)(sec / 60);
@@ -75,18 +75,18 @@ public class DurationFromNow {
 
 		if (hour/24 < 30) {
 			if (day == 1) return "어제";
-			if (day == 2) return "2일전";
-			return day + "일전";
+			if (day == 2) return "이틀 전";
+			return day + "일 전";
 		}
 
 		int month = hour / 24 / 30;
-		if (month == 1) return "한 달전";
-		if (month == 2) return "두 달전";
-		if (month < 12) return month + "달전";
+		if (month == 1) return "한 달 전";
+		if (month == 2) return "두 달 전";
+		if (month < 12) return month + "달 전";
 
 		int year = month / 12;
 		if (year == 1) return "작년";
-		return year + "년전";
+		return year + "년 전";
 
 	}
 }

@@ -65,6 +65,7 @@ CREATE TABLE Aproduct(
 	constraint Aproduct_fk3 foreign key (buyer_num) references Amember(Amember_num)
 );
 create sequence aproduct_seq;
+ALTER TABLE Aproduct ADD status NUMBER(1) DEFAULT 2 NOT NULL;
 
 /*Amyproduct(찜한 상품 테이블)*/
 CREATE TABLE Amyproduct(
@@ -148,3 +149,8 @@ CREATE TABLE Achat(
 	constraint Achat_fk1 foreign key(Amember_num) references Amember(Amember_num),
 	constraint Achat_fk2 foreign key(opponent_num) references Amember(Amember_num)
 );
+ALTER TABLE Achat ADD Aproduct_num NUMBER NOT NULL;
+ALTER TABLE Achat ADD CONSTRAINT Achat_fk3 foreign key(Aproduct_num) references Aproduct(Aproduct_num);
+ALTER TABLE Achat ADD Achat_num NUMBER NOT NULL;
+ALTER TABLE Achat ADD CONSTRAINT Achat_pk PRIMARY KEY (Achat_num);
+CREATE SEQUENCE Achat_seq;

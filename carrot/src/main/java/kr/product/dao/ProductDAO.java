@@ -75,7 +75,7 @@ public class ProductDAO {
           if(product.getPhoto5()!=null) sub_sql += ",photo5=?";
           
           sql ="UPDATE aproduct SET title=?,price=?,category=?" + sub_sql 
-             + ",content=?,modify_date=SYSDATE,complete=? WHERE Aproduct_num=?";
+             + ",content=?,modify_date=SYSDATE,complete=?,status=? WHERE Aproduct_num=?";
           
           //PreparedStatement 객체 생성
           pstmt = conn.prepareStatement(sql);
@@ -90,6 +90,7 @@ public class ProductDAO {
           if(product.getPhoto5()!=null) pstmt.setString(++cnt, product.getPhoto5());
           pstmt.setString(++cnt, product.getContent());
           pstmt.setInt(++cnt, product.getComplete());
+          pstmt.setInt(++cnt, product.getStatus());
           pstmt.setInt(++cnt, product.getAproduct_num());
           
           //SQL문 실행
