@@ -154,3 +154,20 @@ ALTER TABLE Achat ADD CONSTRAINT Achat_fk3 foreign key(Aproduct_num) references 
 ALTER TABLE Achat ADD Achat_num NUMBER NOT NULL;
 ALTER TABLE Achat ADD CONSTRAINT Achat_pk PRIMARY KEY (Achat_num);
 CREATE SEQUENCE Achat_seq;
+
+/* Achatroom (채팅방 정보 테이블) */
+CREATE TABLE Achatroom (
+	achatroom_num NUMBER NOT NULL,
+	aproduct_num NUMBER NOT NULL,
+	seller_num NUMBER NOT NULL,
+	buyer_num NUMBER NOT NULL,
+	CONSTRAINT achatroom_pk PRIMARY KEY (achatroom_num),
+	CONSTRAINT achatroom_fk1 FOREIGN KEY (aproduct_num) REFERENCES Aproduct (Aproduct_num),
+	CONSTRAINT achatroom_fk2 FOREIGN KEY (seller_num) REFERENCES Amember (Amember_num),
+	CONSTRAINT achatroom_fk3 FOREIGN KEY (buyer_num) REFERENCES Amember (Amember_num)
+);
+CREATE SEQUENCE Achatroom_seq;
+ALTER TABLE Achatroom ADD CONSTRAINT Achatroom_unique UNIQUE (aproduct_num, seller_num, buyer_num);
+
+ALTER TABLE Achat ADD achatroom_num NUMBER NOT NULL;
+ALTER TABLE Achat ADD CONSTRAINT Achat_fk4 FOREIGN KEY (achatroom_num) REFERENCES Achatroom (Achatroom_num);
