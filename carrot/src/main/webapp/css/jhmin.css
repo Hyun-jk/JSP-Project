@@ -67,7 +67,7 @@ input,select,textarea {
 	margin: 5px;
 	padding: 10px;
 }
-input:focus,select:focus {
+input:focus,textarea:focus,select:focus {
 	outline-color: var(--point);
 }
 
@@ -283,13 +283,18 @@ ul.detail li {
 	margin: 0;
 	padding: 5px 0;
 }
-ul.detail img {
+ul.detail li img {
 	object-fit:cover;
 	object-position:center;
 	width: 600px;
 	height: 600px;
 	border-radius: 10%;
 	background-color: var(--light-gray);
+}
+ul.detail li img.profile {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
 }
 
 /* 물품 상세 정보 : 판매자 */
@@ -302,11 +307,6 @@ li.seller div {
 }
 li.seller div.who {
 	
-}
-li.seller div.who img {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
 }
 li.seller div.who div {
 	
@@ -331,6 +331,64 @@ i.bi#like {
 }
 
 /* 물품 상세 정보 : 댓글 */
+.comment-list {
+
+}
+.reply-list {
+	margin: 0;
+}
+.comment-write {
+	
+}
+.comment-list.hide,.comment-write.hide,#reply_area.hide {
+	display: none;	
+}
+.comment-list .profile {
+	margin: 5px 10px;
+}
+.comment-text {
+
+}
+.comment-text > div {
+	margin: 5px;
+	width: 500px;
+}
+.reply-list .comment-text > div {
+	width: 450px;
+}
+.comment-subtitle {
+	font-weight: bold;
+	font-size: 0.9rem;
+}
+.seller-tag {
+	margin: 5px;
+	padding: 2px;
+	border: solid 1px var(--gray-hover);
+	border-radius: 5px;
+	font-size: 0.8rem;
+	color: var(--gray-hover);
+}
+.comment-info {
+	font-size: 0.8em;
+	color: var(--gray);
+}
+.comment-toggle-reply {
+	margin: 0 5px;
+	font-weight: bold;
+	font-size: 0.8rem;
+	color: var(--gray) !important;
+}
+.comment-write textarea {
+	width: 400px;
+	height: 80px;
+}
+.reply-write textarea {
+	width: 320px;
+	height: 80px;
+}
+.comment-write input[type="button"],.reply-write input[type="button"] {
+	margin: 5px;
+}
 
 /* 물품 상세 정보: 실시간 중고 더보기 */
 ul.list-other {

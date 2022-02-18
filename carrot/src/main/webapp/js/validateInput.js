@@ -46,6 +46,18 @@ function validateBytesLength(obj) {
 // 사용 예제: 길이 제한이 필요한 <input> 요소의 id와 바이트 길이를 객체 형식 인자로 전달
 // validateBytesLength({title:150,name:30,passwd:12});
 
+function validateBytesLengthByName(obj) {
+	for(let key in obj) {
+		document.addEventListener('keyup', function(event) {
+			if(event.target && event.target.name==key) {
+				while(getBytesLength(event.target.value)>obj[key]) {
+					event.target.value = event.target.value.slice(0, -1);
+				}				
+			}
+		}, false);
+	}
+}
+
 function validateChars() {
 	this.value = this.value.trim(); // 입력 필드에서 공백 제거
 	if(!this.value) return; // 아무것도 입력하지 않은 경우 함수 실행 종료
