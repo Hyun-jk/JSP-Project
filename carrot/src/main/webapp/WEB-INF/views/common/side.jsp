@@ -27,9 +27,9 @@
 
 	<h4>나의 거래 내용</h4>
 	<div class="aa">
-	<a href="${pageContext.request.contextPath}/">구매내역</a> <br><br>
-	<a href="${pageContext.request.contextPath}/">판매 내역</a> <br><br>
-	<a href="${pageContext.request.contextPath}/">판매중인 상품</a>
+	<a href="${pageContext.request.contextPath}/member/memberProduct.do?complete=1">구매내역</a> <br><br>
+	<a href="${pageContext.request.contextPath}/member/memberProduct.do?complete=2">판매 내역</a> <br><br>
+	<a href="${pageContext.request.contextPath}/member/memberProduct.do?complete=0">판매중인 상품</a>
 	</div>
 	
 	<h4>매너 평가</h4>
