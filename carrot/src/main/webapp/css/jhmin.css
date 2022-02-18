@@ -5,13 +5,15 @@
 :root {
 	--point: #9789e8;
 	--point-hover: #8474e4;
-	--light-gray: #ddd;
-	--light-gray-hover: #ccc;
+	--light-gray: #e0e0e0;
+	--light-gray-hover: #d0d0d0;
 	--light-gray-disabled: #999;
 	--light-black: #303030;
 	--light-white: #f8f8f8;
 	--gray: #808080;
 	--gray-hover: #a9a9a9;
+	--silver: #c0c0c0;
+	--silver-hover: #b0b0b0;
 }
 body {
 	color: var(--light-black);
@@ -197,6 +199,16 @@ input[type="button"].reverse-point:hover,button.reverse-point:hover {
 	color: var(--point-hover);
 	background: transparent;
 }
+input[type="button"].reverse-silver,button.reverse-silver {
+	border: 3px solid var(--silver);
+	color: var(--silver);
+	background: transparent;
+}
+input[type="button"].reverse-silver:hover,button.reverse-silver:hover {
+	border: 3px solid var(--silver-hover);
+	color: var(--silver-hover);
+	background: transparent;
+}
 button.square {
 	margin: 0;
 	width: 100px;
@@ -340,7 +352,11 @@ i.bi#like {
 .comment-write {
 	
 }
-.comment-list.hide,.comment-write.hide,#reply_area.hide {
+.comment-more {
+	margin: 5px 0;
+	width: 100%;
+}
+.comment-list.hide,.comment-write.hide,#reply_area.hide,.comment-more.hide {
 	display: none;	
 }
 .comment-list .profile {
@@ -353,6 +369,17 @@ i.bi#like {
 	margin: 5px;
 	width: 500px;
 }
+.comment-text .deleted {
+	margin: 5px 5px 10px;
+	font-style: italic;
+	font-size: 0.9rem;
+	color: var(--silver-hover);
+}
+.comment-text .deleted i.bi {
+	font-size: 1rem;
+	color: inherit;
+	cursor: default;
+}
 .reply-list .comment-text > div {
 	width: 450px;
 }
@@ -363,16 +390,19 @@ i.bi#like {
 .seller-tag {
 	margin: 5px;
 	padding: 2px;
-	border: solid 1px var(--gray-hover);
+	border: solid 1px var(--silver-hover);
 	border-radius: 5px;
 	font-size: 0.8rem;
-	color: var(--gray-hover);
+	color: var(--silver-hover);
 }
 .comment-info {
 	font-size: 0.8em;
 	color: var(--gray);
 }
-.comment-toggle-reply {
+.comment-list i.bi,.reply-list i.bi {
+	font-size: 1.4rem;
+}
+.comment-menu > a {
 	margin: 0 5px;
 	font-weight: bold;
 	font-size: 0.8rem;

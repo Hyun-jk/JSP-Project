@@ -3,12 +3,14 @@ package kr.product.vo;
 import kr.member.vo.MemberVO;
 
 public class CommentVO {
-	private int acomment_num;
-	private int amember_num;
-	private int aproduct_num;
-	private String content;
-	private Integer acomment_parent;
+	private int acomment_num; // 댓글 번호
+	private int amember_num; // 댓글 작성자 회원 번호
+	private int aproduct_num; // 댓글이 달린 물품 번호
+	private String content; // 댓글 내용
+	private Integer acomment_parent; // 부모 댓글 번호
 	private String reg_date;
+	private String modify_date;
+	private int deleted; // 0=삭제되지 않음, 1=삭제됨
 	
 	// 테이블에 없지만 UI 처리를 위해 필요한 정보
 	private MemberVO memberVO;
@@ -48,6 +50,18 @@ public class CommentVO {
 	}
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
+	}
+	public String getModify_date() {
+		return modify_date;
+	}
+	public void setModify_date(String modify_date) {
+		this.modify_date = modify_date;
+	}
+	public int getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
 	}
 	
 	// 테이블에 없지만 UI 처리를 위해 필요한 정보

@@ -18,7 +18,7 @@ public class CommentDAO {
 	}
 	private CommentDAO() {}
 	
-	// 댓글 작성
+	// 댓글/대댓글 작성
 	public void insertComment(CommentVO comment) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -118,7 +118,9 @@ public class CommentDAO {
 				comment.setAproduct_num(rs.getInt("aproduct_num"));
 				comment.setContent(rs.getString("content"));
 				comment.setReg_date(rs.getString("reg_date"));
+				comment.setModify_date(rs.getString("modify_date"));
 				comment.setAcomment_parent(rs.getInt("acomment_parent"));
+				comment.setDeleted(rs.getInt("deleted")); // 대댓글이 있는 부모 댓글의 경우, 행은 보존하고 deleted 값으로 삭제 여부를 나타냄
 				// 댓글 작성 회원 정보 저장
 				MemberVO member = new MemberVO();
 				member.setNickname(rs.getString("nickname"));
@@ -168,6 +170,7 @@ public class CommentDAO {
 				reply.setAproduct_num(rs.getInt("aproduct_num"));
 				reply.setContent(rs.getString("content"));
 				reply.setReg_date(rs.getString("reg_date"));
+				reply.setModify_date(rs.getString("modify_date"));
 				reply.setAcomment_parent(rs.getInt("acomment_parent"));
 				// 대댓글 작성 회원 정보 저장
 				MemberVO member = new MemberVO();
@@ -188,9 +191,9 @@ public class CommentDAO {
 		return replies;
 	}	
 	
-	// 댓글 상세 정보
-	public CommentVO getCommentVO(int acomment_num) throws Exception {
-		CommentVO comment = null;
+	// 댓글 작성자 회원 번호 구하기
+	public int getMember(int acomment_num) throws Exception {
+		int amember_num = 0;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -200,7 +203,16 @@ public class CommentDAO {
 		try {
 			conn = DBUtil.getConnection();
 			
+			sql = "SELECT amember_num FROM acomment WHERE acomment_num=?";
 			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, acomment_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				amember_num = rs.getInt("amember_num");	
+			}
 		}
 		catch(Exception e) {
 			throw new Exception(e);
@@ -209,7 +221,7 @@ public class CommentDAO {
 			DBUtil.executeClose(rs, pstmt, conn);
 		}
 		
-		return comment;
+		return amember_num;
 	}
 	
 	// 댓글 수정
@@ -222,7 +234,11 @@ public class CommentDAO {
 		try {
 			conn = DBUtil.getConnection();
 			
+			sql = "UPDATE acomment SET content=?, modify_date=SYSDATE WHERE acomment_num=?";
 			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, comment.getContent());
+			pstmt.setInt(2, comment.getAcomment_num());
 		}
 		catch(Exception e) {
 			throw new Exception(e);
@@ -232,8 +248,10 @@ public class CommentDAO {
 		}
 	}
 	
-	// 댓글 삭제
-	public void deleteComment(int acomment_num) throws Exception {
+	// 특정 댓글의 대댓글 존재 여부 확인
+	public boolean existsReply(int acomment_num) throws Exception {
+		boolean exist = false;
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -242,13 +260,51 @@ public class CommentDAO {
 		try {
 			conn = DBUtil.getConnection();
 			
+			sql = "SELECT COUNT(acomment_num) FROM acomment WHERE acomment_parent=?";
 			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, acomment_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt(1)>0) exist = true;
+			}
 		}
 		catch(Exception e) {
 			throw new Exception(e);
 		}
 		finally {
 			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return exist;
+	}
+	
+	// 댓글 삭제
+	public void deleteComment(int acomment_num) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			boolean exist = existsReply(acomment_num);
+			if(!exist) sql = "DELETE FROM acomment WHERE acomment_num=?"; // 대댓글이 없으면 댓글을 삭제
+			else sql = "UPDATE acomment SET deleted=1 WHERE acomment_num=?"; // 대댓글이 있으면 댓글의 deleted 값만 변경
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, acomment_num);
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
 	

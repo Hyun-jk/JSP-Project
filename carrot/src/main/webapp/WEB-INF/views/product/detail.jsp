@@ -82,13 +82,14 @@
 <!-- 버튼들 끝 -->
 <!-- 댓글 시작 -->
 		<li class="comment-list hide">
+			<button type="button" class="comment-more reverse-silver hide">댓글 더보기</button>
 			<ul>
 			
 			</ul>
 		</li>
 		<li class="comment-list hide"><hr></li>
 		<li class="comment-write hide flex-row justify-center align-start">
-			<textarea name="content"></textarea>
+			<textarea name="content" <c:if test="${empty user_num}">disabled title="로그인 후 댓글을 작성할 수 있습니다"</c:if>></textarea>
 			<input type="button" class="point" value="댓글 작성" id="write_comment" <c:if test="${empty user_num}">disabled title="로그인 후 댓글을 작성할 수 있습니다"</c:if>>
 		</li>
 		<li class="comment-write hide"><hr></li>
@@ -134,7 +135,7 @@
 	document.getElementById('toggle_comments').addEventListener('click', function() {
 		for(let i=0;i<comment_writes.length;i++) comment_writes[i].classList.toggle('hide'); // 댓글 작성 영역 토글
 		for(let i=0;i<comment_lists.length;i++) comment_lists[i].classList.toggle('hide'); // 댓글 목록 영역 토글
-		getListComment(1); // 댓글 목록 새로고침
+		if(!comment_lists[0].classList.contains('hide')) getListComment(1); // 댓글 목록 새로고침
 	}, false); // end of addEventListener
 	
 	// 댓글 길이 제한
@@ -150,23 +151,46 @@
 	// 대댓글 작성 UI 토글
 	let lastTarget;
 	document.addEventListener('click', function(event) { // 동적 이벤트 바인딩
-		if(event.target && event.target.classList.contains('comment-toggle-reply')) {
+		let toggle_reply = event.target.closest('.comment-toggle-reply'); // 이벤트가 발생한 태그의 가장 가까운 조상 .comment-toggle-reply를 찾고
+		if(toggle_reply && toggle_reply.contains(event.target)) { // 이벤트가 발생한 태그가 앞서 찾은 가장 가까운 조상 태그 자기 자신이거나 그 자식 태그이면
+			// 로그인하지 않은 경우 UI 토글 이벤트 중단
+			if(${empty user_num}) return;
+			
+			// 대댓글 작성 UI를 삽입할 <ul> 태그 얻기
 			let reply = document.querySelector('#reply_area');
 			if(reply!=null) clearReplyArea(reply); // 해당 아이디의 요소가 이미 있으면 내부 초기화
 			else { // 없으면 <ul> 요소를 생성하고 아이디 부여
 				reply = document.createElement('ul');
 				reply.id = 'reply_area';	
 			}
-			reply.dataset.parent = event.target.dataset.parent;
+			
+			// 부모 댓글 번호를 <ul> 태그에 저장
+			reply.dataset.parent = toggle_reply.dataset.parent;
+			
+			// 댓글 작성 UI를 복제하고 클래스 및 아이디만 대댓글로 변경
 			reply.appendChild(comment_writes[0].cloneNode(true));
 			reply.querySelector('.comment-write').classList.replace('comment-write', 'reply-write');
 			reply.querySelector('#write_comment').id = 'write_reply';
-			event.target.parentNode.insertBefore(reply, event.target.nextSibling); // 토글 버튼 바로 다음에 <ul> 요소 삽입
 			
-			// 토글 처리
-			if(lastTarget!=null && lastTarget==event.target) reply.classList.toggle('hide');
-			else reply.classList.remove('hide');
-			lastTarget = event.target;
+			// 대댓글 목록 바로 전(=토글 버튼 바로 다음)에 <ul> 요소 삽입
+			toggle_reply.parentNode.parentNode.insertBefore(reply, toggle_reply.parentNode.parentNode.querySelector('ul.reply-list'));
+			
+			// UI 토글 처리
+			if(lastTarget!=null && lastTarget==toggle_reply) {
+				reply.classList.toggle('hide');
+				toggle_reply.querySelector('i.bi').classList.toggle('bi-reply-fill');
+				toggle_reply.querySelector('i.bi').classList.toggle('bi-reply');
+			}
+			else {
+				reply.classList.remove('hide');
+				if(lastTarget!=null) {
+					lastTarget.querySelector('i.bi').classList.remove('bi-reply-fill');
+					lastTarget.querySelector('i.bi').classList.add('bi-reply');
+				}
+				toggle_reply.querySelector('i.bi').classList.add('bi-reply-fill');
+				toggle_reply.querySelector('i.bi').classList.remove('bi-reply');
+			}
+			lastTarget = toggle_reply;
 		}
 	}, false); // end of addEventListener
 	
@@ -187,6 +211,52 @@
 			clearReplyArea(reply); // 대댓글 작성 UI 내부 초기화
 		}
 	}, false); // end of addEventListener
+	
+	// 댓글 수정
+	document.addEventListener('click', function(event) { // 동적 이벤트 바인딩
+		let comment_modify = event.target.closest('.comment-modify'); // 이벤트가 발생한 태그의 가장 가까운 조상 .comment-modify를 찾고
+		if(comment_modify && comment_modify.contains(event.target)) { // 이벤트가 발생한 태그가 앞서 찾은 가장 가까운 조상 태그 자기 자신이거나 그 자식 태그이면
+			// 로그인하지 않은 경우 UI 토글 이벤트 중단
+			if(${empty user_num}) return;
+		
+		}
+	}, false);
+	
+	// 댓글 삭제
+	document.addEventListener('click', function(event) { // 동적 이벤트 바인딩
+		let comment_delete = event.target.closest('.comment-delete'); // 이벤트가 발생한 태그의 가장 가까운 조상 .comment-delete를 찾고
+		if(comment_delete && comment_delete.contains(event.target)) { // 이벤트가 발생한 태그가 앞서 찾은 가장 가까운 조상 태그 자기 자신이거나 그 자식 태그이면
+			// 로그인하지 않은 경우 UI 토글 이벤트 중단
+			if(${empty user_num}) return;
+		
+			// 한 번 더 확인
+			if(!confirm('정말로 삭제하시겠습니까?')) return;
+			$.ajax({
+				url:'deleteComment.do',
+				type:'post',
+				data:{acomment_num:comment_delete.parentNode.parentNode.parentNode.dataset.comment},
+				dataType:'json',
+				timeout:10000,
+				success:function(param) {
+					if(param.result=='logout') {
+						alert('로그인 후 댓글을 삭제할 수 있습니다!');	
+					}
+					else if(param.result=='success') {
+						getListComment(1); // 댓글 목록 새로고침
+					}
+					else if(param.result='wrongAccess') {
+						alert('잘못된 접근입니다!');
+					}
+					else {
+						alert('댓글을 삭제하는 데 실패했습니다!');
+					}
+				},
+				error:function() {
+					alert('네트워크 오류가 발생했습니다!');	
+				}
+			}); // end of ajax
+		}
+	}, false);
 	
 	// 댓글/대댓글 작성하는 함수 정의
 	function writeComment(content, acomment_parent) {
@@ -224,6 +294,11 @@
 	let currentPage;
 	let count;
 	let rowCount;
+	
+	// 댓글 더보기
+	document.querySelector('.comment-more').addEventListener('click', function() {
+		getListComment(currentPage+1);
+	}, false);
 	
 	// 댓글 목록 불러오는 함수 정의
 	function getListComment(pageNum) {
@@ -267,21 +342,36 @@
 						comment += '	<div class="comment-text flex-column">';
 						comment += '		<div class="comment-subtitle">' + item.memberVO.nickname + seller_tag + '</div>';
 						comment += '		<div class="comment-info"><span title="' + item.memberVO.address + '">' + getLastToken(item.memberVO.address, ' ') + '</span> · <span title="' + item.reg_date + '">' + getTimeSince(item.reg_date) + '</span></div>';
-						comment += '		<div>' + item.content + '</div>'
-						comment += '		<a class="comment-toggle-reply" data-parent="' + item.acomment_num + '">답글 쓰기</a>'
+						if(item.deleted==1) comment += '<div class="deleted"><i class="bi bi-exclamation-triangle"></i>댓글 작성자가 삭제한 댓글입니다</div>';
+						else {
+							comment += '		<div>' + item.content + '</div>';
+							comment += '		<div class="comment-menu flex-row">';
+							comment += '			<a class="comment-toggle-reply" data-parent="' + item.acomment_num + '" <c:if test="${empty user_num}">title="로그인 후 댓글을 작성할 수 있습니다"</c:if>><i class="bi bi-reply"></i>답글 쓰기</a>';
+							if(${user_num}==item.amember_num) {
+								comment += '		<a class="comment-modify"><i class="bi bi-pencil-square"></i>수정하기</a>';
+								comment += '		<a class="comment-delete"><i class="bi bi-trash3-fill"></i>삭제하기</a>';
+							}
+							comment += '		</div>';
+						}
 						comment += '		<ul class="reply-list flex-column hide">';
 						comment += '		</ul>';
-						comment += '	</div>'
+						comment += '	</div>';
 						comment += '</li>';
 						$('.comment-list > ul').prepend(comment); // <ul> 태그 안에 최신 댓글이 아래로 오도록 대댓글 추가
 						
 						// 현재 댓글의 대댓글 목록 새로고침
 						getListReply(item.acomment_num);
+
 					}); // end of each
 					
+					if(pageNum==1) $(window).scrollTop($('.comment-write textarea').offset().top);
+
 					// 더보기 버튼
 					if(currentPage<Math.ceil(count/rowCount)) { // 다음 페이지가 있으면
-						
+						$('.comment-more').removeClass('hide');
+					}
+					else {
+						$('.comment-more').addClass('hide');
 					}
 				}
 				else {
@@ -331,9 +421,15 @@
 						reply += '	<div class="comment-text flex-column">';
 						reply += '		<div class="comment-subtitle">' + item.memberVO.nickname + seller_tag + '</div>';
 						reply += '		<div class="comment-info"><span title="' + item.memberVO.address + '">' + getLastToken(item.memberVO.address, ' ') + '</span> · <span title="' + item.reg_date + '">' + getTimeSince(item.reg_date) + '</span></div>';
-						reply += '		<div>' + item.content + '</div>'
-						reply += '		<a class="comment-toggle-reply" data-parent="' + acomment_parent + '">답글 쓰기</a>'; // 부모 댓글 번호를 유지
-						reply += '	</div>'
+						reply += '		<div>' + item.content + '</div>';
+						reply += '			<div class="comment-menu flex-row">';
+						reply += '			<a class="comment-toggle-reply" data-parent="' + acomment_parent + '" <c:if test="${empty user_num}">title="로그인 후 댓글을 작성할 수 있습니다"</c:if>><i class="bi bi-reply"></i>답글 쓰기</a>'; // 부모 댓글 번호를 유지
+						if(${user_num}==item.amember_num) {
+							reply += '		<a class="comment-modify"><i class="bi bi-pencil-square"></i>수정하기</a>';
+							reply += '		<a class="comment-delete"><i class="bi bi-trash3-fill"></i>삭제하기</a>';
+						}
+						reply += '		</div>';
+						reply += '	</div>';
 						reply += '</li>';
 						$(parent).prepend(reply); // <ul> 태그 안에 최신 대댓글이 아래로 오도록 대댓글 추가
 					}); // end of each
