@@ -106,6 +106,7 @@ CREATE TABLE Acomment(
 	constraint Acomment_fk2 foreign key(Aproduct_num) references Aproduct(Aproduct_num)
 );
 ALTER TABLE Acomment ADD CONSTRAINT Acomment_fk3 foreign key(Acomment_parent) references Acomment(Acomment_num);
+CREATE SEQUENCE Acomment_seq;
 
 /*Aboard(공지 및 회원 상담 테이블)*/
 CREATE TABLE Aboard(
