@@ -255,6 +255,7 @@ public class MemberDAO {
 				
 				
 			}
+	
 			
 		//관리자
 			//총 회원 수
@@ -375,7 +376,7 @@ public class MemberDAO {
 					
 					sql = "UPDATE amember_detail SET name=?,phone=?,email=?,"
 						+ "address=?,address_favor=? "
-						+ "WHERE mem_num=?";
+						+ "WHERE amember_num=?";
 					
 					pstmt2 = conn.prepareStatement(sql);
 					
@@ -400,6 +401,8 @@ public class MemberDAO {
 					DBUtil.executeClose(null, pstmt, conn);
 				}
 			}
+			
+			
 			
 			
 } 

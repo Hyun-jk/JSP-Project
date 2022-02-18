@@ -1,85 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%> 
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 수정</title>
+<title>회원정보수정(관리자 전용)</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-	$(function() { 
-		$('#modify_form').submit(function() {
-			if ($('#nickname').val().trim() == '') {
-				alert('닉네임을 입력하세요!');
-				$('#nickname').val('').focus();
+	$(function(){
+		$('#detail_form').submit(function(){
+			if($('#name').val().trim()==''){
+				alert('이름을 입력하세요!');
+				$('#name').val('').focus();
 				return false;
 			}
-			if ($('#phone').val().trim() == '') {
+			if($('#phone').val().trim()==''){
 				alert('전화번호를 입력하세요!');
-				$('#phone').val('').focus();
+				$('email').val('').focus();
 				return false;
 			}
-			if ($('#email').val().trim() == '') {
+			if($('#email').val().trim()==''){
 				alert('이메일을 입력하세요!');
-				$('#email').val('').focus();
+				$('email').val('').focus();
 				return false;
 			}
-			if ($('#address').val().trim() == '') {
+			if($('#address').val().trim()==''){
 				alert('동네를 입력하세요!');
 				$('#address').val('').focus();
 				return false;
 			}
-		})
+		});
 	});
+	$(function(){
+	    
+        $("#address").removeAttr("readonly");       // readonly 삭제
+    });
 </script>
 </head>
 <body>
-<div>
+<div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	  <div id="My-content">
+	<div id="My-content">
 	    <jsp:include page="/WEB-INF/views/common/side.jsp"/> 
-	</div></div>
-	<h2>회원정보 수정</h2>
-	<form action="modifyUser.do" method="post" id="modify_form">
-	<ul>
-		<li>
-		<label for="nickname">닉네임</label>
-		<input type="text" name="nickname" id="nickname" value="${member.nickname}" maxlength="10">
-		</li>
-		<li>
-			<label for="phone">전화번호</label>
-			<input type="text" name="phone" id="phone" value="${member.phone}" maxlength="15">
-		</li>
-		<li>
-			<label for="email">이메일</label>
-			<input type="email" name="email" id="email" value="${member.email}" maxlength="50">
-		</li>
-		<li>
+	</div>
+	<h2>${member.id}의 정보 수정(관리자 전용)</h2>
+	<form action="detailUser.do" method="post" id="detail_form">
+		<input type="hidden" name="amember_num" value="${member.amember_num}">
+		<ul>
+			<li>
+				<label>등급</label>
+				<c:if test="${member.auth != 3}">
+				<input type="radio" name="auth" value="1" id="auth1" <c:if test="${member.auth == 1}">checked</c:if>>정지
+				<input type="radio" name="auth" value="2" id="auth2" <c:if test="${member.auth == 2}">checked</c:if>>일반
+				</c:if>
+				<c:if test="${member.auth == 3}">
+				<input type="radio" name="auth" value="3" id="auth3" checked>관리
+				</c:if>
+			</li>
+			<li>
+				<label for="name">이름</label>
+				<input type="text" name="name" id="name" value="${member.name}"
+				                                     maxlength="10">
+			</li>
+			<li>
+				<label for="phone">전화번호</label>
+				<input type="text" name="phone" id="phone" value="${member.phone}"
+				                                    maxlength="15">
+			</li>
+			<li>
+				<label for="email">이메일</label>
+				<input type="email" name="email" id="email" value="${member.email}"
+				                                    maxlength="50">
+			</li>
+			<li>
 				<label for="address">동네</label>
 				<input type="text" name="address" id="address" readonly value="${member.address}">
 				<input type="button" value="동네 찾기" onclick="sample3_execDaumPostcode();">
 				<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 					<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-				</div>
-			</li>
-		<li>
-			<label for="address_favor">선호지역</label>
-			<input type="text" name="address_favor" id="address_favor" value="${member.address_favor}" maxlength="30">
-		</li>
-	</ul>
-	<div>
-		<input type="submit" value="수정">
-		<input type="button" value="회원탈퇴"  onclick="location.href='deleteUserForm.do'">
-	</div>
-	</form>
-	<h3>회원탈퇴</h3>
-		<ul>
-			<li>
-				<input type="button" value="회원탈퇴" 
-				  onclick="location.href='deleteUserForm.do'">
+				</div>          
 			</li>
 		</ul>
+		<div class="align-center">
+			<input type="submit" value="수정">
+			<input type="button" value="목록" 
+			                         onclick="location.href='memberList.do'">
+		</div>
+		</form>
 <!-- 동네 찾기 시작 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -126,6 +135,10 @@
         element_wrap.style.display = 'block';
     }
 </script>
-<!-- 동네 찾기 끝 -->		
+<!-- 동네 찾기 끝 -->	
+</div>
 </body>
 </html>
+
+
+

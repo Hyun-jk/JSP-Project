@@ -121,6 +121,7 @@
 				</div>
 			</li>
 		</ul>
+		</div>
 	<div class="mypage-div">
 		<h3>연락처</h3>
 		<ul>
@@ -147,6 +148,6 @@
 		</ul>
 	
   </div>
- </div>
+
 </body>
 </html>

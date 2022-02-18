@@ -2,6 +2,8 @@ package kr.member.vo;
 
 import java.sql.Date;
 
+import kr.product.vo.ProductVO;
+
 public class MemberVO {
 	private int amember_num; // 회원 번호
 	private String id; // 아이디
@@ -20,7 +22,7 @@ public class MemberVO {
 	
 	// 비밀번호 일치 여부 체크
 	public boolean checkPassword(String UserPassword) {
-		if(auth>1 && password.equals(UserPassword)) { // 탈퇴 및 정지 회원은 서비스 이용 불가하도록 처리
+		if(auth > 1 && password.equals(UserPassword)) { // 탈퇴 및 정지 회원은 서비스 이용 불가하도록 처리
 			return true;
 		}
 		return false;
