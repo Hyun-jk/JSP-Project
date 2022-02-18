@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>비밀번호 수정</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(function (){
@@ -56,6 +57,7 @@
 </script>
 </head>
 <body> 
+<jsp:include page="/WEB-INF/views/common/side.jsp"/>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<h2>비밀번호 수정</h2>

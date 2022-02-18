@@ -1,0 +1,159 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'IM_Hyemin-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 공통 : 컬러 */
+:root {
+	--point: #9789e8;
+	--point-hover: #8474e4;
+	--light-gray: #ddd;
+	--light-gray-hover: #ccc;
+	--light-gray-disabled: #999;
+	--light-black: #303030;
+	--light-white: #f8f8f8;
+	--gray: #808080;
+	--gray-hover: #a9a9a9;
+}
+/*메인*/
+a:link{
+	text-decoration:none;
+	color:#000000;
+}
+a:visited{
+	text-decoration:none;
+	color:#000000;
+}
+a:hover{
+	text-decoration:underline;
+	color:#999999;
+}
+.page-main{
+	width: 1200px;
+	margin:0 auto;
+	font-family: 'IM_Hyemin-Bold';
+    transform: skew(-0.1deg);
+}
+.result-display{
+	width:400px;
+	height:200px;
+	/*정중앙에 div를 배치하기 위한 설정*/
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	border:1px solid #000;
+	display:flex;
+	/*세로 정렬*/
+	align-items:center;
+	/*가로 정렬*/
+	justify-content:center;
+}
+.align-center{
+	text-align:center;
+}
+.align-right{
+	text-align:right;
+}
+.align-left {
+	text-align:left;
+}
+ul{
+	list-style:none;
+}
+
+/*side.jsp
+#My-sidebar a{
+	color:var();
+	text-align: center;
+	width:100px;
+		height:30px;
+		padding-top:2px;
+		padding-left:10px;
+}*/	
+		/*My page sidebar css
+		
+#My-sidebar {
+	margin-right:15px;
+	float:left;
+	width:300px;
+	height:100%;
+	border-right-style:solid;
+	border-width:1px;
+
+#My-content{
+	
+	float:left;
+	width:60%;	
+}}*/
+
+#My-sidebar {
+    text-align: center;
+    border-radius: 40px/40px;
+    float:left;
+    height: 100%;
+    background-color: #F7DFD1;
+    margin-right:30px;
+    padding: 40px 40px 40px;
+    font-family: 'IM_Hyemin-Bold';
+    transform: skew(-0.1deg);
+}
+.user_photo{
+	 object-position:top;
+	 border-radius: 40px/40px;
+}
+.user_id {
+	font-size: 25px;
+	color:#F3B178;
+	font-family: 'IM_Hyemin-Bold';
+    transform: skew(-0.1deg);
+}
+
+h4{
+	font-size: 20px;
+	border-bottom: 2px solid #F3B178;
+}
+.aa{
+	font-size: 17px;
+	line-height: 0.8;
+}
+/*MyPageDetail*/
+.mypage-phototo{
+	float:left;
+	text-align: center;
+	width:38%;
+	padding: 50px 0px 0px 0px;
+}
+.mypage-id{
+	width:48%;
+	float: right;
+	text-align: center;
+	padding: 50px 50px 50px 30px;
+}
+table {
+    margin-left:auto; 
+    margin-right:auto;
+    width: 300px;
+    height: 500px;
+}
+
+table, td, th {
+    border-collapse : collapse;
+    border-bottom: 2px solid #F3B178;
+
+};
+
+
+* {
+	box-sizing: border-box;
+}
+
+input,select,textarea {
+	margin: 5px;
+	padding: 10px;
+}
+input:focus,select:focus {
+	outline-color: var(--point);
+}

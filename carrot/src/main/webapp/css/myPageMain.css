@@ -1,0 +1,48 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'IM_Hyemin-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*mypage main*/
+.my-pageMain{
+	display: flex;
+	text-align: center;
+	flex-direction:row;
+	justify-content:space-between;
+	padding: 70px 200px 10px 200px;
+	font-family: 'IM_Hyemin-Bold';
+    transform: skew(-0.1deg);
+}
+
+.mypage-photo{
+text-align: center;
+padding: 70px 0px 0px 0px;
+margin: 0px auto;
+}
+
+.admin_page{
+	display: flex;
+	text-align: center;
+	flex-direction:row;
+	justify-content:space-between;
+	padding: 70px 500px 10px 500px;
+	font-family: 'IM_Hyemin-Bold';
+    transform: skew(-0.1deg);
+}
+h4{
+	font-size: 20px;
+	border-bottom: 2px solid #F3B178;
+}
+.user_photo{
+	 object-position:top;
+	 border-radius: 40px/40px;
+}
+.user_id {
+	font-size: 25px;
+	color:#F3B178;
+	font-family: 'IM_Hyemin-Bold';
+    transform: skew(-0.1deg);
+}

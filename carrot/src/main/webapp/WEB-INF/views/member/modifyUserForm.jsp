@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(function() { 
@@ -34,12 +35,12 @@
 	});
 </script>
 </head>
-<body>
-<div>
+<body> 
+ <jsp:include page="/WEB-INF/views/common/side.jsp"/> 
+<div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	  <div id="My-content">
-	    <jsp:include page="/WEB-INF/views/common/side.jsp"/> 
-	</div></div>
+	  
+	
 	<h2>회원정보 수정</h2>
 	<form action="modifyUser.do" method="post" id="modify_form">
 	<ul>
@@ -68,7 +69,7 @@
 			<input type="text" name="address_favor" id="address_favor" value="${member.address_favor}" maxlength="30">
 		</li>
 	</ul>
-	<div>
+	<div class="align-right">
 		<input type="submit" value="수정">
 		<input type="button" value="회원탈퇴"  onclick="location.href='deleteUserForm.do'">
 	</div>
@@ -80,6 +81,7 @@
 				  onclick="location.href='deleteUserForm.do'">
 			</li>
 		</ul>
+		</div>
 <!-- 동네 찾기 시작 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

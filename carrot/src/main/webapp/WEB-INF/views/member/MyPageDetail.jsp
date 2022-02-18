@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPageDetail</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(function(){
@@ -90,14 +91,13 @@
 </script>
 </head>
 <body>
-<div>
+<jsp:include page="/WEB-INF/views/common/side.jsp"/> 
+<div class=page-main>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	  <div id="My-content">
-	    <jsp:include page="/WEB-INF/views/common/side.jsp"/>
-	 
-	</div></div>
-	<h2>회원정보</h2>
-		<div class="mypage-div">
+	    
+	    <h2>회원정보</h2>	
+	    <div class = "mypage-phototo">
+		
 		<h3>프로필 사진</h3>
 		<ul>
 			<li>
@@ -112,31 +112,13 @@
 			</li>
 			<li>
 				<div class="align-center">
-					<input type="button" value="수정" id="photo_btn">
+					<input type="button" value="프로필 사진 수정" id="photo_btn">
 				</div>
 				<div id="photo_choice" style="display:none;">
 					<input type="file" id="photo" accept="image/gif,image/png,image/jpeg"><br>
-					<input type="button" value="전송" id="photo_submit">
-					<input type="button" value="취소" id="photo_reset">
+					<input type="button" value="설정하기" id="photo_submit">
+					<input type="button" value="취소하기" id="photo_reset">
 				</div>
-			</li>
-		</ul>
-		</div>
-	<div class="mypage-div">
-		<h3>연락처</h3>
-		<ul>
-			<li>이름 : ${member.name}</li>
-			<li>닉네임 : ${member.nickname}</li>
-			<li>전화번호 : ${member.phone}</li>
-			<li>이메일 : ${member.email}</li>
-			<li>주소: ${member.address}</li>
-			<li>선호하는 지역 : ${member.address_favor}</li>
-			<li>생년월일 : ${member.age}</li>
-			<li>메너점수 : ${member.rate}</li>
-			<li>가입일 : ${member.reg_date}</li>	
-			<li>
-				<input type="button" value="연락처 수정"
-				onclick="location.href='modifyUserForm.do'">
 			</li>
 		</ul>
 		<h3>비밀번호 수정</h3>
@@ -145,9 +127,23 @@
 				<input type="button" value="비밀번호 수정"
 				onclick="location.href='modifyPasswordForm.do'">
 			</li>
-		</ul>
-	
-  </div>
-
+		</ul>	
+		</div>
+	<div class="mypage-id">
+	<h3>나의 정보</h3>
+	<table>
+			<tr><th>이름</th><td>${member.name}</td></tr>
+		    <tr><th>별명</th><td>${member.nickname}</td></tr>
+		    <tr><th>연락처</th><td>${member.phone}</td></tr>
+		    <tr><th>이메일</th><td>${member.rate}</td></tr>
+		    <tr><th>동네</th><td>${member.address}</td></tr>
+		    <tr><th>관심동네</th><td>${member.address_favor}</td></tr>
+		    <tr><th>생년월일</th><td>${member.age}</td></tr>
+		    <tr><th>메너점수</th><td>${member.rate}</td></tr>
+		    <tr><th>가입일</th><td>${member.reg_date}</td></tr>
+		</table>	
+				<input type="button" value="나의 정보 수정"
+				onclick="location.href='modifyUserForm.do'">
+  </div></div>
 </body>
 </html>
