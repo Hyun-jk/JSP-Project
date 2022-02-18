@@ -107,6 +107,7 @@ CREATE TABLE Acomment(
 );
 ALTER TABLE Acomment ADD CONSTRAINT Acomment_fk3 foreign key(Acomment_parent) references Acomment(Acomment_num);
 CREATE SEQUENCE Acomment_seq;
+ALTER TABLE Acomment ADD modify_date DATE;
 
 /*Aboard(공지 및 회원 상담 테이블)*/
 CREATE TABLE Aboard(
