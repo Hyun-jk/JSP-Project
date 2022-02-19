@@ -24,7 +24,7 @@ public class ChatAction implements Action {
 		ChatDAO dao = ChatDAO.getInstance();
 		
 		// 채팅 목록 불러오기
-		List<ChatRoomVO> chatrooms = dao.getListChatRoom(user_num);
+		List<ChatRoomVO> chatrooms = dao.getListChatRoom(user_num, request.getParameter("filter"));
 		request.setAttribute("chatrooms", chatrooms);
 		
 		// 파라미터 값과 채팅 목록 길이를 이용하여 현재 채팅방 번호 지정

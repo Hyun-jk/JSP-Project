@@ -344,20 +344,28 @@ public class ChatDAO {
 	}
 	
 	// 회원별로 채팅방 목록과 각 채팅방의 가장 최근 메시지 1건 불러오기
-	public List<ChatRoomVO> getListChatRoom(int amember_num) throws Exception {
+	public List<ChatRoomVO> getListChatRoom(int amember_num, String filter) throws Exception {
 		List<ChatRoomVO> chatrooms = null;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
+		String sub_sql = "";
 		
 		try {
 			conn = DBUtil.getConnection();
 			
+			if(filter!=null && !filter.isEmpty()) {
+				if(filter.equals("2")) sub_sql = "AND p.status=2 AND p.complete=0 "; // 거래 중
+				else if(filter.equals("3")) sub_sql = "AND p.status=2 AND ((p.amember_num=21 OR p.buyer_num=21) AND p.complete=1) "; // 거래 완료
+			}
+			
 			sql = "SELECT * FROM achat JOIN (SELECT MAX(achat_num) AS achat_num FROM achat "
-					+ "JOIN (SELECT achatroom_num FROM achatroom WHERE seller_num=? OR buyer_num=?) "
-					+ "USING(achatroom_num) GROUP BY achatroom_num) "
+					+ "JOIN (SELECT c.achatroom_num, p.status, p.complete FROM achatroom c "
+						+ "JOIN aproduct p ON c.aproduct_num=p.aproduct_num "
+						+ "WHERE (c.seller_num=? OR c.buyer_num=?) " + sub_sql
+					+ ") USING(achatroom_num) GROUP BY achatroom_num) "
 				+ "USING(achat_num) ORDER BY achat_num DESC";
 			
 			pstmt = conn.prepareStatement(sql);

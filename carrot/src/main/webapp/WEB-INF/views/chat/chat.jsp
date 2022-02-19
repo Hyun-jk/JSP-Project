@@ -20,10 +20,13 @@
 				<div class="chat-title">메시지함</div>
 			</li>
 			<li class="flex-row justify-center">
-				<select class="search-area">
-					<option value="1">전체</option>
-					<option value="2">거래 중</option>
-				</select>
+				<form class="search-area" method="get">
+					<select name="filter">
+						<option value="1" <c:if test="${param.filter==1}">selected</c:if>>전체</option>
+						<option value="2" <c:if test="${param.filter==2}">selected</c:if>>거래 중</option>
+						<option value="3" <c:if test="${param.filter==3}">selected</c:if>>거래 완료</option>
+					</select>
+				</form>
 			</li>
 			<c:if test="${empty chatrooms && empty param.achatroom_num}">
 <!-- 채팅방 목록이 없는 경우 시작 -->
@@ -164,11 +167,19 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/StringUtil.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+	// 필터 선택시 submit 이벤트 발생
+	let search_area = document.getElementsByClassName('search-area')[0];
+	let filters = document.getElementsByName('filter')[0];
+	filters.addEventListener('change', function() {
+		search_area.submit();
+	}, false)
+	
 	// ajax 통신용 파라미터 변수 선언
 	let achatroom_num = '${chatroom.achatroom_num}';
 	let aproduct_num = '${chatroom.aproduct_num}';
 	let opponent_num = ${user_num}=='${chatroom.seller_num}' ? '${chatroom.buyer_num}' : '${chatroom.seller_num}';
-
+	let filter = ${empty param.filter} ? undefined : '${param.filter}';
+	
 	if(${chatroom.seller_num==0}) { // 상대방이 관리자인 경우
 		document.getElementsByClassName('read-area')[0].classList.add('no-reply');
 	}
@@ -208,6 +219,7 @@
 		$.ajax({
 			url:'listChatRoom.do',
 			type:'post',
+			data:{filter:filter},
 			dataType:'json',
 			timeout:10000,
 			success:function(param) {
@@ -228,10 +240,13 @@
 						// 목록의 채팅방에 안 읽은 메시지가 있는지 확인
 						let unread = item.unread>0 ? ' unread' : '';
 						
+						// 필터가 선택되어 있는지 확인
+						let filtered = ${empty param.filter} ? '' : '&filter=${param.filter}'; 
+						
 						// 채팅방이 담긴 태그 만들기
 						let stripe = index%2==0 ? '' : ' list-stripe';
 						let chatroom = '<li>';
-						chatroom += '	<a class="flex-row space-between' + stripe + '" href="chat.do?achatroom_num=' + item.achatroom_num + '">';
+						chatroom += '	<a class="flex-row space-between' + stripe + '" href="chat.do?achatroom_num=' + item.achatroom_num + filtered + '">';
 						chatroom += '		<div class="flex-row">';
 						chatroom += '			<img class="list-profile" src="' + cp + chat_profile +'">'; // 채팅방 상대방 프로필
 						chatroom += '			<div class="flex-column">';

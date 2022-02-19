@@ -24,7 +24,7 @@ public class ListChatRoomAction implements Action {
 			mapAjax.put("result", "logout");
 		}
 		else { // 로그인되어 있는 경우
-			List<ChatRoomVO> chatrooms = ChatDAO.getInstance().getListChatRoom(user_num);
+			List<ChatRoomVO> chatrooms = ChatDAO.getInstance().getListChatRoom(user_num, request.getParameter("filter"));
 			
 			mapAjax.put("chatrooms", chatrooms);
 			mapAjax.put("result", "success");

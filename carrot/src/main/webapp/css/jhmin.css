@@ -78,6 +78,7 @@ hr {
 	margin: 0 auto;
 	padding: 0;
 	border-style: solid;
+	background-color: var(--light-gray); /* 설정하지 않으면 크롬에서는 테두리가 있는 선이 생김 */
 	color: var(--light-gray);
 }
 .info {
@@ -558,6 +559,9 @@ ul.chat-other {
 }
 .search-area {
 	margin: 25px 0 10px;
+	padding: 0;
+	width: inherit;
+	border: none;
 }
 .list-area {
 	height: 420px;
