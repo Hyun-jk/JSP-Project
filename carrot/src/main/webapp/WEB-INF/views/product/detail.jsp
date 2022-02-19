@@ -14,20 +14,26 @@
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<ul class="detail flex-column">
+		<c:if test="${product.status==2}">
 		<li>
 			<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
 		</li>
+		</c:if>
 <!-- 판매자 프로필, 매너 평가 시작 -->
 		<li class="seller flex-row space-between">
 			<div class="who flex-row">
 				<c:if test="${empty seller.photo}">
+				<a href="seller_profile.do?seller_num=${product.amember_num}&product_num=${product.aproduct_num}">
 				<img class="profile" src="${pageContext.request.contextPath}/images/face.png">
+				</a>
 				</c:if>
 				<c:if test="${!empty seller.photo}">
+				<a href="seller_profile.do?seller_num=${product.amember_num}&product_num=${product.aproduct_num}">
 				<img class="profile" src="${pageContext.request.contextPath}/upload/${seller.photo}">
+				</a>
 				</c:if>	
-				<div class="flex-cloumn">	
-					<div>${seller.nickname}</div>
+				<div class="flex-cloumn">
+					<div><a href="seller_profile.do?seller_num=${product.amember_num}&product_num=${product.aproduct_num}">${seller.nickname}</a></div>
 					<div>${seller.address}</div>
 				</div>
 			</div>
@@ -48,7 +54,8 @@
 <!-- 물품 판매글 시작 -->
 		<li class="product flex-column">
 			<div class="title">${product.title}</div>
-			<div class="gray"><a>${category.name}</a> · ${product.reg_date}</div>
+			<div class="gray"><a>${category.name}</a> · ${product.reg_date}<c:if test="${product.status==2}"> · 삭제됨</c:if></div>
+			<c:if test="${product.status==2}">
 			<div class="subtitle">
 				<c:if test="${product.price>0}">
 				<fmt:formatNumber value="${product.price}"/>원
@@ -59,6 +66,10 @@
 			</div>
 			<div class="content">${product.content}</div>
 			<div class="gray"><a id="toggle_comments">댓글 <span id="current_replies">${product.replies}</span></a> · 채팅 ${product.chats} · 관심 <span id="current_likes">${product.likes}</span></div>
+			</c:if>
+			<c:if test="${product.status!=2}">
+			<div class="content">삭제된 상품입니다.</div>
+			</c:if>
 		</li>
 		<li><hr></li>
 <!-- 물품 판매글 끝 -->
@@ -72,6 +83,7 @@
 			</c:if>
 			<div class="other">
 				<input type="button" class="big" value="이전으로" onclick="history.go(-1);">
+				<c:if test="${product.status==2}">
 				<c:choose>
 					<c:when test="${user_num==product.amember_num}">
 					<c:if test="${user_num==product.amember_num && product.complete!=1}">
@@ -86,6 +98,7 @@
 					<input type="button" class="big point" value="채팅으로 거래하기" id="link_chatroom" <c:if test="${empty user_num}">disabled title="로그인 후 채팅으로 거래할 수 있습니다"</c:if>>
 					</c:otherwise>
 				</c:choose>
+				</c:if>
 			</div>
 		</li>
 		<li><hr></li>
