@@ -25,7 +25,7 @@
 					<option value="2">거래 중</option>
 				</select>
 			</li>
-			<c:if test="${empty chatrooms}">
+			<c:if test="${empty chatrooms && empty param.achatroom_num}">
 <!-- 채팅방 목록이 없는 경우 시작 -->
 			<li class="list-area flex-column">
 				<div class="chat-notice">
@@ -34,7 +34,7 @@
 			</li>
 <!-- 채팅방 목록이 없는 경우 끝 -->
 			</c:if>
-			<c:if test="${!empty chatrooms}">
+			<c:if test="${!empty chatrooms || !empty param.achatroom_num}">
 <!-- 채팅방 목록이 있는 경우 시작 -->
 			<li class="list-area">
 				<ul class="flex-column">
@@ -49,7 +49,7 @@
 <!-- 현재 채팅 시작 -->
 		<ul class="chat-main flex-column">
 <!-- 채팅방 목록이 없는 경우 시작 -->
-		<c:if test="${empty chatrooms}">
+		<c:if test="${empty chatrooms && empty param.achatroom_num}">
 			<li class="chat-header who-area">
 				<div class="chat-title">번개 맞은 당근 나라</div>
 			</li>
@@ -83,7 +83,7 @@
 			</li>
 <!-- 채팅방 목록이 없는 경우 끝 -->
 		</c:if>
-		<c:if test="${!empty chatrooms}">
+		<c:if test="${!empty chatrooms || !empty param.achatroom_num}">
 <!-- 채팅방 목록이 있는 경우 시작 -->
 <!-- 현재 채팅 헤더 시작 -->
 			<li class="chat-header who-area">
@@ -180,7 +180,7 @@
 	
 	// 채팅 목록 새로고침
 	let latest_chat = 0;
-	if(${!empty chatrooms}) {
+	if(${!empty chatrooms || !empty param.achatroom_num}) {
 		// 채팅 목록 초기 새로고침
 		getListChatRoom();
 		
@@ -266,7 +266,7 @@
 	let send_btn = document.getElementById('send');
 	let content = document.getElementById('content');
 	
-	if(${!empty chatrooms && chatroom.seller_num!=0}) {
+	if(${(!empty chatrooms || !empty param.achatroom_num) && chatroom.seller_num!=0}) {
 		// <input> 태그에서 엔터 입력시 메시지 발송
 		send_area.addEventListener('submit', function(event) {
 			event.preventDefault(); // 기본 이벤트 제거
@@ -327,7 +327,7 @@
 	let rowCount;
 	
 	// 메시지 새로고침
-	if(${!empty chatrooms}) {
+	if(${!empty chatrooms || !empty param.achatroom_num}) {
 		// 메시지 초기 새로고침
 		getListChat(1);
 		
