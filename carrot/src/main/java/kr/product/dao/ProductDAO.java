@@ -281,8 +281,10 @@ public class ProductDAO {
 				+ "FROM (SELECT * FROM (SELECT p.*, d.address "
 					+ "FROM aproduct p JOIN amember_detail d ON p.amember_num=d.amember_num) "
 					// 상품별 채팅 수 계산
-					+ "JOIN (SELECT COUNT(achatroom_num) AS chats, aproduct_num FROM achatroom "
-						+ "RIGHT JOIN aproduct USING(aproduct_num) GROUP BY aproduct_num) "
+					+ "LEFT JOIN (SELECT COUNT(achatroom_num) AS chats, aproduct_num FROM achatroom "
+						+ "JOIN	(SELECT COUNT(achat_num), achatroom_num FROM achatroom "
+							+ "JOIN achat USING(achatroom_num) GROUP BY(achatroom_num)) "
+							+ "USING(achatroom_num) GROUP BY aproduct_num) "
 					+ "USING(aproduct_num) "
 					// 상품별 댓글 수 계산
 					+ "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
@@ -360,9 +362,11 @@ public class ProductDAO {
 				// 상품 분류명 결합
 				+ "JOIN acategory c ON p.category=c.category "
 				// 채팅 수 계산
-				+ "JOIN (SELECT COUNT(achatroom_num) AS chats, aproduct_num FROM achatroom "
-					+ "RIGHT JOIN aproduct USING(aproduct_num) GROUP BY aproduct_num) ch "
-					+ "ON p.aproduct_num=ch.aproduct_num "
+				+ "LEFT JOIN (SELECT COUNT(achatroom_num) AS chats, aproduct_num FROM achatroom "
+						+ "JOIN (SELECT COUNT(achat_num), achatroom_num FROM achatroom JOIN achat "
+						+ "USING(achatroom_num) GROUP BY(achatroom_num)) "
+					+ "USING(achatroom_num) GROUP BY aproduct_num) ch "
+				+ "ON p.aproduct_num=ch.aproduct_num "
 				// 댓글 수 계산
 				+ "JOIN (SELECT aproduct.aproduct_num, COUNT(acomment.aproduct_num) AS replies "
 					+ "FROM aproduct LEFT JOIN acomment "
