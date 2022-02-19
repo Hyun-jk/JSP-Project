@@ -35,6 +35,7 @@ public class LoginAction implements Action {
 			HttpSession session = request.getSession();
 			session.setAttribute("user_num", db_vo.getAmember_num());
 			session.setAttribute("user_id", db_vo.getId());
+			session.setAttribute("user_nickname", db_vo.getNickname());
 			session.setAttribute("user_auth", db_vo.getAuth());
 			session.setAttribute("user_photo", db_vo.getPhoto());
 			if(db_vo.getAddress_favor()!=null) session.setAttribute("user_address", db_vo.getAddress_favor());
