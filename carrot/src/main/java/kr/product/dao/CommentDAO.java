@@ -224,6 +224,39 @@ public class CommentDAO {
 		return amember_num;
 	}
 	
+	// 댓글 수정 시간 구하기
+	public String getModify_date(int acomment_num) throws Exception {
+		String modify_date = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT modify_date FROM acomment WHERE acomment_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, acomment_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				modify_date = rs.getString("modify_date");	
+			}
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return modify_date;
+	}
+	
 	// 댓글 수정
 	public void updateComment(CommentVO comment) throws Exception {
 		Connection conn = null;
@@ -239,6 +272,8 @@ public class CommentDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getContent());
 			pstmt.setInt(2, comment.getAcomment_num());
+			
+			pstmt.executeUpdate();
 		}
 		catch(Exception e) {
 			throw new Exception(e);

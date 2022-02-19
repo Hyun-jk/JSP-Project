@@ -25,11 +25,21 @@ public class ModifyCommentAction implements Action {
 			mapAjax.put("result", "logout");
 		}
 		else { // 로그인한 경우
-			CommentVO comment = new CommentVO();
-			comment.setAcomment_num(Integer.parseInt(request.getParameter("acomment_num")));
-			comment.setContent(request.getParameter("content"));
-			CommentDAO.getInstance().updateComment(comment);
-			mapAjax.put("result", "success");
+			int acomment_num = Integer.parseInt(request.getParameter("acomment_num"));
+			
+			CommentDAO dao = CommentDAO.getInstance();
+			
+			if(user_num!=dao.getMember(acomment_num)) { // 로그인한 회원과 댓글 작성자가 불일치하는 경우
+				mapAjax.put("result", "wrongAccess");
+			}
+			else {
+				CommentVO comment = new CommentVO();
+				comment.setAcomment_num(acomment_num);
+				comment.setContent(request.getParameter("content"));
+				dao.updateComment(comment);
+				mapAjax.put("modify_date", dao.getModify_date(acomment_num));
+				mapAjax.put("result", "success");
+			}
 		}
 		
 		String ajaxData = new ObjectMapper().writeValueAsString(mapAjax);

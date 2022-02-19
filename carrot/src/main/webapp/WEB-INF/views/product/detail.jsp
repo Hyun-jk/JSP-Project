@@ -83,6 +83,12 @@
 <!-- 댓글 시작 -->
 		<li class="comment-list hide">
 			<button type="button" class="comment-more reverse-silver hide">댓글 더보기</button>
+			<div class="modal" id="modify_area">
+				<div class="modal-content flex-column">
+					<textarea name="content" <c:if test="${empty user_num}">disabled title="로그인 후 댓글을 수정할 수 있습니다"</c:if>></textarea>
+					<input type="button" class="point" value="댓글 수정" id="modify_comment" <c:if test="${empty user_num}">disabled title="로그인 후 댓글을 수정할 수 있습니다"</c:if>>
+				</div>
+			</div>
 			<ul>
 			
 			</ul>
@@ -212,15 +218,77 @@
 		}
 	}, false); // end of addEventListener
 	
-	// 댓글 수정
+	// 댓글 수정 UI 모달 토글
+	let modify_area = document.getElementById('modify_area');
 	document.addEventListener('click', function(event) { // 동적 이벤트 바인딩
+		// 수정 UI 모달 닫기
+		if(event.target===modify_area) { // 모달 배경 영역을 클릭하면
+			clearModal(modify_area);
+		}
+		
 		let comment_modify = event.target.closest('.comment-modify'); // 이벤트가 발생한 태그의 가장 가까운 조상 .comment-modify를 찾고
 		if(comment_modify && comment_modify.contains(event.target)) { // 이벤트가 발생한 태그가 앞서 찾은 가장 가까운 조상 태그 자기 자신이거나 그 자식 태그이면
-			// 로그인하지 않은 경우 UI 토글 이벤트 중단
+			// 로그인하지 않은 경우 수정 UI 모달 여는 이벤트 중단
 			if(${empty user_num}) return;
-		
+			
+			// 수정 UI 모달 열기
+			let modify = comment_modify.parentNode.parentNode.parentNode;
+			modify_area.querySelector('textarea').value = modify.querySelector('.comment-content').textContent; // 수정할 댓글 내용 가져오기
+			modify_area.dataset.comment = modify.dataset.comment; // 수정할 댓글의 data-comment를 수정 UI에 저장 
+			modify_area.style.height = document.documentElement.scrollHeight + 'px'; // 모달 배경 영역의 높이를 현재 문서 전체 높이로 변경
+			modify_area.querySelector('.modal-content').style.top = (window.pageYOffset || document.documentElement.scrollTop) + window.innerHeight*2/5 + 'px'; // 모달 내용 영역의 위치를 현재 스크롤 위치의 40% 높이로 변경
+			modify_area.classList.toggle('show');
+			modify_area.querySelector('textarea').focus();
 		}
-	}, false);
+	}, false); // end of addEventListener
+	
+	// 모달 닫는 함수 정의
+	function clearModal(modal) {
+		modal.classList.remove('show');
+		modal.querySelector('textarea').value = '';
+		modal.dataset.comment = '';
+	}
+	
+	// 댓글 수정
+	let modify_comment = document.getElementById('modify_comment');
+	modify_comment.addEventListener('click', function(event) {
+		let acomment_num = modify_area.dataset.comment;
+		let content = modify_area.querySelector('textarea');
+
+		if(!content.value.trim()) return;
+		
+		$.ajax({
+			url:'modifyComment.do',
+			type:'post',
+			data:{
+				acomment_num:acomment_num,
+				content:content.value
+			},
+			dataType:'json',
+			timeout:10000,
+			success:function(param) {
+				if(param.result=='logout') {
+					alert('로그인 후 댓글을 삭제할 수 있습니다!');	
+				}
+				else if(param.result=='success') {
+					let comment = document.querySelector('li[data-comment="' + acomment_num +'"]'); 
+					comment.querySelector('.comment-time').textContent = getTimeSince(new Date(param.modify_date)) + ' · 수정됨'; // 댓글 시간 변경
+					comment.querySelector('.comment-time').title = param.modify_date;
+					comment.querySelector('.comment-content').textContent = content.value; // 댓글 내용 변경
+					clearModal(modify_area); // 수정 UI 모달 닫기
+				}
+				else if(param.result='wrongAccess') {
+					alert('잘못된 접근입니다!');
+				}
+				else {
+					alert('댓글을 수정하는 데 실패했습니다!');
+				}
+			},
+			error:function() {
+				alert('네트워크 오류가 발생했습니다!');
+			}
+		}); // end of ajax
+	}, false); // end of addEventListener
 	
 	// 댓글 삭제
 	document.addEventListener('click', function(event) { // 동적 이벤트 바인딩
@@ -334,6 +402,10 @@
 						
 						// 판매자 확인
 						let seller_tag = ${product.amember_num}==item.amember_num ? '<span class="seller-tag">판매자</span>' : '';
+						
+						// 수정 여부 확인
+						let modified = item.modify_date==null ? '' : ' · 수정됨'; 
+						let modify_date = item.modify_date==null ? item.reg_date : item.modify_date; 
 
 						// 댓글이 담긴 태그 만들기
 						let comment = '<li class="flex-row align-start" data-comment="' + item.acomment_num + '">';
@@ -341,13 +413,13 @@
 						comment += '	<img class="profile" src="' + cp + comment_profile + '">';
 						comment += '	<div class="comment-text flex-column">';
 						comment += '		<div class="comment-subtitle">' + item.memberVO.nickname + seller_tag + '</div>';
-						comment += '		<div class="comment-info"><span title="' + item.memberVO.address + '">' + getLastToken(item.memberVO.address, ' ') + '</span> · <span title="' + item.reg_date + '">' + getTimeSince(item.reg_date) + '</span></div>';
+						comment += '		<div class="comment-info"><span title="' + item.memberVO.address + '">' + getLastToken(item.memberVO.address, ' ') + '</span> · <span class="comment-time" title="' + modify_date + '">' + getTimeSince(modify_date) + modified + '</span></div>';
 						if(item.deleted==1) comment += '<div class="deleted"><i class="bi bi-exclamation-triangle"></i>댓글 작성자가 삭제한 댓글입니다</div>';
 						else {
-							comment += '		<div>' + item.content + '</div>';
+							comment += '		<div class="comment-content">' + item.content + '</div>';
 							comment += '		<div class="comment-menu flex-row">';
 							comment += '			<a class="comment-toggle-reply" data-parent="' + item.acomment_num + '" <c:if test="${empty user_num}">title="로그인 후 댓글을 작성할 수 있습니다"</c:if>><i class="bi bi-reply"></i>답글 쓰기</a>';
-							if(${user_num}==item.amember_num) {
+							if('${user_num}'==item.amember_num) {
 								comment += '		<a class="comment-modify"><i class="bi bi-pencil-square"></i>수정하기</a>';
 								comment += '		<a class="comment-delete"><i class="bi bi-trash3-fill"></i>삭제하기</a>';
 							}
@@ -413,18 +485,22 @@
 						
 						// 판매자 확인
 						let seller_tag = ${product.amember_num}==item.amember_num ? '<span class="seller-tag">판매자</span>' : '';
-
+						
+						// 수정 여부 확인
+						let modified = item.modify_date==null ? '' : ' · 수정됨'; 
+						let modify_date = item.modify_date==null ? item.reg_date : item.modify_date;
+						
 						// 대댓글이 담긴 태그 만들기
 						let reply = '<li class="flex-row align-start" data-comment="' + item.acomment_num + '">';
 						// 프로필에 매너 평가 확인 페이지로 이동하는 링크 추가
 						reply += '	<img class="profile" src="' + cp + comment_profile + '">';
 						reply += '	<div class="comment-text flex-column">';
 						reply += '		<div class="comment-subtitle">' + item.memberVO.nickname + seller_tag + '</div>';
-						reply += '		<div class="comment-info"><span title="' + item.memberVO.address + '">' + getLastToken(item.memberVO.address, ' ') + '</span> · <span title="' + item.reg_date + '">' + getTimeSince(item.reg_date) + '</span></div>';
-						reply += '		<div>' + item.content + '</div>';
+						reply += '		<div class="comment-info"><span title="' + item.memberVO.address + '">' + getLastToken(item.memberVO.address, ' ') + '</span> · <span class="comment-time" title="' + modify_date + '">' + getTimeSince(modify_date) + modified + '</span></div>';
+						reply += '		<div class="comment-content">' + item.content + '</div>';
 						reply += '			<div class="comment-menu flex-row">';
 						reply += '			<a class="comment-toggle-reply" data-parent="' + acomment_parent + '" <c:if test="${empty user_num}">title="로그인 후 댓글을 작성할 수 있습니다"</c:if>><i class="bi bi-reply"></i>답글 쓰기</a>'; // 부모 댓글 번호를 유지
-						if(${user_num}==item.amember_num) {
+						if('${user_num}'==item.amember_num) {
 							reply += '		<a class="comment-modify"><i class="bi bi-pencil-square"></i>수정하기</a>';
 							reply += '		<a class="comment-delete"><i class="bi bi-trash3-fill"></i>삭제하기</a>';
 						}
