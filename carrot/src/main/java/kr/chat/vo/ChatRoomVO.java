@@ -15,6 +15,7 @@ public class ChatRoomVO {
 	private MemberVO sellerVO;
 	private String latest_chat;
 	private String latest_date;
+	private int unread;
 	
 	public int getAchatroom_num() {
 		return achatroom_num;
@@ -71,5 +72,11 @@ public class ChatRoomVO {
 	}
 	public void setLatest_date(String latest_date) {
 		this.latest_date = latest_date;
+	}
+	public int getUnread() {
+		return unread;
+	}
+	public void setUnread(int unread) {
+		this.unread = unread;
 	}
 }

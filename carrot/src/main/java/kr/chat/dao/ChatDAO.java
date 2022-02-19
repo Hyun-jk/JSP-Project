@@ -368,9 +368,11 @@ public class ChatDAO {
 			rs = pstmt.executeQuery();
 			chatrooms = new ArrayList<ChatRoomVO>();
 			while(rs.next()) {
-				ChatRoomVO chatroom = getChatRoom(rs.getInt("achatroom_num"));
+				int achatroom_num = rs.getInt("achatroom_num");
+				ChatRoomVO chatroom = getChatRoom(achatroom_num);
 				chatroom.setLatest_chat(rs.getString("content"));
 				chatroom.setLatest_date(rs.getString("send_date"));
+				chatroom.setUnread(getCountUnread(achatroom_num, amember_num));
 				chatrooms.add(chatroom);
 			}
 		}
@@ -382,6 +384,40 @@ public class ChatDAO {
 		}
 		
 		return chatrooms;
+	}
+	
+	// 회원별로 가장 최근에 받은 메시지 1건 불러오기
+	public int getLatestChat(int amember_num) throws Exception {
+		int latest_chat = 0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT MAX(achat_num) FROM achat WHERE opponent_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, amember_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				latest_chat = rs.getInt(1);
+			}
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return latest_chat;
 	}
 	
 }

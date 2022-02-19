@@ -49,7 +49,14 @@
 		<li class="product flex-column">
 			<div class="title">${product.title}</div>
 			<div class="gray"><a>${category.name}</a> · ${product.reg_date}</div>
-			<div class="subtitle"><fmt:formatNumber value="${product.price }"/>원</div>
+			<div class="subtitle">
+				<c:if test="${product.price>0}">
+				<fmt:formatNumber value="${product.price}"/>원
+				</c:if>
+				<c:if test="${product.price==0}">
+				나눔
+				</c:if>
+			</div>
 			<div class="content">${product.content}</div>
 			<div class="gray"><a id="toggle_comments">댓글 <span id="current_replies">${product.replies}</span></a> · 채팅 ${product.chats} · 관심 <span id="current_likes">${product.likes}</span></div>
 		</li>
@@ -67,6 +74,9 @@
 				<input type="button" class="big" value="이전으로" onclick="history.go(-1);">
 				<c:choose>
 					<c:when test="${user_num==product.amember_num}">
+					<c:if test="${user_num==product.amember_num && product.complete!=1}">
+					<input type="button" class="big point" value="거래 완료하기" id="complete">
+					</c:if>
 					<input type="button" class="big point" value="상품 수정하기" onclick="location.href = 'modifyForm.do?aproduct_num=${product.aproduct_num}';">
 					</c:when>
 					<c:when test="${user_num==product.buyer_num}">
@@ -559,32 +569,32 @@
 	// 채팅방 연결
 	let link_chatroom = document.getElementById('link_chatroom');
 	if(link_chatroom!=null) {
-	link_chatroom.addEventListener('click', function() {
-		$.ajax({
-			url:cp + '/chat/linkChatRoom.do',
-			type:'post',
-			data:{
-				aproduct_num:${product.aproduct_num},
-				seller_num:${product.amember_num}
-			},
-			dataType:'json',
-			timeout:10000,
-			success:function(param) {
-				if(param.result=='logout') {
-					alert('로그인 후 채팅할 수 있습니다!');
+		link_chatroom.addEventListener('click', function() {
+			$.ajax({
+				url:cp + '/chat/linkChatRoom.do',
+				type:'post',
+				data:{
+					aproduct_num:${product.aproduct_num},
+					seller_num:${product.amember_num}
+				},
+				dataType:'json',
+				timeout:10000,
+				success:function(param) {
+					if(param.result=='logout') {
+						alert('로그인 후 채팅할 수 있습니다!');
+					}
+					else if(param.result=='success') {
+						location.href = cp + '/chat/chat.do?achatroom_num=' + param.achatroom_num;
+					}
+					else {
+						alert('채팅방을 불러오는 데 실패했습니다!');
+					}
+				},
+				error:function() {
+					alert('네트워크 오류가 발생했습니다!');
 				}
-				else if(param.result=='success') {
-					location.href = cp + '/chat/chat.do?achatroom_num=' + param.achatroom_num;
-				}
-				else {
-					alert('채팅방을 불러오는 데 실패했습니다!');
-				}
-			},
-			error:function() {
-				alert('네트워크 오류가 발생했습니다!');
-			}
-		})
-	}, false); // end of addEventListener
+			})
+		}, false); // end of addEventListener
 	} // end of if
 </script>
 </body>

@@ -214,7 +214,6 @@ public class ProductDAO {
 		return list;
 	}
 
-	
 	// 물품 수
 	public int getCountProduct(String category, String keyword, String address) throws Exception {
 		int count = 0;
@@ -433,6 +432,32 @@ public class ProductDAO {
 		
 		return product;
 	}
+	
+	// 거래 완료하기
+	public void setComplete(int aproduct_num, int buyer_num) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "UPDATE aproduct SET complete=1, buyer_num=? WHERE aproduct_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, buyer_num);
+			pstmt.setInt(2, aproduct_num);
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e) {
+			throw new Exception(e);
+		}
+		finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 
 	// 관심 상품 추가
 	public void insertMyProduct(MyProductVO vo) throws Exception {
@@ -520,6 +545,8 @@ public class ProductDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
+	
+	
 	//관심 상품 카운트
 	public int countMyproduct(int user_num)throws Exception{
 		Connection conn = null;

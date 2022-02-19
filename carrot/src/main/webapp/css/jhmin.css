@@ -369,7 +369,7 @@ i.bi#like {
 	margin: 5px;
 	width: 500px;
 }
-.comment-text .deleted {
+.comment-text .deleted,.chat-notice {
 	margin: 5px 5px 10px;
 	font-style: italic;
 	font-size: 0.9rem;
@@ -512,6 +512,9 @@ hr.vertical {
 	border-radius: 15px;
 	font-size: 1.2rem;
 }
+.chat-notice {
+	margin: auto;
+}
 
 /* 채팅 : 꾸미기 */
 .chat-title {
@@ -603,6 +606,12 @@ ul.chat-other {
 }
 .chat-selection.selected {
 	background-color: var(--point);
+}
+.chat-selection.unread {
+	background-color: var(--point);
+	margin-bottom: auto;
+	height: 5px;
+	border-radius: 50%;	
 }
 .list-stripe {
 	background-color: var(--light-white);
