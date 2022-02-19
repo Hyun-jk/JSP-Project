@@ -24,7 +24,7 @@
 			<br>
 			</c:forEach>
 			<div class="align-right">
-				<input type="button" value="글쓰기" onclick="location.href='adminBoardWriteForm.do">
+				<input type="button" value="글쓰기" onclick="location.href='adminBoardWriteForm.do'">
 			</div>
 			<div class="align-center">
 				${pagingHtml}

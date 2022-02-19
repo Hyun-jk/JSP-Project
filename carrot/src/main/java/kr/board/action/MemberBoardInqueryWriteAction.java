@@ -40,7 +40,7 @@ public class MemberBoardInqueryWriteAction implements Action{
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.adminInsertBoard(board);
 		
-		return "/WEB-INF/views/board/memberBoardInquery_list.jsp";
+		return "/WEB-INF/views/board/member_boardInquery_write.jsp";
 	}
 
 }

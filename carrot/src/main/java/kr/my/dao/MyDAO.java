@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.member.vo.MemberVO;
+import kr.my.vo.AmannerVO;
 import kr.product.dao.ProductDAO;
 import kr.product.vo.ProductVO;
 import kr.util.DBUtil;
@@ -132,6 +134,127 @@ public class MyDAO {
 			DBUtil.executeClose(rs,pstmt,conn);
 		}
 	}
+	
+	//점수 및 매너 입력
+	public void insertManner(AmannerVO manner)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			sql = "INSERT INTO amanner(amanner_num,amember_num,aproduct_num,rate,review, buyer_num)"
+					+ "VALUES(amanner_seq.nextval,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, manner.getAmember_num());
+			pstmt.setInt(2, manner.getAproudct_num());
+			pstmt.setInt(3, manner.getRate());
+			pstmt.setString(4, manner.getReview());
+			pstmt.setInt(5, manner.getBuyer_num());
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+		
+	}
+	
+	//평가 후기 카운트
+	public int CountManner(int seller_num)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int count = 0;
+		
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT COUNT(*) FROM amanner WHERE amember_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,seller_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			return 	count;
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+	}
+	
+	//평가 후기 목록
+	public List<AmannerVO> GetManner(int startRow, int endRow, int seller_num)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs1 = null;
+		ResultSet rs2 = null;
+		String sql = null;
+		List<AmannerVO> list = null;
+		float totalRate =0;
+		
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			//매너점수 평균값 구하기
+			sql = "SELECT TRUNC(SUM(rate)/COUNT(*),2) FROM amanner WHERE amember_num = ?";
+			pstmt1 = conn.prepareStatement(sql);
+			pstmt1.setInt(1, seller_num);
+			rs1 = pstmt1.executeQuery();
+			if(rs1.next()) {
+				totalRate = rs1.getFloat(1);
+			}
+			
+			//목록 구하기
+			sql = "SELECT * FROM(SELECT a.*,rownum rnum FROM (SELECT * FROM amanner m JOIN amember_detail d "
+					+ "ON m.buyer_num = d.amember_num "
+					+ "WHERE m.amember_num = ?)a) "
+					+ "WHERE rnum >= ? AND rnum < ?";
+			
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1, seller_num);
+			pstmt2.setInt(2, startRow);
+			pstmt2.setInt(3, endRow);
+			
+			rs2 = pstmt2.executeQuery();
+			list = new ArrayList<AmannerVO>();
+			while(rs2.next()) {
+				AmannerVO manner = new AmannerVO();
+				manner.setAmanner_num(rs2.getInt("amanner_num"));
+				manner.setRate(rs2.getInt("rate"));
+				manner.setReview(rs2.getString("review"));
+				manner.setTotalRate(totalRate);
+				
+				MemberVO member = new MemberVO();
+				member.setNickname(rs2.getString("nickname"));
+				manner.setMember(member);
+				list.add(manner);
+			}
+			conn.commit();
+			return list;
+		}catch(Exception e) {
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs1, pstmt2, null);
+			DBUtil.executeClose(rs2, pstmt1, conn);
+		}
+		
+	}
+	
+	//평가 후기 삭제
+	public void deleteManner(AmannerVO manner)throws Exception{
+		
+	}
+	
+	//평가 후기 수정
+	
 }
 
 

@@ -22,7 +22,6 @@ public class AdminBoardFAQListAction implements Action{
 		//자주묻는 질문 카테고리
 		int category = 1;
 		
-		
 		if(user_num == null) {
 			return "redirect:/member/loginForm.do";
 		}
@@ -31,14 +30,13 @@ public class AdminBoardFAQListAction implements Action{
 		if(pageNum == null) pageNum = "1";
 		
 		//기몬페이지는 운영정책으로 시작
-		String keyfield = "1";
+		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		
-	
 		int count = dao.getBoardCount(keyfield, keyword, category);
-		
+		System.out.println(count);
 		//페이지 처리
 		PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,20,10,"admin_board_list.jsp");
 		

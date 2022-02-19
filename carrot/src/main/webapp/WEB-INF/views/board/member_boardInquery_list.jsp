@@ -16,12 +16,15 @@
 		<div id="My-content">
 			<h4>일대일문의사항</h4>
 			<hr size="1" noshade width="100%">
+			
 			<c:forEach var="board" items="${list}">
+			<c:if test="${board.amember_num == user_num}">
 			<ul>
 				<li><a href="memberBoardInqueryDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
 			</ul>
 			<hr>
 			<br>
+			</c:if>
 			</c:forEach>
 			<div class="align-right">
 				<input type="button" value="글쓰기" onclick="location.href='memberBoardInqueryWriteForm.do'">

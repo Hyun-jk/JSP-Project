@@ -37,13 +37,14 @@ public class MemberBoardInqueryListAction implements Action{
 			int count = dao.getBoardCount(keyfield, keyword, category);
 			
 			//페이지 처리
-			PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,20,10,"admin_board_list.jsp");
+			PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,20,10,"admin_boardInquery_list.jsp");
 			
 			List<BoardVO>list = null;
 			if(count>0) {
 				list = dao.getListBoard(page.getStartCount(), page.getEndCount(), keyfield, keyword, category);
 			}
-
+			
+			request.setAttribute("user_num",user_num);
 			request.setAttribute("count",count);
 			request.setAttribute("list",list);
 			request.setAttribute("pagingHtml",page.getPagingHtml());

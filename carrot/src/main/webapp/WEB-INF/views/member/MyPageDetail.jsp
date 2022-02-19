@@ -139,7 +139,7 @@
 		    <tr><th>동네</th><td>${member.address}</td></tr>
 		    <tr><th>관심동네</th><td>${member.address_favor}</td></tr>
 		    <tr><th>생년월일</th><td>${member.age}</td></tr>
-		    <tr><th>메너점수</th><td>${member.rate}</td></tr>
+		    <tr><th>매너점수</th><td>${member.rate}</td></tr>
 		    <tr><th>가입일</th><td>${member.reg_date}</td></tr>
 		</table>	
 				<input type="button" value="나의 정보 수정"

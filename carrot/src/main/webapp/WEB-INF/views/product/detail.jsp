@@ -23,17 +23,17 @@
 		<li class="seller flex-row space-between">
 			<div class="who flex-row">
 				<c:if test="${empty seller.photo}">
-				<a href="seller_profile.do?seller_num=${product.amember_num}&product_num=${product.aproduct_num}">
+				<a href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
 				<img class="profile" src="${pageContext.request.contextPath}/images/face.png">
 				</a>
 				</c:if>
 				<c:if test="${!empty seller.photo}">
-				<a href="seller_profile.do?seller_num=${product.amember_num}&product_num=${product.aproduct_num}">
+				<a href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
 				<img class="profile" src="${pageContext.request.contextPath}/upload/${seller.photo}">
 				</a>
 				</c:if>	
 				<div class="flex-cloumn">
-					<div><a href="seller_profile.do?seller_num=${product.amember_num}&product_num=${product.aproduct_num}">${seller.nickname}</a></div>
+					<div><a href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">${seller.nickname}</a></div>
 					<div>${seller.address}</div>
 				</div>
 			</div>

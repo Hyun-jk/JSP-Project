@@ -120,7 +120,9 @@
 				<button type="button" class="point square" id="complete">거래 완료하기</button>
 				</c:when>
 				<c:when test="${product.buyer_num==user_num}"> <%-- chatroom의 buyer_num은 구매(희망)자고 product의 buyer_num이 실제 구매자 --%>
-				<button type="button" class="point square" onclick="">거래 후기 남기기</button>
+				<button type="button" class="point square" 
+				onclick="location.href='${pageContext.request.contextPath}/member/MannerWriteForm.do?aproduct_num=${chatroom.aproduct_num}&&seller_num=${chatroom.seller_num}&&buyer_num=${user_num}'" >
+								거래 후기 남기기</button>
 				</c:when>
 				<c:when test="${product.complete==1}">
 				<button type="button" class="point square" disabled>거래 완료된 물품</button>

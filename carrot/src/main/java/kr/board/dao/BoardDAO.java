@@ -39,15 +39,12 @@ public class BoardDAO {
 			//1:운영정책,2:구매/판매,3:거래매너,4:이용제재
 			//공지사항이 -->FAQ(1)인 경우
 			if(category == 1) {
+				if(keyfield !=null && !"".equals(keyword)) {
+					sub_sql += "WHERE b.category = ? AND b.aboard_category_num = ? AND b.title LIKE ?";
 				//카테고리 설정하고, 검색을 안 한 경우
-				if(keyfield != null ) {//
-					sub_sql = " WHERE b.Aboard_category_num = ? ";
+				}else if(keyfield != null) {
+					sub_sql += "WHERE b.category = ? AND b.aboard_category_num = ?";
 				}
-				/*if(keyfield !=null && !"".equals(keyword)){
-					//카테고리를 설정하고, 검색을 한 경우
-					sub_sql = "WHERE c.Aboard_category_num = ? AND b.title LIKE = ? ";
-				}
-				*/
 			}
 			
 			//공지사항 -->공지사항(0) or 일대일 문의인경우(2)
@@ -55,30 +52,27 @@ public class BoardDAO {
 				sub_sql = "WHERE b.category = ?";
 			}
 			
-			
 			sql = "SELECT COUNT(*) FROM (SELECT * FROM aboard b LEFT JOIN aboard_category c ON b.aboard_category_num = c.aboard_category_num "
 					+ " LEFT JOIN amember m ON b.amember_num = m.amember_num "+ sub_sql + ")";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			//공지사항이 -->FAQ인 경우
-			if(category == 1) {
-				//카테고리 설정하고, 검색을 안 한 경우
-				if(keyfield != null ) {//&& "".equals(keyword)
-					pstmt.setString(++cnt, keyfield);
-				}/*
-				if(keyfield !=null && !"".equals(keyword)){
-					//카테고리를 설정하고, 검색을 한 경우
-					pstmt.setString(++cnt, keyfield);
-					pstmt.setString(++cnt, "%"+keyword+"%");
+			if (category == 1) {
+				if (keyfield != null && !"".equals(keyword)) {
+					pstmt.setInt(++cnt, category);
+					pstmt.setInt(++cnt, Integer.parseInt(keyfield));
+					pstmt.setString(++cnt, "%" + keyword + "%");
+					// 카테고리 설정하고, 검색을 안 한 경우
+				} else if (keyfield != null) {
+					pstmt.setInt(++cnt, category);
+					pstmt.setInt(++cnt, Integer.parseInt(keyfield));
 				}
-				*/
 			}
+
 			//공지사항 -->공지사항 or 일대일 문의인경우
 			if(category == 0 || category == 2 ) {
 				pstmt.setInt(++cnt, category);
 			}
-			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt(1);
@@ -89,7 +83,6 @@ public class BoardDAO {
 			DBUtil.executeClose(rs, pstmt, conn);
 		}
 		return count;
-		
 	}
 	
 	//멤버 공지사항, 자주 묻는 질문 총목록보기
@@ -108,16 +101,14 @@ public class BoardDAO {
 			//1:운영정책,2:구매/판매,3:거래매너,4:이용제재
 			//공지사항이 -->FAQ(1)인 경우
 			if(category == 1) {
+				if(keyfield !=null && !"".equals(keyword)) {
+					sub_sql += "WHERE b.category = ? AND b.aboard_category_num = ? AND b.title LIKE ?";
 				//카테고리 설정하고, 검색을 안 한 경우
-				if(keyfield != null ) {//&& "".equals(keyword)
-					sub_sql = "WHERE b.Aboard_category_num = ? ";
+				}else if(keyfield != null) {
+					sub_sql += "WHERE b.category = ? AND b.aboard_category_num = ?";
 				}
-				/*if(keyfield !=null && !"".equals(keyword)){
-					//카테고리를 설정하고, 검색을 한 경우
-					sub_sql = "WHERE b.Aboard_category_num = ? AND b.title LIKE =? ";
-				}
-				*/
 			}
+			
 			//공지사항 -->공지사항(0) or 일대일 문의인경우(2)
 			if(category == 0 || category == 2 ) {
 				sub_sql = "WHERE b.category = ?";
@@ -128,16 +119,17 @@ public class BoardDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			//공지사항이 -->FAQ인 경우
-			if(category == 1) {
-				//카테고리 설정하고, 검색을 안 한 경우
-				if(keyfield != null ) {//&& "".equals(keyword)
-					pstmt.setString(++cnt, keyfield);
-				}/*
-				if(keyfield !=null && !"".equals(keyword)){
-					//카테고리를 설정하고, 검색을 한 경우
-					pstmt.setString(++cnt, keyfield);
-					pstmt.setString(++cnt, "%"+keyword+"%");
-				}*/
+			//공지사항이 FAQ일 경우
+			if (category == 1) {
+				if (keyfield != null && !"".equals(keyword)) {
+					pstmt.setInt(++cnt, category);
+					pstmt.setInt(++cnt, Integer.parseInt(keyfield));
+					pstmt.setString(++cnt, "%" + keyword + "%");
+					// 카테고리 설정하고, 검색을 안 한 경우
+				} else if (keyfield != null) {
+					pstmt.setInt(++cnt, category);
+					pstmt.setInt(++cnt, Integer.parseInt(keyfield));
+				}
 				pstmt.setInt(++cnt, startRow);
 				pstmt.setInt(++cnt, endRow);
 			}
@@ -218,15 +210,15 @@ public class BoardDAO {
 		String sub_sql2 = "";
 		//자주묻는 질문
 		if(board.getCategory()==1) {
-			sub_sql = ",Aboard_category_num";
-			sub_sql2 = ",?";
+			sub_sql += ",Aboard_category_num";
+			sub_sql2 += ",?";
 		}
 		if(board.getCategory()==2 && board.getAuth_num()==2) {//멤버일대일 질문
-			sub_sql = ",reply_num";
-			sub_sql2 = ",aboard_seq.currval";
+			sub_sql += ",reply_num";
+			sub_sql2 += ",aboard_seq.currval";
 		}else if(board.getCategory()==2 && board.getAuth_num()==3) {//관리자 일대일 질문 답변
-			sub_sql =",reply_num";
-			sub_sql2 = ",?";
+			sub_sql +=",reply_num";
+			sub_sql2 += ",?";
 		}
 		
 		try {
@@ -267,7 +259,7 @@ public class BoardDAO {
 		int cnt = 0;
 		//자주 묻는 질문일때
 		if(board.getCategory() ==1) {
-			sub_sql = ", aboard_category_num = ? ";
+			sub_sql += ", aboard_category_num = ? ";
 		}
 		
 		try {

@@ -31,7 +31,7 @@ $(function(){
 		<jsp:include page="/WEB-INF/views/common/side.jsp"/>
 		<div id="My-content">
 			<h4>FAQ</h4>
-			<form action="ajax로 처리" method="get" id="search_form">
+			<form action="adminBoardFAQ.do" method="get" id="search_form">
 				<ul class="search">
 					<li>
 						<select name="keyfield">

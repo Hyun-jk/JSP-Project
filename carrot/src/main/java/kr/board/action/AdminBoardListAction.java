@@ -30,6 +30,7 @@ public class AdminBoardListAction implements Action {
 		if(pageNum == null) pageNum = "1";
 		
 		String keyfield = request.getParameter("keyfield");
+		if(keyfield == null) keyfield = "1";
 		String keyword = request.getParameter("keyword");
 		
 		BoardDAO dao = BoardDAO.getInstance();

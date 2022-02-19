@@ -32,14 +32,8 @@ public class MemberBoardFAQListAction implements Action{
 		
 		//기몬페이지는 운영정책으로 시작
 		String keyfield = request.getParameter("keyfield");
+		if(keyfield == null) keyfield = "1";
 		String keyword = request.getParameter("keyword");
-		if(keyfield == null) {
-			keyfield = "1";
-		}
-		if(keyword == null) {
-			keyword="";
-		}
-		
 		BoardDAO dao = BoardDAO.getInstance();
 		int count = dao.getBoardCount(keyfield, keyword, category);
 		
