@@ -342,7 +342,7 @@ ul.list-main li img {
 	padding: 0;
 	width: 450px;
 }
-.login .modal-content span {
+.login .modal-content span,.register .modal-content span {
 	margin: 10px 10px 25px;
 }
 

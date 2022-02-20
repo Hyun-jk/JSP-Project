@@ -1,3 +1,4 @@
+// 입력 필드가 비어 있는지 여부를 검증하는 함수 정의
 function validateNotNull(event) {
 	let list = document.getElementsByTagName('li'); // <li> 요소들을 선택
 	for(let i=0;i<list.length;i++) {
@@ -19,12 +20,13 @@ function validateNotNull(event) {
 	return true;
 }
 
-function validateSubmit(id) {
+// <form>의 submit 이벤트 발생시 입력 필드가 비어 있는지 여부를 검증하는 함수 정의
+// 사용 예제: validateSubmit('register_form');
+function validateSubmit(id) { // <form> 요소의 id를 인자로 전달
 	document.getElementById(id).addEventListener('submit', validateNotNull, false);
 }
-// 사용 예제: <form> 요소의 id를 인자로 전달
-// validateSubmit('register_form');
 
+// 주어진 문자열의 바이트 길이를 구하는 함수 정의
 function getBytesLength(str) {
     let bytes = 0;
     for(let i=0;i<str.length;i++) {
@@ -34,7 +36,9 @@ function getBytesLength(str) {
     return bytes;
 }
 
-function validateBytesLength(obj) {
+// 바이트 길이를 태그의 id 속성에 기반해 제한하는 함수 정의
+// 사용 예제: validateBytesLength({title:150,name:30,passwd:12});
+function validateBytesLength(obj) { // 길이 제한이 필요한 <input> 요소의 id와 바이트 길이를 객체 형식 인자로 전달
 	for(let key in obj) {
 		document.getElementById(key).addEventListener('keyup', function() {
 			while(getBytesLength(this.value)>obj[key]) {
@@ -43,9 +47,8 @@ function validateBytesLength(obj) {
 		}, false);
 	}
 }
-// 사용 예제: 길이 제한이 필요한 <input> 요소의 id와 바이트 길이를 객체 형식 인자로 전달
-// validateBytesLength({title:150,name:30,passwd:12});
 
+// 바이트 길이를 태그의 name 속성에 기반해 제한하는 함수 정의
 function validateBytesLengthByName(obj) {
 	for(let key in obj) {
 		document.addEventListener('keyup', function(event) {
@@ -58,66 +61,82 @@ function validateBytesLengthByName(obj) {
 	}
 }
 
-function validateChars() {
-	this.value = this.value.trim(); // 입력 필드에서 공백 제거
-	if(!this.value) return; // 아무것도 입력하지 않은 경우 함수 실행 종료
+// 아이디 및 비밀번호 입력 제한하는 함수 정의
+function validateChars(event, caution) {
+	event.target.value = event.target.value.trim(); // 입력 필드에서 공백 제거
+	if(!event.target.value) return false; // 아무것도 입력하지 않은 경우 함수 실행 종료
 	
-	let pattern;
-	let caution;
-	if(this.id=='id') { // 이벤트가 발생한 요소의 id가 id인 경우
-		pattern = new RegExp(/[^a-zA-Z0-9]/);
-		caution = document.getElementById('word_only');
-	}
-	else if(this.id=='password') { // 이벤트가 발생한 요소의 id가 password인 경우
-		pattern = new RegExp(/[^a-zA-Z0-9!@#\$%\^&\*]/);
-		caution = document.getElementById('wrong_chars');
-	}
-		
-	let isValidChar = !pattern.test(this.value); // 허용하는 문자인지 여부 확인
+	let pattern = event.target.id==='id' ? new RegExp(/[^a-zA-Z0-9]/) : (event.target.id==='password' ? new RegExp(/[^a-zA-Z0-9!@#\$%\^&\*]/) : false); // 현재 입력 필드의 아이디에 따라 허용하는 문자 설정
+	if(!pattern) return false; // 현재 입력 필드가 아이디나 비밀번호가 아니면 함수 실행 종료
 	
-	if(!isValidChar) { // 허용되지 않는 문자를 입력한 경우
-		caution.style.color = 'red'; // 주의 문구 색 변경
-		this.value = ''; // 입력 값 초기화
+	if(pattern.test(event.target.value)) { // 허용되지 않는 문자를 입력한 경우
+		setCaution(caution, event.target.placeholder, event.target, true, true, true);
+		event.target.value = ''; // 입력 값 초기화
 	}
-	else { // 허용되는 문자를 입력한 경우
-		caution.style.color = ''; // 주의 문구 색 초기화
+	else if(caution.querySelector('span').textContent == event.target.placeholder) {
+		caution.classList.remove('called');
 	}
 }
 
-function hasSpecialChars() {
-	if(!this.value) return; // 아무것도 입력하지 않은 경우 함수 실행 종료
+// 특수문자 포함 여부 검사하는 함수 정의
+function hasSpecialChars(event, caution) {
+	if(!event.target.value) return false; // 아무것도 입력하지 않은 경우 함수 실행 종료
+	if(event.target.id!=='password') return false; // 현재 입력 필드가 비밀번호가 아니면 함수 실행 종료
 	
 	let pattern = new RegExp(/[!@#\$%\^&\*]/);
-	let caution = document.getElementById('contain_chars');
 	
-	isValidPassword = pattern.test(this.value);
-	if(!isValidPassword) {
-		caution.textContent = '특수문자 1개 이상 필수';
-		caution.style.color = 'red';
-	}
-	else {
-		caution.textContent = '';
-	}
+	let isValidPassword = pattern.test(event.target.value); // 특수문자 포함하면 true
+	
+	let str = '특수문자를 1개 이상 포함해야 합니다!';
+	
+	if(!isValidPassword) setCaution(caution, str, event.target, true, true, true);
+	else if(caution.querySelector('span').textContent == str) caution.classList.remove('called');
+	
+	return isValidPassword;
 }
 
-function checkPassword() {
-	let caution = document.getElementById('identical');
-	if(this.id=='password') {
-		caution.textContent = '';
-		password_re.value = '';
-	}
-	else if(this.id='password_re') {
-		password_re.value = password_re.value.trim();
-		if(!password_re.value) { // 아무것도 입력하지 않은 경우
-			caution.textContent = '';
-		}
-		else if(password.value!=password_re.value) { // 비밀번호와 비밀번호 확인이 불일치하는 경우
-			caution.textContent = '비밀번호 불일치!';
-			caution.style.color = 'red';
-		}
-		else {
-			caution.textContent = '비밀번호 일치';
-			caution.style.color = 'blue';
+// 모달 여는 함수 정의
+function openModal(modal, str, input) {
+	if(arguments.length>2) { // 인자로 특정 입력 필드를 전달하면
+		for(let i=2;i<arguments.length;i++) {
+			arguments[i].blur(); // 해당 입력 필드 포커스 해제하고
+			arguments[i].value = ''; // 입력 필드 값을 초기화
 		}
 	}
+	modal.querySelector('span').textContent = str; // 모달 문구 변경
+	modal.classList.add('show'); // 모달 열기
+	modal.querySelector('input').focus(); // 확인 버튼에 포커스; 엔터 키로 모달 닫힘
+}
+
+// 경고 메시지 UI 처리하는 함수 정의
+function setCaution(caution, str, input, append, focus, called) { // caution=클래스가 caution인 <div> 태그 객체; input=<input> 태그 객체; append=경고 메시지 위치 이동 여부 boolean; focus=현재 입력 필드에 포커스 설정 여부; called=경고 메시지 강조 여부 
+	caution.querySelector('span').textContent = str; // 경고 문구 변경하고
+	
+	if(append) input.parentNode.parentNode.appendChild(caution); // 경고 메시지 위치를 입력 필드 바로 아래로 이동
+		
+	if(called) caution.classList.add('called'); // 경고 메시지 강조
+	else caution.classList.remove('called');
+	
+	caution.classList.remove('hide'); // 경고 메시지 보이기
+	
+	if(focus) input.focus(); // 입력 필드에 포커스 설정
+}
+
+// 입력 필드가 비어 있는지 여부를 검증하고 경고 메시지 UI 처리하는 함수 정의
+function validateNN(caution, input, append) { // caution=클래스가 caution인 <div> 태그 객체; input=<input> 태그 객체; append=경고 메시지 위치 이동 여부 boolean
+	input.value = input.value.trim(); // 입력 필드의 양끝 공백 제거
+	if(!input.value) { // 아무것도 입력하지 않은 경우
+		let label;
+		if(input.type=='select') label = input.options[input.selectedIndex].text; // <select> 태그인 경우 현재 선택된 <option> 태그 내부 문자열 가져오기
+		else label = input.parentNode.querySelector('label') ? input.parentNode.querySelector('label').textContent : input.placeholder; // <input> 태그의 형제 태그 중 <label>이 있으면 <label> 내부 문자열을 가져오고, 없으면 <input> 태그의 placeholder 값 가져오기
+
+		let post = (label.charCodeAt(label.length-1) - '가'.charCodeAt(0)) % 28 > 0 ? '을' : '를'; // 받침 유무에 따라 조사 처리
+		post += input.type=='select' || input.name=='address' ? ' 선택하세요!' : ' 입력하세요!';
+ 
+		setCaution(caution, label + post, input, append, true, true);
+		
+		return false;
+	}
+	caution.classList.add('hide'); // 경고 메시지 숨기기
+	return true;
 }
