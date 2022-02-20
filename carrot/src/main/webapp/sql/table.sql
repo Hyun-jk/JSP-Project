@@ -24,6 +24,7 @@ CREATE TABLE Amember_detail(
 	constraint amemeber_detail_fk foreign key (Amember_num) references Amember(Amember_num)
 );
 create sequence Amember_seq;
+ALTER TABLE amember_detail MODIFY rate NUMBER(5,3);
 
 /*Acategory(상품 분류 정보 테이블)*/
 CREATE TABLE Acategory(
