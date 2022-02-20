@@ -54,7 +54,7 @@
 <!-- 물품 판매글 시작 -->
 		<li class="product flex-column">
 			<div class="title">${product.title}</div>
-			<div class="gray"><a>${category.name}</a> · ${product.reg_date}<c:if test="${product.status==2}"> · 삭제됨</c:if></div>
+			<div class="gray"><a>${category.name}</a> · ${product.reg_date}<c:if test="${product.status!=2}"> · 삭제됨</c:if></div>
 			<c:if test="${product.status==2}">
 			<div class="subtitle">
 				<c:if test="${product.price>0}">
