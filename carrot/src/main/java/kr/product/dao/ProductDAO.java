@@ -411,6 +411,7 @@ public class ProductDAO {
 				// 판매글 상태
 				product.setComplete(rs.getInt("complete"));
 				product.setStatus(rs.getInt("status"));
+				product.setBuyer_num(rs.getInt("buyer_num"));
 				
 				// 판매자 정보
 				MemberVO member = new MemberVO();
