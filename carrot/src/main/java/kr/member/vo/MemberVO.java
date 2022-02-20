@@ -17,7 +17,7 @@ public class MemberVO {
 	private String address_favor; // 선호 동네
 	private String email; // 이메일
 	private String photo; // 프로필 사진 파일명
-	private double rate; // 매너 점수
+	private Double rate; // 매너 점수
 	private Date reg_date; // 가입일
 	
 	// 비밀번호 일치 여부 체크
@@ -100,10 +100,10 @@ public class MemberVO {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	public double getRate() {
+	public Double getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
 	public Date getReg_date() {

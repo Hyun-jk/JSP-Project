@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 상세 정보 : ${product.title}</title>
+<title>물품 상세 정보 : ${product.title}</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 </head>
@@ -20,41 +20,44 @@
 		</li>
 		</c:if>
 <!-- 판매자 프로필, 매너 평가 시작 -->
-		<li class="seller flex-row space-between">
-			<div class="who flex-row">
-				<c:if test="${empty seller.photo}">
-				<a href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
-				<img class="profile" src="${pageContext.request.contextPath}/images/face.png">
-				</a>
-				</c:if>
-				<c:if test="${!empty seller.photo}">
-				<a href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
-				<img class="profile" src="${pageContext.request.contextPath}/upload/${seller.photo}">
-				</a>
-				</c:if>	
-				<div class="flex-cloumn">
-					<div><a href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">${seller.nickname}</a></div>
-					<div>${seller.address}</div>
-				</div>
-			</div>
-			<div class="manner">
-				<div>
-					<c:if test="${empty seller.rate}">
-					정보가 없습니다.
+		<li class="seller">
+			<a class="flex-row space-between" href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
+				<div class="who flex-row">
+					<c:if test="${empty seller.photo}">
+					<img class="profile" src="${pageContext.request.contextPath}/images/face.png">
 					</c:if>
-					<c:if test="${!empty seller.rate}">
-					${seller.rate}
-					</c:if>
+					<c:if test="${!empty seller.photo}">
+					<img class="profile" src="${pageContext.request.contextPath}/upload/${seller.photo}">
+					</c:if>	
+					<div class="flex-column justify-end">
+						<div>${seller.nickname}</div>
+						<div>${seller.address}</div>
+					</div>
 				</div>
-				<div>매너 평점</div>
-			</div>
+				<div class="manner flex-column justify-end align-end">
+					<div class="manner-stars">
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+					</div>
+					<div class="gray underline">매너 평점 <b>${seller.rate}</b></div>
+				</div>
+			</a>
 		</li>
 		<li><hr></li>
 <!-- 판매자 프로필, 매너 평가 끝 -->
 <!-- 물품 판매글 시작 -->
 		<li class="product flex-column">
 			<div class="title">${product.title}</div>
-			<div class="gray"><a>${category.name}</a> · ${product.reg_date}<c:if test="${product.status!=2}"> · 삭제됨</c:if></div>
+			<div class="gray">
+				<a class="underline" href="${pageContext.request.contextPath}/main/main.do?category=${category.category}">${category.name}</a> · 
+				<c:if test="${empty product.modify_date}">${product.reg_date}</c:if>
+				<c:if test="${!empty product.modify_date}">${product.modify_date}</c:if>
+				<c:if test="${product.status==2 && !empty product.modify_date}"> · 수정됨</c:if>
+				<c:if test="${product.status!=2}"> · 삭제됨</c:if>
+			</div>
 			<c:if test="${product.status==2}">
 			<div class="subtitle">
 				<c:if test="${product.price>0}">
@@ -131,7 +134,7 @@
 				<li>
 					<a href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${other.aproduct_num}">
 					<img src="${pageContext.request.contextPath}/upload/${other.photo1}">
-					<div class="title">${other.title}</div>
+					<div class="title ellipsis">${other.title}</div>
 					<div class="price">
 						<c:if test="${other.price==0}">
 						나눔
@@ -157,6 +160,24 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	let cp = '${pageContext.request.contextPath}';
+	
+	// 매너 평점 처리
+	let stars = document.querySelectorAll('.manner-stars i.bi');
+	let seller_rate = '${seller.rate}';
+	if(!seller_rate) {
+		for(let i=0;i<stars.length;i++) {
+			if(i<2) stars[i].classList.replace('bi-star', 'bi-star-fill');
+			if(i==2) stars[i].classList.replace('bi-star', 'bi-star-half');
+			stars[i].classList.add('disabled');
+		}
+		stars[0].parentNode.parentNode.querySelector('div.gray.underline').textContent = '표시할 매너 평점이 없어요';
+	}
+	else {
+		for(let i=0;i<stars.length;i++) {
+			if(i<Math.floor(seller_rate)) stars[i].classList.replace('bi-star', 'bi-star-fill');
+			if(i+1==Math.floor(seller_rate) && seller_rate-Math.floor(seller_rate)>=0.5) stars[i+1].classList.replace('bi-star', 'bi-star-half')
+		}
+	}
 	
 	// 댓글 토글
 	let comment_lists = document.getElementsByClassName('comment-list');
@@ -265,7 +286,7 @@
 		}
 	}, false); // end of addEventListener
 	
-	// 모달 닫는 함수 정의
+	// 수정 UI 모달 닫는 함수 정의
 	function clearModal(modal) {
 		modal.classList.remove('show');
 		modal.querySelector('textarea').value = '';
@@ -333,7 +354,11 @@
 						alert('로그인 후 댓글을 삭제할 수 있습니다!');	
 					}
 					else if(param.result=='success') {
-						getListComment(1); // 댓글 목록 새로고침
+						current_replies.textContent = Number(current_replies.textContent) - 1; // 댓글 수 감소
+						if(current_replies.textContent==0) { // 댓글이 삭제되어 0개가 된 경우 노출되어 있는 댓글 목록을 숨김
+							for(let i=0;i<comment_lists.length;i++) comment_lists[i].classList.add('hide');
+						}
+						else getListComment(1); // 댓글 목록 새로고침
 					}
 					else if(param.result='wrongAccess') {
 						alert('잘못된 접근입니다!');
@@ -367,9 +392,12 @@
 				}
 				else if(param.result=='success') {
 					content.value = ''; // 입력 칸 초기화
-					current_replies.textContent = Number(current_replies.textContent) + 1; // 댓글 수 증가
 					if(acomment_parent==null) getListComment(1) // 댓글 목록 새로고침
 					else getListReply(acomment_parent); // 대댓글 목록 새로고침
+					if(current_replies.textContent==0) { // 첫 댓글인 경우 숨겨져 있는 댓글 목록을 노출시킴
+						for(let i=0;i<comment_lists.length;i++) comment_lists[i].classList.remove('hide');
+					}
+					current_replies.textContent = Number(current_replies.textContent) + 1; // 댓글 수 증가
 				}
 				else {
 					alert('댓글 작성에 실패했습니다!');
@@ -547,7 +575,8 @@
 
 	// 관심 상품 토글
 	let like_btn = document.getElementById('like');
-	let current_likes = document.getElementById('current_likes');	
+	let current_likes = document.getElementById('current_likes');
+	if(${empty user_num}) like_btn.classList.add('disabled');
 	like_btn.addEventListener('click', function() {
 		$.ajax({
 			url:'toggleMyProduct.do',

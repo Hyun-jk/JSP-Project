@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>채팅 : </title>
+<title>채팅 : ${product.title}</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 </head>
@@ -89,10 +89,19 @@
 		<c:if test="${!empty chatrooms || !empty param.achatroom_num}">
 <!-- 채팅방 목록이 있는 경우 시작 -->
 <!-- 현재 채팅 헤더 시작 -->
-			<li class="chat-header who-area">
+			<li class="chat-header who-area flex-row space-between align-start">
 				<div class="chat-title">${opponent.nickname}</div>
 				<c:if test="${chatroom.seller_num!=0}">
-				<div class="chat-subtitle">매너 평점 <b>${opponent.rate}</b></div>
+				<div class="manner flex-column align-end">
+					<div class="manner-stars">
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+						<i class="bi bi-star"></i>
+					</div>
+					<div class="gray underline">매너 평점 <b>${opponent.rate}</b></div>
+				</div>
 				</c:if>
 			</li>
 			<li><hr></li>
@@ -169,6 +178,24 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/StringUtil.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+	// 매너 평점 처리
+	let stars = document.querySelectorAll('.manner-stars i.bi');
+	let opponent_rate = '${opponent.rate}';
+	if(!opponent_rate) {
+		for(let i=0;i<stars.length;i++) {
+			if(i<2) stars[i].classList.replace('bi-star', 'bi-star-fill');
+			if(i==2) stars[i].classList.replace('bi-star', 'bi-star-half');
+			stars[i].classList.add('disabled');
+		}
+		stars[0].parentNode.parentNode.querySelector('div.gray.underline').textContent = '표시할 매너 평점이 없어요';
+	}
+	else {
+		for(let i=0;i<stars.length;i++) {
+			if(i<Math.floor(opponent_rate)) stars[i].classList.replace('bi-star', 'bi-star-fill');
+			if(i+1==Math.floor(opponent_rate) && opponent_rate-Math.floor(opponent_rate)>=0.5) stars[i+1].classList.replace('bi-star', 'bi-star-half')
+		}
+	}
+
 	// 필터 선택시 submit 이벤트 발생
 	let search_area = document.getElementsByClassName('search-area')[0];
 	let filters = document.getElementsByName('filter')[0];
@@ -253,10 +280,10 @@
 						chatroom += '			<img class="list-profile" src="' + cp + chat_profile +'">'; // 채팅방 상대방 프로필
 						chatroom += '			<div class="flex-column">';
 						chatroom += '				<div class="list-who flex-row align-end">';
-						chatroom += '					<div class="chat-subtitle"><b>' + opponent.nickname + '</b></div>';
+						chatroom += '					<div class="chat-subtitle ellipsis"><b>' + opponent.nickname + '</b></div>';
 						chatroom += '					<div class="chat-info" title="' + opponent.address + '">' + getLastToken(opponent.address, ' ') + ' · ' + '<span title="' + item.latest_date + '">' + getTimeSince(item.latest_date) + '</span></div>';
 						chatroom += '				</div>';
-						chatroom += '				<div class="latest-chat">' + item.latest_chat + '</div>';
+						chatroom += '				<div class="latest-chat ellipsis">' + item.latest_chat + '</div>';
 						chatroom += '			</div>';
 						chatroom += '			<div class="flex-row">';
 						chatroom += '				<img class="list-product" src="' + cp + '/upload/' + item.productVO.photo1 + '">';

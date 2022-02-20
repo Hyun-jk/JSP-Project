@@ -417,7 +417,7 @@ public class ProductDAO {
 				member.setNickname(rs.getString("nickname"));
 				member.setAddress(rs.getString("address"));
 				member.setPhoto(rs.getString("photo"));
-				member.setRate(rs.getDouble("rate"));
+				if(rs.getString("rate")!=null) member.setRate(rs.getDouble("rate"));
 				product.setMemberVO(member);
 				
 				// 카테고리 정보

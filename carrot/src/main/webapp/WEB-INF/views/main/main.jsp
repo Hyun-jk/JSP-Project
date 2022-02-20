@@ -13,7 +13,6 @@
 <body>
 <div class="page-main">
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-    <h2>중고 거래 매물</h2>
 <!-- 동네 선택, 카테고리 선택, 검색 시작 -->
 	<form id="search" action="main.do" method="get">
 		<ul class="flex-row space-evenly">
@@ -58,10 +57,10 @@
 	<c:if test="${count>0}">
 	<ul class="list-main flex-row">
 		<c:forEach var="product" items="${list}">
-		<li class="flex-column">
-			<a href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${product.aproduct_num}">
+		<li>
+			<a class="flex-column" href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${product.aproduct_num}">
 			<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
-			<div class="title">${product.title}</div>
+			<div class="title ellipsis">${product.title}</div>
 			<div class="price">
 				<c:if test="${product.price==0}">
 				나눔

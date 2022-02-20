@@ -163,14 +163,14 @@ public class ChatDAO {
 				MemberVO seller = new MemberVO();
 				seller.setNickname(rs.getString("s_nickname"));
 				seller.setAddress(rs.getString("s_address"));
-				seller.setRate(rs.getDouble("s_rate"));
+				if(rs.getString("s_rate")!=null) seller.setRate(rs.getDouble("s_rate"));
 				seller.setPhoto(rs.getString("s_photo"));
 				chatroom.setSellerVO(seller);
 				// 물품 구매(희망)자 정보 저장
 				MemberVO buyer = new MemberVO();
 				buyer.setNickname(rs.getString("b_nickname"));
 				buyer.setAddress(rs.getString("b_address"));
-				buyer.setRate(rs.getDouble("b_rate"));
+				if(rs.getString("b_rate")!=null) buyer.setRate(rs.getDouble("b_rate"));
 				buyer.setPhoto(rs.getString("b_photo"));
 				chatroom.setBuyerVO(buyer);
 			}

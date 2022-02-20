@@ -72,6 +72,14 @@ input,select,textarea {
 input:focus,textarea:focus,select:focus {
 	outline-color: var(--point);
 }
+.ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.underline {
+	text-decoration: underline !important;
+}
 
 /* 공통 : 꾸미기 */
 hr {
@@ -220,7 +228,7 @@ button.square {
 
 /* 메인 : 검색 바 */
 form#search {
-	margin: 0 auto;
+	margin: 75px auto 0;
 	padding: 0;
 	width: 800px;
 	border: none;
@@ -259,26 +267,31 @@ form#search ul li input[type="search"] {
 }
 
 /* 메인 : 물품 목록 */
-ul.list-main {
+.list-main {
 	margin: 0 auto;
 	padding: 0;
 	width: 1100px;
 }
-ul.list-main li {
+.list-main li {
 	margin: 5px;
 	padding: 5px;
 }
-ul.list-main li .title {
+.list-main li a div {
+	margin-top: 5px;
+	padding: 0 15px;
+	max-width: 200px;
+}
+.list-main li .title {
 	font-size: 1rem;
 }
-ul.list-main li .price {
+.list-main li .price {
 	font-weight: bold;
 	font-size: 1rem;
 }
-ul.list-main li .address {
+.list-main li .address {
 	font-size: 0.8rem;
 }
-ul.list-main li img {
+.list-main li img {
 	object-fit:cover;
 	object-position:center;
 	width: 200px;
@@ -412,16 +425,16 @@ ul.list-main li img {
 }
 
 /* 물품 상세 정보 */
-ul.detail {
+.detail {
 	width: 600px;
 	margin: 75px auto 0;
 	padding: 0;
 }
-ul.detail li {
+.detail li {
 	margin: 0;
 	padding: 5px 0;
 }
-ul.detail li img {
+.detail li img {
 	object-fit:cover;
 	object-position:center;
 	width: 600px;
@@ -429,28 +442,37 @@ ul.detail li img {
 	border-radius: 10%;
 	background-color: var(--light-gray);
 }
-ul.detail li img.profile {
+.detail li img.profile {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
 }
 
 /* 물품 상세 정보 : 판매자 */
-li.seller {
-
+.seller {
+	
 }
-li.seller div {
+.seller div {
 	margin: 0;
 	padding: 0 5px;
 }
-li.seller div.who {
-	
+.seller .flex-column {
+	height: 55px;
 }
-li.seller div.who div {
-	
+.seller .who > div > div:first-child {
+	font-weight: bold;
+	font-size: 1.2rem;
 }
-li.seller div.manner {
-	
+.seller .manner {
+
+}
+.manner-stars i.bi {
+	margin: 0 -2px;
+	padding: 0;
+	pointer-events: none;
+}
+.manner-stars i.bi.disabled {
+	color: var(--light-gray-hover);
 }
 
 /* 물품 상세 정보 : 글 */
@@ -466,6 +488,10 @@ i.bi#like {
 	margin: 0 5px;
 	padding: 0;
 	font-size: 2.5em;
+}
+i.bi#like.disabled {
+	color: var(--light-gray-hover);
+	cursor: default;
 }
 
 /* 물품 상세 정보 : 댓글 */
@@ -547,28 +573,33 @@ i.bi#like {
 }
 
 /* 물품 상세 정보: 실시간 중고 더보기 */
-ul.list-other {
+.list-other {
 	margin: 0 auto;
 	padding: 0;
 	width: 600px;
 }
-ul.list-other li {
+.list-other li {
 	margin: 10px 0;
 	padding: 5px;
 	display: flex;
 	flex-direction: column;
 }
-ul.list-other li .title {
+.list-other li a div {
+	margin-top: 5px;
+	padding: 0 10px;
+	max-width: 180px;
+}
+.list-other li .title {
 	font-size: 1rem;
 }
-ul.list-other li .price {
+.list-other li .price {
 	font-weight: bold;
 	font-size: 1rem;
 }
-ul.list-other li .address {
+.list-other li .address {
 	font-size: 0.8rem;
 }
-ul.list-other li img {
+.list-other li img {
 	object-fit:cover;
 	object-position:center;
 	width: 180px;
@@ -594,6 +625,10 @@ ul.chat-main li hr {
 }
 .chat-header.product-area {
 
+}
+.chat-header.product-area > div > div {
+	margin: 5px;
+	max-width: 270px;
 }
 .read-area {
 	height: 360px;
@@ -644,8 +679,15 @@ hr.vertical {
 
 /* 채팅 : 꾸미기 */
 .chat-title {
+	margin: 0 5px;
 	font-size: 1.2rem;
 	font-weight: bold;
+}
+.who-area .chat-title {
+	font-size: 1.4rem;
+}
+.who-area .manner i.bi {
+	font-size: 1.4rem;
 }
 .chat-subtitle {
 	margin: 0 5px;
@@ -705,6 +747,7 @@ ul.chat-other {
 .list-area .chat-subtitle {
 	margin: 0;
 	padding: 0;
+	max-width: 125px;
 }
 .list-area .chat-info {
 	margin: 0;
@@ -720,9 +763,6 @@ ul.chat-other {
 	margin: -5px 5px 5px;
 	padding: 5px 0;
 	width: 240px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
 }
 
 /* 채팅방 목록 : 꾸미기 */
