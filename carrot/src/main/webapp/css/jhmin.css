@@ -286,10 +286,131 @@ ul.list-main li img {
 	border-radius: 10%;
 }
 
+/* 로그인 */
+.login {
+	margin: 75px auto 0;
+	padding: 0;
+	width: 600px;	
+}
+.login > li {
+	margin: 10px 0;
+	padding: 0;
+}
+.login form { /* layout.css와 충돌 */
+	margin: 0;
+	padding: 0;
+	width: inherit;
+	border: none;
+}
+.login form > ul > li {
+	margin: 10px 0;
+	padding: 0 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+.login form > ul > li > div {
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+.login .input-box {
+	margin: 0 auto;
+	padding: 10px;
+	border: 1px solid var(--light-gray);
+	border-radius: 10px;
+}
+.login .input-box:focus-within {
+	box-shadow: 0 0 0 3px var(--point);	
+}
+.login .input-box i.bi {
+	color: var(--gray) !important;
+}
+.login .input-box input {
+	margin: 0 5px;
+	width: 400px;
+	border: none;
+	font-size: 1.2rem;
+}
+.login .input-box input:focus {
+	outline: none;
+}
+.login .caution {
+	margin: -10px auto 0;
+	padding: 0;
+	width: 450px;
+}
+
+/* 회원 가입 */
+.register {
+	margin: 75px auto 0;
+	padding: 0;
+	width: 720px;	
+}
+.register > li {
+	margin: 10px 0;
+	padding: 0;
+}
+.register form { /* layout.css와 충돌 */
+	margin: 0;
+	padding: 0;
+	width: inherit;
+	border: none;
+}
+.register form > ul > li {
+	margin: 5px 0;
+	padding: 0 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+.register form > ul > li > div {
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+.search {
+	margin: 0 auto 0 150px;
+	padding: 0 5px;
+}
+.register label {
+	float: none; /* layout.css와 충돌 */
+	width: 150px;
+}
+.register input:not([type="button"]) {
+	width:400px;
+}
+.register [name="age"],.register select[name="phone"] {
+	width: 125px !important;
+}
+.register input[name="phone"] {
+	width: 260px !important;
+}
+#year,#area_code,#phone1 {
+	width: 130px !important;
+}
+.caution {
+	padding: 5px;
+	font-size: 0.8rem;
+	color: var(--gray);
+}
+.caution i.bi {
+	font-size: 1rem;
+	color: inherit;
+}
+.caution.hide {
+	display: none;
+}
+.caution.called {
+	color: var(--point);
+}
+
 /* 물품 상세 정보 */
 ul.detail {
 	width: 600px;
-	margin: 25px auto 0;
+	margin: 75px auto 0;
 	padding: 0;
 }
 ul.detail li {
@@ -453,7 +574,7 @@ ul.list-other li img {
 
 /* 채팅 : 레이아웃 */
 .chat {
-	margin-top: 100px;
+	margin-top: 75px;
 }
 ul.chat-main {
 	margin: 0 auto 0 0;
@@ -549,7 +670,7 @@ hr.vertical {
 	color: var(--gray);
 }
 
-/* 채팅 목록 : 레이아웃 */
+/* 채팅방 목록 : 레이아웃 */
 ul.chat-other {
 	margin: 0 0 0 auto;
 	padding: 0;
@@ -600,7 +721,7 @@ ul.chat-other {
 	overflow: hidden;
 }
 
-/* 채팅 목록 : 꾸미기 */
+/* 채팅방 목록 : 꾸미기 */
 .chat-selection {
 	display: block;
 	margin: 0 5px;

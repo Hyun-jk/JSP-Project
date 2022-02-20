@@ -64,16 +64,6 @@ input[type="text"]:not([name="phone"]),input[type="password"],input[type="email"
 	margin-left:130px;
 }
 
-/* 회원 가입 폼 */
-#register .caution {
-	padding-left: 1.6em;
-	color: gray;
-	font-size: 0.8em;
-}
-#register input[name="address"] {
-	width:160px;
-}
-
 /*목록*/
 form#search_form{
 	border:none;
