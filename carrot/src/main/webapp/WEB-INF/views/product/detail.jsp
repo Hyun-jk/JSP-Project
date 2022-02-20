@@ -132,7 +132,7 @@
 			<ul class="list-other flex-row space-between">
 				<c:forEach var="other" items="${listProduct}">
 				<li>
-					<a href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${other.aproduct_num}">
+					<a class="flex-column" href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${other.aproduct_num}">
 					<img src="${pageContext.request.contextPath}/upload/${other.photo1}">
 					<div class="title ellipsis">${other.title}</div>
 					<div class="price">
