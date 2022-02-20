@@ -1,8 +1,13 @@
 package kr.member.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 import kr.controller.Action;
 import kr.member.dao.MemberDAO;
@@ -12,10 +17,10 @@ public class LoginAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 전송된 데이터 인코딩 처리
 		request.setCharacterEncoding("UTF-8");
 		
-		// 전송된 데이터 반환
+		Map<String, Object> mapAjax = new HashMap<String, Object>();
+		
 		String id = request.getParameter("id").toUpperCase(); // 사용자 입력 값을 대문자로 변환
 		String password = request.getParameter("password").toUpperCase(); // 사용자 입력 값을 대문자로 변환
 		
@@ -26,8 +31,8 @@ public class LoginAction implements Action {
 		if(db_vo!=null) { // 아이디 존재
 			// 비밀번호 일치 여부 체크
 			check = db_vo.checkPassword(password);
-			// 로그인 실패시 auth 값을 이용하기 위해 request 영역에 저장
-			request.setAttribute("auth", db_vo.getAuth());
+			// 로그인 실패시 auth 값 이용
+			mapAjax.put("auth", db_vo.getAuth());
 		}
 		
 		if(check) { // 인증 성공
@@ -41,12 +46,17 @@ public class LoginAction implements Action {
 			if(db_vo.getAddress_favor()!=null) session.setAttribute("user_address", db_vo.getAddress_favor());
 			else session.setAttribute("user_address", db_vo.getAddress());
 			
-			// 인증 성공시 호출
-			return "redirect:/main/main.do";
+			mapAjax.put("result", "success");
+		}
+		else { // 인증 실패
+			mapAjax.put("result", "invalid");
 		}
 		
-		// 인증 실패시 호출
-		return "/WEB-INF/views/member/login.jsp";
+		String ajaxData = new ObjectMapper().writeValueAsString(mapAjax);
+		
+		request.setAttribute("ajaxData", ajaxData);
+		
+		return "/WEB-INF/views/common/ajax_view.jsp";
 	}
 
 }

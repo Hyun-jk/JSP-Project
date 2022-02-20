@@ -326,6 +326,7 @@ ul.list-main li img {
 }
 .login .input-box i.bi {
 	color: var(--gray) !important;
+	cursor: default;
 }
 .login .input-box input {
 	margin: 0 5px;
@@ -340,6 +341,9 @@ ul.list-main li img {
 	margin: -10px auto 0;
 	padding: 0;
 	width: 450px;
+}
+.login .modal-content span {
+	margin: 10px 10px 25px;
 }
 
 /* 회원 가입 */
