@@ -71,7 +71,7 @@
 			<div class="gray"><a id="toggle_comments">댓글 <span id="current_replies">${product.replies}</span></a> · 채팅 ${product.chats} · 관심 <span id="current_likes">${product.likes}</span></div>
 			</c:if>
 			<c:if test="${product.status!=2}">
-			<div class="content">삭제된 상품입니다.</div>
+			<div class="content deleted">삭제된 물품입니다.</div>
 			</c:if>
 		</li>
 		<li><hr></li>
@@ -92,7 +92,7 @@
 					<c:if test="${product.complete!=1}">
 					<input type="button" class="big point" value="거래 완료하기" id="complete">
 					</c:if>
-					<input type="button" class="big point" value="상품 수정하기" onclick="location.href = 'modifyForm.do?aproduct_num=${product.aproduct_num}';" <c:if test="${product.complete==1}">disabled</c:if>>
+					<input type="button" class="big point" value="물품 수정하기" onclick="location.href = 'modifyForm.do?aproduct_num=${product.aproduct_num}';" <c:if test="${product.complete==1}">disabled</c:if>>
 					</c:when>
 					<c:when test="${user_num==product.buyer_num}">
 					<input type="button" class="big point" value="거래 후기 남기기" onclick="">
@@ -182,11 +182,14 @@
 	// 댓글 토글
 	let comment_lists = document.getElementsByClassName('comment-list');
 	let comment_writes = document.getElementsByClassName('comment-write');
-	document.getElementById('toggle_comments').addEventListener('click', function() {
-		for(let i=0;i<comment_writes.length;i++) comment_writes[i].classList.toggle('hide'); // 댓글 작성 영역 토글
-		for(let i=0;i<comment_lists.length;i++) comment_lists[i].classList.toggle('hide'); // 댓글 목록 영역 토글
-		if(!comment_lists[0].classList.contains('hide')) getListComment(1); // 댓글 목록 새로고침
-	}, false); // end of addEventListener
+	let toggle_comments = document.getElementById('toggle_comments');
+	if(toggle_comments) { // 물품 미표시되는 경우, 해당 문서 객체가 존재하지 않을 수 있으므로 null이 아닌 경우에만 이벤트 리스너 추가
+		toggle_comments.addEventListener('click', function() {
+			for(let i=0;i<comment_writes.length;i++) comment_writes[i].classList.toggle('hide'); // 댓글 작성 영역 토글
+			for(let i=0;i<comment_lists.length;i++) comment_lists[i].classList.toggle('hide'); // 댓글 목록 영역 토글
+			if(!comment_lists[0].classList.contains('hide')) getListComment(1); // 댓글 목록 새로고침
+		}, false); // end of addEventListener
+	}
 	
 	// 댓글 길이 제한
 	validateBytesLengthByName({content:900});
@@ -277,7 +280,7 @@
 			
 			// 수정 UI 모달 열기
 			let modify = comment_modify.parentNode.parentNode.parentNode;
-			modify_area.querySelector('textarea').value = modify.querySelector('.comment-content').textContent; // 수정할 댓글 내용 가져오기
+			modify_area.querySelector('textarea').value = modify.querySelector('.comment-content').innerHTML.replace(/<br>/gi, '\n'); // 수정할 댓글 내용 가져오기; <textarea>에 줄바꿈되어 나타나게 처리
 			modify_area.dataset.comment = modify.dataset.comment; // 수정할 댓글의 data-comment를 수정 UI에 저장 
 			modify_area.style.height = document.documentElement.scrollHeight + 'px'; // 모달 배경 영역의 높이를 현재 문서 전체 높이로 변경
 			modify_area.querySelector('.modal-content').style.top = (window.pageYOffset || document.documentElement.scrollTop) + window.innerHeight*2/5 + 'px'; // 모달 내용 영역의 위치를 현재 스크롤 위치의 40% 높이로 변경
@@ -318,7 +321,7 @@
 					let comment = document.querySelector('li[data-comment="' + acomment_num +'"]'); 
 					comment.querySelector('.comment-time').textContent = getTimeSince(new Date(param.modify_date)) + ' · 수정됨'; // 댓글 시간 변경
 					comment.querySelector('.comment-time').title = param.modify_date;
-					comment.querySelector('.comment-content').textContent = content.value; // 댓글 내용 변경
+					comment.querySelector('.comment-content').innerHTML = content.value.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>'); // 수정 후 댓글 내용 변경; 태그 비허용하고 줄바꿈 인정 처리
 					clearModal(modify_area); // 수정 UI 모달 닫기
 				}
 				else if(param.result='wrongAccess') {
@@ -573,11 +576,13 @@
 		}); // end of ajax
 	} // end of getListComment
 
-	// 관심 상품 토글
+	// 관심 물품 토글
 	let like_btn = document.getElementById('like');
 	let current_likes = document.getElementById('current_likes');
-	if(${empty user_num}) like_btn.classList.add('disabled');
+	if(${empty user_num || product.status==1}) like_btn.classList.add('disabled');
 	like_btn.addEventListener('click', function() {
+		if(like_btn.classList.contains('disabled')) return; // 버튼 비활성화된 경우 함수 실행 종료
+		
 		$.ajax({
 			url:'toggleMyProduct.do',
 			type:'post',
@@ -586,7 +591,7 @@
 			timeout:10000,
 			success:function(param) {
 				if(param.result=='logout') {
-					alert('로그인 후 관심 상품에 담을 수 있습니다!');
+					alert('로그인 후 관심 물품에 담을 수 있습니다!');
 				}
 				else if(param.result=='insert') { // 아이콘을 채워진 하트로 교체하고 관심 수 증가
 					like_btn.classList.remove('bi-heart');
@@ -599,7 +604,7 @@
 					current_likes.textContent = Number(current_likes.textContent) -1;
 				}
 				else {
-					alert('관심 상품 추가/삭제에 실패했습니다!')
+					alert('관심 물품 추가/삭제에 실패했습니다!')
 				}
 			},
 			error:function() {

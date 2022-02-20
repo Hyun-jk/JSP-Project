@@ -9,6 +9,7 @@ import java.util.List;
 import kr.member.vo.MemberVO;
 import kr.product.vo.CommentVO;
 import kr.util.DBUtil;
+import kr.util.StringUtil;
 
 public class CommentDAO {
 	// 싱글턴 패턴
@@ -116,7 +117,7 @@ public class CommentDAO {
 				comment.setAcomment_num(rs.getInt("acomment_num"));
 				comment.setAmember_num(rs.getInt("amember_num"));
 				comment.setAproduct_num(rs.getInt("aproduct_num"));
-				comment.setContent(rs.getString("content"));
+				comment.setContent(StringUtil.useBrNoHtml(rs.getString("content"))); // 내용에 줄바꿈을 제외한 HTML 태그를 허용하지 않음
 				comment.setReg_date(rs.getString("reg_date"));
 				comment.setModify_date(rs.getString("modify_date"));
 				comment.setAcomment_parent(rs.getInt("acomment_parent"));
@@ -168,7 +169,7 @@ public class CommentDAO {
 				reply.setAcomment_num(rs.getInt("acomment_num"));
 				reply.setAmember_num(rs.getInt("amember_num"));
 				reply.setAproduct_num(rs.getInt("aproduct_num"));
-				reply.setContent(rs.getString("content"));
+				reply.setContent(StringUtil.useBrNoHtml(rs.getString("content"))); // 내용에 줄바꿈을 제외한 HTML 태그를 허용하지 않음
 				reply.setReg_date(rs.getString("reg_date"));
 				reply.setModify_date(rs.getString("modify_date"));
 				reply.setAcomment_parent(rs.getInt("acomment_parent"));

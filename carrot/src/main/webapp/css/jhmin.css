@@ -477,11 +477,16 @@ form#search ul li input[type="search"] {
 }
 
 /* 물품 상세 정보 : 글 */
-ul.detail li.product div {
+.detail .product div {
 	padding-top: 5px;
 }
-ul.detail li.product div.content {
+.detail .product .content {
 	margin-bottom: 50px;
+}
+.detail .product .content.deleted {
+	padding: 15px 0 0 15px;
+	font-style: italic;
+	color: var(--silver-hover);
 }
 
 /* 물품 상세 정보 : 관심 */

@@ -11,6 +11,7 @@ import kr.chat.vo.ChatVO;
 import kr.member.vo.MemberVO;
 import kr.product.vo.ProductVO;
 import kr.util.DBUtil;
+import kr.util.StringUtil;
 
 public class ChatDAO {
 	// 싱글턴 패턴
@@ -279,7 +280,7 @@ public class ChatDAO {
 				chat.setAproduct_num(rs.getInt("aproduct_num"));
 				chat.setAmember_num(rs.getInt("amember_num"));
 				chat.setOpponent_num(rs.getInt("opponent_num"));
-				chat.setContent(rs.getString("content"));
+				chat.setContent(StringUtil.useBrNoHtml(rs.getString("content"))); // 내용에 줄바꿈을 제외한 HTML 태그를 허용하지 않음
 				chat.setSend_date(rs.getString("send_date"));
 				chat.setRead_date(rs.getString("read_date"));
 				chat.setRead(rs.getInt("read"));
@@ -378,7 +379,7 @@ public class ChatDAO {
 			while(rs.next()) {
 				int achatroom_num = rs.getInt("achatroom_num");
 				ChatRoomVO chatroom = getChatRoom(achatroom_num);
-				chatroom.setLatest_chat(rs.getString("content"));
+				chatroom.setLatest_chat(StringUtil.useBrNoHtml(rs.getString("content"))); // 내용에 줄바꿈을 제외한 HTML 태그를 허용하지 않음
 				chatroom.setLatest_date(rs.getString("send_date"));
 				chatroom.setUnread(getCountUnread(achatroom_num, amember_num));
 				chatrooms.add(chatroom);

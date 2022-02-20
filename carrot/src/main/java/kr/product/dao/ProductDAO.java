@@ -12,6 +12,7 @@ import kr.product.vo.CategoryVO;
 import kr.product.vo.MyProductVO;
 import kr.product.vo.ProductVO;
 import kr.util.DBUtil;
+import kr.util.StringUtil;
 
 public class ProductDAO {
 	//싱글턴 패턴
@@ -320,7 +321,7 @@ public class ProductDAO {
 				vo.setAproduct_num(rs.getInt("aproduct_num"));
 				vo.setAmember_num(rs.getInt("amember_num"));
 				vo.setPhoto1(rs.getString("photo1"));
-				vo.setTitle(rs.getString("title"));
+				vo.setTitle(StringUtil.useNoHtml(rs.getString("title"))); // 제목에 HTML 태그를 허용하지 않음
 				vo.setPrice(rs.getInt("price"));
 				vo.setCategory(rs.getInt("category"));
 				vo.setAddress(rs.getString("address"));
