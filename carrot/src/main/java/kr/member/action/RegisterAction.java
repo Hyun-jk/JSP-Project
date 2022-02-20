@@ -22,7 +22,13 @@ public class RegisterAction implements Action {
 		vo.setPassword(request.getParameter("password").toUpperCase()); // 비밀번호는 DB에 대문자로 저장
 		vo.setName(request.getParameter("name"));
 		vo.setNickname(request.getParameter("nickname"));
-		vo.setAge(Date.valueOf(request.getParameter("age")));
+		String[] ages = request.getParameterValues("age");
+		String age = "";
+		for(int i=0;i<ages.length;i++) {
+			if(i>0) age += '-';
+			age += ages[i];
+		}
+		vo.setAge(Date.valueOf(age));
 		String[] phones = request.getParameterValues("phone");
 		String phone = "";
 		for(String s : phones) {

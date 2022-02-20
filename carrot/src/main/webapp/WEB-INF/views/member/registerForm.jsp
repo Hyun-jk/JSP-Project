@@ -5,78 +5,165 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 가입</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 </head>
 <body>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<h2>회원 가입</h2>
-	<form id="register" action="register.do" method="post">
-		<ul>
-			<li>
-				<label for="id">아이디</label>
-				<input type="text" name="id" id="id">
-				<span id="duplicated" class="caution"></span>
-				<br><span id="word_only" class="caution"><i class="bi bi-exclamation-triangle"></i>
-				4~30자의 영문자, 숫자만 사용 가능</span>
-			</li>
-			<li>
-				<label for="password">비밀번호</label>
-				<input type="password" name="password" id="password">
-				<span id="contain_chars" class="caution"></span>
-				<br><span id="wrong_chars" class="caution"><i class="bi bi-exclamation-triangle"></i>
-				6~30자의 영문자, 숫자, 특수문자 !@#$%^&*만 사용 가능</span>
-			</li>
-			<li>
-				<label for="password_re">비밀번호 확인</label>
-				<input type="password" id="password_re">
-				<span id="identical" class="caution"></span>
-			</li>
-			<li>
-				<label for="name">이름</label>
-				<input type="text" name="name" id="name">
-			</li>
-			<li>
-				<label for="nickname">별명</label>
-				<input type="text" name="nickname" id="nickname">
-			</li>
-			<li>
-				<label for="age">생년월일</label>
-				<input type="date" name="age" id="age">
-			</li>
-			<li>
-				<label>휴대전화번호</label>
-				<select name="phone" id="area_code">
-					<option>010</option>
-					<option>070</option>
-					<option>직접 입력</option>
-				</select>
-					- <input type="text" name="phone" id="phone2" size="4">
-					- <input type="text" name="phone" id="phone3" size="4">
-			</li>
-			<li>
-				<label for="address">동네</label>
-				<input type="text" name="address" id="address" readonly>
-				<input type="button" value="동네 찾기" onclick="sample3_execDaumPostcode();">
-				<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-					<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-				</div>
-			</li>
-			<li>
-				<label for="email">이메일</label>
-				<input type="email" name="email" id="email" class="nullable">
-			</li>
-		</ul>
-		<div class="align-center">
-			<input type="submit" value="회원 가입">
-			<input type="button" value="홈으로" onclick="location.href = '${pageContext.request.contextPath}/main/main.do';">
-		</div>
-	</form>
+	<ul class="register flex-column">
+		<li class="title flex-row justify-center">
+			회원 가입
+		</li>
+		<li>
+			<form action="register.do" method="post">
+				<ul class="flex-column">
+					<li>
+						<div>
+							<label for="id">아이디</label>
+							<input type="text" name="id" id="id" placeholder="4~30자의 영문자, 숫자를 사용하세요">
+						</div>
+						<div class="caution input-id hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label for="password">비밀번호</label>
+							<input type="password" name="password" id="password" placeholder="6~30자의 영문자, 숫자와 특수문자 !@#$%^&*를 사용하세요">
+						</div>
+						<div class="caution input-password hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label for="password_re">비밀번호 확인</label>
+							<input type="password" id="password_re">
+						</div>
+						<div class="caution input-password-re hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label for="name">이름</label>
+							<input type="text" name="name" id="name">
+						</div>
+						<div class="caution hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label for="nickname">별명</label>
+							<input type="text" name="nickname" id="nickname">
+						</div>
+						<div class="caution hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label>생년월일</label>
+							<input type="text" name="age" id="year" placeholder="년(4자)">
+							<select name="age" id="month">
+								<option value="" selected disabled>월</option>
+							</select>
+							<input type="text" name="age" id="day" placeholder="일">
+						</div>
+						<div class="caution hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label>휴대전화번호</label>
+							<select name="phone" id="area_code">
+								<option>010</option>
+								<option>070</option>
+								<option>직접 입력</option>
+							</select>
+							<input type="text" name="phone" id="phone2">
+						</div>
+						<div class="caution hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label for="address">동네</label>
+							<input type="text" name="address" id="address" readonly>
+							<input type="button" value="동네 찾기" onclick="sample3_execDaumPostcode();">
+						</div>
+						<div class="caution hide">
+							<i class="bi bi-exclamation-triangle"></i>
+							<span>
+								
+							</span>
+						</div>
+						<div class="search">
+							<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+								<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+							</div>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label for="email">이메일</label>
+							<input type="email" name="email" id="email" class="nullable">
+						</div>
+					</li>
+				</ul>
+			</form>
+		</li>
+		<li class="flex-row justify-center">
+			<input type="button" class="big point" value="가입하기">
+			<input type="button" class="big" value="홈으로" onclick="location.href = '${pageContext.request.contextPath}/main/main.do';">
+		</li>
+	</ul>
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/validateInput.js"></script>
 <script type="text/javascript">
+	// 태그에 클래스 부여
+	let labels = document.getElementsByTagName('label');
+	for(let i=0;i<labels.length;i++) {
+		labels[i].classList.add('subtitle');
+	}
+	let firstdivs = document.querySelectorAll('form > ul > li > div:first-child');
+	for(let i=0;i<firstdivs.length;i++) {
+		firstdivs[i].classList.add('flex-row', 'justify-start');
+	}
+	
+	// 월 목록 생성
+	let month = document.getElementById('month');
+	for(let i=1; i<13; i++) {
+		let option = new Option(i);
+		month.options[i] = option;
+	}
+	
 	// 바이트 길이 제한 처리
 	validateBytesLength({
 		id:30,
@@ -88,7 +175,7 @@
 		address:90,
 		email:50
 	});
-	
+/*	
 	// 휴대전화번호 입력 칸 동적 처리
 	let area_code = document.getElementById('area_code');
 	area_code.onchange = function() {
@@ -97,7 +184,6 @@
 			area_code_text.type = 'text';
 			area_code_text.name = 'phone'; // 서버 전송용 식별자 부여
 			area_code_text.id = 'phone1'; // 이벤트 연결용 식별자 부여
-			area_code_text.size = 3;
 			this.parentNode.insertBefore(area_code_text, this.nextSibling);
 			validateBytesLength({phone1:3}); // 국번이므로 길이를 3자로 제한
 		}
@@ -208,6 +294,7 @@
 		
 		return isValid;
 	}
+*/
 </script>
 <!-- 동네 찾기 시작 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
