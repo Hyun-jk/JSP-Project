@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <!-- sidebar시작 -->
-<div id="My-sidebar">
+<div id="My-sidebar"> 
 	<div class="user_photo">
 		<c:if test="${!empty user_num && !empty user_photo}">
 			<img src="${pageContext.request.contextPath}/upload/${user_photo}"
