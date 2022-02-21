@@ -6,25 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>My page</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPageMain.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div><jsp:include page="/WEB-INF/views/common/header.jsp"/>	
 <!-- sidebar시작 -->
- 
 	<div class="mypage-photo">
-	
 		<c:if test="${!empty user_num && !empty user_photo}">
 			<img src="${pageContext.request.contextPath}/upload/${user_photo}"
-			             width="200" height="200" class="my-photo">
+			             width="200" height="200" class="mypage-photo">
 			<br><br>
 			<div class="user_id"><span>${user_id}님, 환영합니다!</span></div>
 		</c:if>
 		<c:if test="${!empty user_num && empty user_photo}">
 			<img src="${pageContext.request.contextPath}/images/face.png"
-			                   width="200" height="200" class="my-photo">
+			                   width="200" height="200" class="mypage-photo">
 		</c:if>
 	</div>
 	<div class="my-pageMain">
@@ -43,9 +40,9 @@
      
     <ul>
 	<li><h4>나의 거래 내용</h4></li>
-	<li><a href="${pageContext.request.contextPath}/">구매내역</a><br><br></li>
-	<li><a href="${pageContext.request.contextPath}/">판매 내역</a><br><br></li>
-	<li><a href="${pageContext.request.contextPath}/">판매중인 상품</a></li>
+	<li><a href="${pageContext.request.contextPath}/member/memberProduct.do?complete=1">구매내역</a><br><br></li>
+	<li><a href="${pageContext.request.contextPath}/member/memberProduct.do?complete=2">판매 내역</a><br><br></li>
+	<li><a href="${pageContext.request.contextPath}/member/memberProduct.do?complete=0">판매중인 상품</a></li>
 	</ul>
 	
 	<ul>
@@ -68,11 +65,11 @@
 	<c:if test="${!empty user_num && user_auth == 3}">
 		<ul>
 		<li><h4>회원관리</h4></li>
-		<li><a href="${pageContext.request.contextPath}/member/memberList.do">회원관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/member/memberList.do">회원목록</a></li>
 		</ul>
 		<ul>
 		<li><h4>상품관리</h4></li>
-		<li><a href="${pageContext.request.contextPath}/">상품관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/">상품목록</a></li>
 		</ul>
 		
 		<ul>

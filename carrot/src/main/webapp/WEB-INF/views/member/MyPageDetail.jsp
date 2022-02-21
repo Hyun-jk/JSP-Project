@@ -135,7 +135,7 @@
 			<tr><th>이름</th><td>${member.name}</td></tr>
 		    <tr><th>별명</th><td>${member.nickname}</td></tr>
 		    <tr><th>연락처</th><td>${member.phone}</td></tr>
-		    <tr><th>이메일</th><td>${member.rate}</td></tr>
+		    <tr><th>이메일</th><td>${member.email}</td></tr>
 		    <tr><th>동네</th><td>${member.address}</td></tr>
 		    <tr><th>관심동네</th><td>${member.address_favor}</td></tr>
 		    <tr><th>생년월일</th><td>${member.age}</td></tr>

@@ -12,7 +12,8 @@
 	top:50%;
 	left:50%;
 	transform:translate(-50%,-50%);
-	border:1px solid #000;
+	border:2px solid #F3B178;
+	border-radius: 40px/40px;
 	display:flex;
 	/*세로 정렬*/
 	align-items:center;
@@ -73,7 +74,10 @@ h4{
 .mypage-id{	
 	float: right;
 	text-align: center;
-	padding: 50px 50px 50px 30px;
+	padding: 50px 0px 50px 30px;
+}
+input#file-upload-button{
+font-family: 'SUIT', sans-serif;
 }
 table#mypage-id {
     margin-left:auto; 
@@ -86,41 +90,98 @@ table, td, th {
     border-collapse : collapse;
     border-bottom: 2px solid #F3B178;
     text-align: center;
-};
+    padding: 5px;
+}
+
 /*modify_form*/
 table#mypage-id {
     width: 400px;
     height: 200px;
+    padding: 10px;
     text-align: center;
-    margin: auto;
+    margin: 0 auto;
 }
 
 form#modify_form{
-	width:500px;
-    height:500px;
     margin: 0 auto;
-    padding: 30px 20px; 
+    padding: 100px; 
     border-radius: 40px/40px;
     border: 2px solid #F3B178;
+    display: inline-block;
 }
-.table1{
+/*.table1{
     padding: 50px 20px; 
 }
+*/
+
 border{
   width : 100px;
   height: 100px;
 }
 
+form#delete_form{
+	width:600px;
+    margin: 0 auto;
+    padding: 100px; 
+    border-radius: 40px/40px;
+    border: 2px solid #F3B178;
+}
 
+form#password_form{
 
+    margin: 0 auto;
+    padding: 100px; 
+    border-radius: 40px/40px;
+    border: 2px solid #F3B178;
+    display: inline-block;
+}
+form#memberList{
+	width:800px;
+    margin: 0 auto;
+}
+
+form#search_form{
+    padding: 10px 0px 50px 150px ; 
+    display: inline-block;
+}
+table#List{
+    margin-left:auto; 
+    margin-right:auto;
+    padding: 10px;
+}
+
+form#detail_form{
+	width:700px;
+    margin: 0 auto;
+    padding: 100px; 
+    border-radius: 40px/40px;
+    border: 2px solid #F3B178;
+    display: inline-block;
+}
+.pagenum{
+	text-align:center;
+    padding: 0px 0px 0px 100px ; 
+}
+/*판매중인 상품 리스트*/
+.sell{
+	margin-top :75px;
+}
+
+table#sellList{
+    margin-left:auto; 
+    margin-right:auto;
+    padding: 100px;
+    
+}
 * {
 	box-sizing: border-box;
 }
 
 input,select,textarea {
 	margin: 5px;
-	padding: 10px;
+	
 }
 input:focus,select:focus {
 	outline-color: var(--point);
 }
+
