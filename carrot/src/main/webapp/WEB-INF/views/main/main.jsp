@@ -16,7 +16,7 @@
     
 <!-- 동네 선택, 카테고리 선택, 검색 시작 -->
 	<form id="search" action="main.do" method="get">
-		<ul class="flex-row space-evenly">
+		<ul class="flex-row space-between">
 			<li class="flex-row">
 				<i class="bi bi-map-fill"></i>
 				<div class="modal">
@@ -51,8 +51,10 @@
 <!-- 동네 선택, 카테고리 선택, 검색 끝 -->
 <!-- 목록 출력 시작 -->
 	<c:if test="${count==0}">
-	<div class="result-display">
-		검색된 물품이 없습니다.
+	<div class="search-none flex-column">
+		<div class="search-notice flex-row justify-center">
+			검색된 물품이 없습니다.
+		</div>
 	</div>
 	</c:if>
 	<c:if test="${count>0}">
@@ -61,7 +63,7 @@
 		<li>
 			<a class="flex-column" href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${product.aproduct_num}">
 			<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
-			<div class="title ellipsis">${product.title}</div>
+			<div class="list-product-title ellipsis">${product.title}</div>
 			<div class="price">
 				<c:if test="${product.price==0}">
 				나눔

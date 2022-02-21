@@ -30,7 +30,7 @@
 						</div>
 					</li>
 					<li>
-						<div class="caution hide flex-row justify-center">
+						<div class="caution hide">
 							<i class="bi bi-exclamation-triangle"></i>
 							<span>
 								
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</li>
-		<li class="flex-row justify-center">
+		<li class="buttons flex-row justify-center">
 			<input type="button" class="big point" id="login" value="로그인">
 			<input type="button" class="big" value="회원 가입" onclick="location.href = 'registerForm.do';">
 		</li>

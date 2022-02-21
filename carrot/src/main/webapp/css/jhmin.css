@@ -52,8 +52,10 @@ ul {
 	align-items: flex-end;
 }
 input,select,textarea {
-	margin: 5px;
+	margin: 10px;
 	padding: 10px;
+	border: 3px solid var(--light-gray);
+	border-radius: 3px;
 }
 input:focus,textarea:focus,select:focus {
 	outline-color: var(--point);
@@ -79,17 +81,19 @@ hr {
 	font-size: 0.8rem;
 }
 .title {
-	font-size: 1.6rem;
+	font-family: 'IM_Hyemin-Bold';
+	font-size: 2rem;
 	font-weight: bold;
+	color: var(--point);
 }
 .subtitle {
 	font-size: 1.2rem;
 	font-weight: bold;
 }
-a,a:link{ /* layout.css와 충돌 */
-	color: inherit !important;
+.bold {
+	font-weight: bold;
 }
-a:hover {
+.page-main a:hover {
 	text-decoration: none;
 	color: var(--gray-hover);
 	cursor: pointer;
@@ -132,7 +136,7 @@ img {
 input[type="button"],input[type="submit"],button {
 	font-size: 1rem;
 	font-weight: bold;
-	margin: 0 5px;
+	margin: 0 10px;
 	padding: 10px;
 	border-radius: 5px;
 	color: var(--light-black);
@@ -152,7 +156,7 @@ input[type="button"]:disabled,button:disabled {
 input[type="button"].big,button.big {
 	font-size: 1.2rem;
 	font-weight: bold;
-	padding: 10px;
+	padding: 15px;
 	border-radius: 5px;
 	color: var(--light-black);
 	border: 3px solid var(--light-gray);
@@ -208,7 +212,7 @@ button.square {
 form#search {
 	margin: 75px auto 0;
 	padding: 0;
-	width: 800px;
+	width: 900px;
 	border: none;
 }
 form#search ul {
@@ -256,11 +260,12 @@ form#search ul li input[type="search"] {
 }
 .list-main li a div {
 	margin-top: 5px;
-	padding: 0 15px;
+	padding: 0 10px;
 	max-width: 200px;
 }
-.list-main li .title {
+.list-product-title {
 	font-size: 1rem;
+	font-weight: bold;
 }
 .list-main li .price {
 	font-weight: bold;
@@ -273,7 +278,12 @@ form#search ul li input[type="search"] {
 	margin-bottom: 5px;
 	width: 200px;
 	height: 200px;
-	border-radius: 10%;
+	border-radius: 10px;
+}
+.search-none {
+	margin: 0 auto;
+	width: 360px;
+	height: 360px;
 }
 
 /* 로그인 */
@@ -293,7 +303,7 @@ form#search ul li input[type="search"] {
 	border: none;
 }
 .login form > ul > li {
-	margin: 10px 0;
+	margin: 15px;
 	padding: 0 15px;
 	display: flex;
 	flex-direction: column;
@@ -335,6 +345,13 @@ form#search ul li input[type="search"] {
 .login .modal-content span,.register .modal-content span {
 	margin: 10px 10px 25px;
 }
+.login .buttons {
+	margin: 0 auto;
+	width: 500px;
+}
+.login .buttons [type="button"] {
+	flex-grow: 1;
+}
 
 /* 회원 가입 */
 .register {
@@ -362,19 +379,19 @@ form#search ul li input[type="search"] {
 }
 .register form > ul > li > div {
 	flex-direction: row;
+	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-items: center;
 }
-.search {
+.register .search {
 	margin: 0 auto 0 150px;
 	padding: 0 5px;
 }
 .register label {
-	float: none; /* layout.css와 충돌 */
 	width: 150px;
 }
 .register input:not([type="button"]) {
-	width:400px;
+	width: 400px;
 }
 .register [name="age"],.register select[name="phone"] {
 	width: 125px !important;
@@ -386,13 +403,19 @@ form#search ul li input[type="search"] {
 	width: 130px !important;
 }
 .caution {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 	padding: 5px;
-	font-size: 0.8rem;
+	font-size: 1rem;
 	color: var(--gray);
 }
 .caution i.bi {
+	margin-top: 0;
+	margin-bottom: 0;
 	font-size: 1rem;
 	color: inherit;
+	cursor: text;
 }
 .caution.hide {
 	display: none;
@@ -403,18 +426,21 @@ form#search ul li input[type="search"] {
 
 /* 물품 상세 정보 */
 .detail {
-	width: 600px;
+	width: 720px;
 	margin: 75px auto 0;
 	padding: 0;
 }
-.detail li {
+.detail > li {
 	margin: 0;
-	padding: 5px 0;
+	padding: 5px 10px;
+}
+.detail #carousel {
+
 }
 .detail li img {
-	width: 600px;
-	height: 600px;
-	border-radius: 10%;
+	width: 700px;	
+	height: 700px;
+	border-radius: 20px;
 }
 .detail li img.profile {
 	width: 50px;
@@ -437,11 +463,17 @@ form#search ul li input[type="search"] {
 	
 }
 .seller div {
+	flex-grow: 1;
+}
+.seller div {
 	margin: 0;
 	padding: 0 5px;
 }
 .seller .flex-column {
-	height: 55px;
+
+}
+.seller .who > div > div {
+	padding: 0 5px;
 }
 .seller .who > div > div:first-child {
 	font-weight: bold;
@@ -472,15 +504,18 @@ form#search ul li input[type="search"] {
 	color: var(--silver-hover);
 }
 
-/* 물품 상세 정보 : 관심 */
-i.bi#like {
-	margin: 0 5px;
-	padding: 0;
-	font-size: 2.5em;
+/* 물품 상세 정보 : 버튼들 */
+.detail i.bi#like {
+	margin: 5px 0 0;
+	padding: 0 5px;
+	font-size: 3rem;
 }
-i.bi#like.disabled {
+.detail i.bi#like.disabled {
 	color: var(--light-gray-hover);
 	cursor: default;
+}
+.detail [type="button"] {
+	margin: 0 5px;
 }
 
 /* 물품 상세 정보 : 댓글 */
@@ -508,9 +543,9 @@ i.bi#like.disabled {
 }
 .comment-text > div {
 	margin: 5px;
-	width: 500px;
+	width: 600px;
 }
-.comment-text .deleted,.chat-notice {
+.comment-text .deleted,.chat-notice,.search-notice {
 	margin: 5px 5px 10px;
 	font-style: italic;
 	font-size: 0.9rem;
@@ -522,7 +557,7 @@ i.bi#like.disabled {
 	cursor: default;
 }
 .reply-list .comment-text > div {
-	width: 450px;
+	width: 550px;
 }
 .comment-subtitle {
 	font-weight: bold;
@@ -537,7 +572,7 @@ i.bi#like.disabled {
 	color: var(--silver-hover);
 }
 .comment-info {
-	font-size: 0.8em;
+	font-size: 0.8rem;
 	color: var(--gray);
 }
 .comment-list i.bi,.reply-list i.bi {
@@ -550,36 +585,35 @@ i.bi#like.disabled {
 	color: var(--gray) !important;
 }
 .comment-write textarea,#modify_area textarea {
-	width: 400px;
-	height: 80px;
+	width: 480px;
+	height: 120px;
+}
+#modify_area textarea {
+	border: 3px solid var(--light-gray);
+	border-radius: 3px;
 }
 .reply-write textarea {
-	width: 320px;
-	height: 80px;
+	width: 400px;
+	height: 100px;
 }
-.comment-write input[type="button"],.reply-write input[type="button"] {
-	margin: 5px;
+.comment-write input[type="button"],.reply-write input[type="button"],#modify_area input[type="button"] {
+	margin: 10px;
 }
 
 /* 물품 상세 정보: 실시간 중고 더보기 */
 .list-other {
-	margin: 0 auto;
+	margin: 20px auto 0;
 	padding: 0;
-	width: 640px;
+	width: 660px;
 }
 .list-other li {
-	margin: 10px 0;
+	margin: 5px;
 	padding: 5px;
-	display: flex;
-	flex-direction: column;
 }
 .list-other li a div {
 	margin-top: 5px;
 	padding: 0 10px;
-	width: 200px;
-}
-.list-other li .title {
-	font-size: 1rem;
+	max-width: 200px;
 }
 .list-other li .price {
 	font-weight: bold;
@@ -590,9 +624,9 @@ i.bi#like.disabled {
 }
 .list-other li img {
 	margin-bottom: 5px;
-	width: 180px;
-	height: 180px;
-	border-radius: 10%;
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
 }
 
 /* 채팅 : 레이아웃 */
@@ -603,7 +637,7 @@ ul.chat-main {
 	margin: 0 auto 0 0;
 	padding: 0;
 	width: 480px;
-	height: 600px;
+	height: 720px;
 }
 ul.chat-main li hr {
 	margin: 5px 0;
@@ -619,25 +653,22 @@ ul.chat-main li hr {
 	max-width: 270px;
 }
 .read-area {
-	height: 360px;
+	height: 540px;
 	overflow-y: auto;
 }
 .read-area.no-reply {
-	height: 460px;
-}
-.send-area { /* layout.css의 form과 충돌 */
-	margin: 0;
-	padding: 0;
-	width: 480px;
-	border: none;
+	height: 640px;
 }
 .send-area input[type="text"] {
-	width: 400px;
+	flex-grow: 1;
+}
+.send-area i.bi {
+	margin: 0;
 }
 hr.vertical {
-	margin: 0 10px 0;
+	margin: 0 10px;
 	width: 1px;
-	height: 600px;
+	height: 720px;
 }
 .chat-header img {
 	width: 100px;
@@ -655,10 +686,10 @@ hr.vertical {
 }
 .chat-content {
 	margin: 5px;
-	padding: 10px;
+	padding: 15px;
 	max-width: 360px;
-	border-radius: 15px;
-	font-size: 1.2rem;
+	border-radius: 20px;
+	font-size: 1rem;
 }
 .chat-notice {
 	margin: auto;
@@ -678,6 +709,7 @@ hr.vertical {
 }
 .chat-subtitle {
 	margin: 0 5px;
+	font-weight: bold;
 }
 .chat-profile,.list-profile {
 	margin: 10px 10px 0;
@@ -685,6 +717,10 @@ hr.vertical {
 	height: 25px;
 	object-position: top;
 	border-radius: 50%;
+}
+.list-profile {
+	width: 50px;
+	height: 50px;
 }
 .chat-me .chat-content {
 	color: var(--light-white);
@@ -698,7 +734,7 @@ hr.vertical {
 }
 .chat-info {
 	margin: 10px 0;
-	font-size: 0.8em;
+	font-size: 0.8rem;
 	color: var(--gray);
 }
 
@@ -706,8 +742,8 @@ hr.vertical {
 ul.chat-other {
 	margin: 0 0 0 auto;
 	padding: 0;
-	width: 360px;
-	height: 600px;
+	width: 420px;
+	height: 720px;
 	overflow-y: auto;
 }
 .search-area {
@@ -717,8 +753,11 @@ ul.chat-other {
 	border: none;
 }
 .list-area {
-	height: 420px;
+	height: 540px;
 	overflow-y: auto;
+}
+.list-area ul {
+	flex-wrap: nowrap;
 }
 .list-area ul li {
 
@@ -734,6 +773,7 @@ ul.chat-other {
 	margin: 0;
 	padding: 0;
 	max-width: 125px;
+	font-weight: bold;
 }
 .list-area .chat-info {
 	margin: 0;
@@ -742,12 +782,13 @@ ul.chat-other {
 .list-product {
 	width: 50px;
 	height: 50px;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 .latest-chat {
-	margin: -5px 5px 5px;
+	margin: 0 5px;
 	padding: 5px 0;
-	width: 240px;
+	max-width: 250px;
+	font-size: 0.9rem;
 }
 
 /* 채팅방 목록 : 꾸미기 */

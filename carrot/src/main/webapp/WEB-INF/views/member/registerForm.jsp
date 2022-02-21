@@ -267,15 +267,7 @@
 			setCaution(caution, password.placeholder, password, true, true, true);
 			isValid = false;
 		}
-		
-		// 생년월일 유효성 검증
-		if(year.value<1900 || new Date(year.value + '-' + month.value + '-'+ day.value)=='Invalid Date') {
-			setCaution(caution, '유효하지 않은 생년월일입니다!', year, true, true, true);
-			year.value = '';
-			day.value = '';
-			isValid = false;
-		}
-		
+
 		// Not Null 여부 검사
 		for(let i=0;i<inputs.length;i++) {
 			if(!isValid) break;
@@ -300,6 +292,14 @@
 		if(password.value!=password_re.value && isValid) {
 			openModal(modal, '비밀번호와 비밀번호 확인이 불일치합니다!', password, password_re);
 			password.focus();
+			isValid = false;
+		}
+		
+		// 생년월일 유효성 검증
+		if((year.value<1900 || new Date(year.value + '-' + month.value + '-'+ day.value)=='Invalid Date') && isValid) {
+			setCaution(caution, '유효하지 않은 생년월일입니다!', year, true, true, true);
+			year.value = '';
+			day.value = '';
 			isValid = false;
 		}
 		
