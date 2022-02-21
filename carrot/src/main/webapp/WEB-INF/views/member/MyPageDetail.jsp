@@ -132,16 +132,26 @@
 	<div class="mypage-id">
 	<h3>나의 정보</h3>
 	<table id="mypage-id">
+	
 			<tr><th>이름</th><td>${member.name}</td></tr>
 		    <tr><th>별명</th><td>${member.nickname}</td></tr>
 		    <tr><th>연락처</th><td>${member.phone}</td></tr>
 		    <tr><th>이메일</th><td>${member.email}</td></tr>
 		    <tr><th>동네</th><td>${member.address}</td></tr>
-		    <tr><th>관심동네</th><td>${member.address_favor}</td></tr>
+		    <c:if test="${!empty member.address_favor}">
+		    <tr><th>관심동네</th><td>${member.address_favor}</td></tr></c:if>
+		    <c:if test="${empty member.address_favor}">
+		    <tr><th>관심동네</th><td>설정한 동네가 없습니다.</td></tr></c:if>
 		    <tr><th>생년월일</th><td>${member.age}</td></tr>
-		    <tr><th>매너점수</th><td>${member.rate}</td></tr>
+		    <c:if test="${!empty member.rate}">
+		    <tr><th>매너점수</th><td>${member.rate}</td></tr></c:if>
+		    <c:if test="${empty member.rate}">
+		    <tr><th>매너점수</th><td>표시할 점수가 없습니다.</td></tr></c:if>
 		    <tr><th>가입일</th><td>${member.reg_date}</td></tr>
+		
 		</table>	
+		
+		
 				<input type="button" value="나의 정보 수정"
 				onclick="location.href='modifyUserForm.do'">
   </div></div>
