@@ -25,22 +25,20 @@ public class AdminBoardFAQListAction implements Action{
 		if(user_num == null) {
 			return "redirect:/member/loginForm.do";
 		}
+	
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) pageNum = "1";
+		
 		//기몬페이지는 운영정책으로 시작
 		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
-	
-		String pageNum = request.getParameter("pageNum");
-		if(pageNum == null) {
-			pageNum = "1";
-		}
-		
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		
 		int count = dao.getBoardCount(keyfield, keyword, category);
 		System.out.println(count);
 		//페이지 처리
-		PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,6,10,"adminBoardFAQ.do");
+		PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,20,10,"admin_board_list.jsp");
 		
 		List<BoardVO>list = null;
 		if(count>0) {

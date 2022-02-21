@@ -7,40 +7,30 @@
 <meta charset="UTF-8">
 <title>공지사항</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/hyun.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
-<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>
-	<div class="page-main">
-		<div class="content-body">
-			<div>
-				<jsp:include page="/WEB-INF/views/common/side.jsp" />
-				<div class="main-content">
-					<div>
-						<h3 class="title">공지사항</h3>
-					</div>
-					<div>
-						<c:forEach var="board" items="${list}">
-							<ul class="content">
-									<li id="notice"><a href="adminBoardDetail.do?aboard_num=${board.aboard_num}">Q.${board.title}</a>
-								<hr>
-								</li>
-							</ul>
-						</c:forEach>
-					</div>
-				</div>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	<div>
+		<jsp:include page="/WEB-INF/views/common/side.jsp"/>
+		<div id="My-content">
+			<h4>공지사항</h4>
+			<hr size="1" noshade width="100%">
+			<c:forEach var="board" items="${list}">
+			<ul>
+				<li><a href="adminBoardDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
+			</ul>
+			<hr>
+			<br>
+			</c:forEach>
+			<div class="align-right">
+				<input type="button" value="글쓰기" onclick="location.href='adminBoardWriteForm.do'">
 			</div>
-		</div>	
-		<div class="page-footer">
-			<div class="align-center paging">
+			<div class="align-center">
 				${pagingHtml}
 			</div>
-			<div class="align-right paging">
-			<input class="point" type="button" value="글쓰기" onclick="location.href='adminBoardWriteForm.do'">
-			</div>
 		</div>
-	</div>	
+	</div>
+	
 </body>
 </html>
