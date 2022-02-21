@@ -759,15 +759,15 @@ ul.chat-other {
 .list-area ul {
 	flex-wrap: nowrap;
 }
-.list-area ul li {
-
+.list-area ul li a {
+	padding: 5px;
 }
 .list-profile {
 	margin-bottom: 10px;
 }
 .list-who {
-	margin: 5px;
-	padding: 5px 0 0;
+	margin: 10px 5px 5px;
+	padding: 0;
 }
 .list-area .chat-subtitle {
 	margin: 0;
@@ -785,8 +785,8 @@ ul.chat-other {
 	border-radius: 5px;
 }
 .latest-chat {
-	margin: 0 5px;
-	padding: 5px 0;
+	margin: 0 5px 10px;
+	padding: 0;
 	max-width: 250px;
 	font-size: 0.9rem;
 }
