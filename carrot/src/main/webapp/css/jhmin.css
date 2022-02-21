@@ -164,13 +164,13 @@ input[type="button"],input[type="submit"],button {
 	border-radius: 5px;
 	color: var(--light-black);
 	border: 3px solid var(--light-gray);
-	background: var(--light-gray);
+	background-color: var(--light-gray);
 	transition: all 0.5s ease;
 	cursor: pointer;
 }
 input[type="button"]:not(:disabled):hover,button:not(:disabled):hover {
 	border: 3px solid var(--light-gray-hover);
-	background: var(--light-gray-hover);
+	background-color: var(--light-gray-hover);
 }
 input[type="button"]:disabled,button:disabled {
 	color: #aaa;
@@ -183,45 +183,45 @@ input[type="button"].big,button.big {
 	border-radius: 5px;
 	color: var(--light-black);
 	border: 3px solid var(--light-gray);
-	background: var(--light-gray);
+	background-color: var(--light-gray);
 }
 input[type="button"].big:not(:disabled):hover,button.big:not(:disabled):hover {
 	border: 3px solid var(--light-gray-hover);
-	background: var(--light-gray-hover);
+	background-color: var(--light-gray-hover);
 }
 input[type="button"].point,button.point {
 	border: 3px solid var(--point);
 	color: var(--light-white);
-	background: var(--point);
+	background-color: var(--point);
 }
 input[type="button"].point:not(:disabled):hover,button.point:not(:disabled):hover {
 	border: 3px solid var(--point-hover);
-	background: var(--point-hover);
+	background-color: var(--point-hover);
 }
 input[type="button"].point:disabled,button.point:disabled {
 	border: 3px solid var(--light-gray-disabled);
-	background: var(--light-gray-disabled);
+	background-color: var(--light-gray-disabled);
 	cursor: default;
 }
 input[type="button"].reverse-point,button.reverse-point {
 	border: 3px solid var(--point);
 	color: var(--point);
-	background: transparent;
+	background-color: transparent;
 }
 input[type="button"].reverse-point:hover,button.reverse-point:hover {
 	border: 3px solid var(--point-hover);
 	color: var(--point-hover);
-	background: transparent;
+	background-color: transparent;
 }
 input[type="button"].reverse-silver,button.reverse-silver {
 	border: 3px solid var(--silver);
 	color: var(--silver);
-	background: transparent;
+	background-color: transparent;
 }
 input[type="button"].reverse-silver:hover,button.reverse-silver:hover {
 	border: 3px solid var(--silver-hover);
 	color: var(--silver-hover);
-	background: transparent;
+	background-color: transparent;
 }
 button.square {
 	margin: 0;
@@ -447,6 +447,16 @@ form#search ul li input[type="search"] {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
+}
+.detail .carousel-control-prev:hover,.detail .carousel-control-next:hover { /* 캐러셀 충돌 방지 */
+	border: 0;
+	background-color: transparent;
+}
+.detail .carousel-indicators button:hover {
+	border: 0;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	background-color: #fff;
 }
 
 /* 물품 상세 정보 : 판매자 */
