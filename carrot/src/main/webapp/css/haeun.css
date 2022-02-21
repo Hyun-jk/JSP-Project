@@ -1,22 +1,5 @@
 @charset "UTF-8";
-@font-face {
-    font-family: 'IM_Hyemin-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-/* 공통 : 컬러 */
-:root {
-	--point: #9789e8;
-	--point-hover: #8474e4;
-	--light-gray: #ddd;
-	--light-gray-hover: #ccc;
-	--light-gray-disabled: #999;
-	--light-black: #303030;
-	--light-white: #f8f8f8;
-	--gray: #808080;
-	--gray-hover: #a9a9a9;
-}
+
 /*메인*/
 a:link{
 	text-decoration:none;

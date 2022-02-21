@@ -63,6 +63,7 @@ input,textarea,select,option {
 	justify-content: center;
 	align-items: flex-end;
 	flex-wrap: nowrap;
+	margin-top: 0;
 	width: 100%;
 	height: 80px;
 	border-top: solid 5px var(--point);
