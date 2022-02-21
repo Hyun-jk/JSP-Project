@@ -74,16 +74,17 @@
 	<ul class="manner-write">
 		<li>
 			<div class="gray underline text3 manner-title">아래 점수를 눌러 판매자님과의 거래를 평가해 주세요</div>
+			<br><br><br>
 		</li>
 		<li>
-			<div class="text3">
-				<i class="bi bi-emoji-frown"></i>별로에요 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<i class="bi bi-emoji-smile"></i>좋아요!<br>
-				<div class="text3"> <-----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----></div>
+			<div class="text3 manner-icons">
+				<i class="bi bi-emoji-frown"></i> 별로에요 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<i class="bi bi-emoji-smile"></i> 좋아요!<br>
+				<div class="text3"> <--------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--------></div>
 			</div>
 		</li>
 		<li>
-			<div class="manner-stars">
+			<div class="manner-stars manner-icons">
 				<i class="bi bi-star-fill gray"></i>
 				<i class="bi bi-star-fill gray"></i>
 				<i class="bi bi-star-fill gray"></i>
@@ -91,10 +92,11 @@
 				<i class="bi bi-star gray"></i>
 			</div>
 		</li>
+		<br><br><br>
 		<li>
 			<form id="manner" action="MannerWrite.do" method="post">
 				<input type="hidden" name="rate">
-				<ul>
+				<ul class= "align-center text2"> 
 					<li>
 						<div class="text3">
 							<div class= "gray underline manner-title">판매자님께 따뜻한 후기를 남겨보세요!</div>
