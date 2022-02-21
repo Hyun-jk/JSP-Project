@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>공지사항</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/hyun.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -25,47 +27,58 @@ $(function(){
 });
 </script>
 </head>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<div>
-		<jsp:include page="/WEB-INF/views/common/side.jsp"/>
-		<div id="My-content">
-			<h4>FAQ</h4>
-			<form action="adminBoardFAQ.do" method="get" id="search_form">
-				<ul class="search">
-					<li>
-						<select name="keyfield">
-							<option value="1">운영정책</option>
-							<option value="2">구매/판매</option>
-							<option value="3">거래매너</option>
-							<option value="4">이용제재</option>
-						</select>
-					</li>
-					<li>
-						<input type="search" size="16" name="keyword" id="keyword">
-					</li>
-					<li>
-						<input type="submit" value="검색">
-					</li>
-				</ul>
-			</form>
-			<hr size="1" noshade width="100%">
-			<c:if test="${count ==0 }">
-				등록된 게시물이 없습니다.
-			</c:if>
-			<c:if test="${count >0}">
-			<c:forEach var="board" items="${list}">
-			<ul>
-				<li><a href="adminBoardFAQDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
-			</ul>
-			<hr>
-			<br>
-			</c:forEach>
-			</c:if>
-			<div class="align-right">
-				<input type="button" value="글쓰기" onclick="location.href='adminBoardFAQWriteForm.do'">
+	<div class="page-main">
+		<div class="content-body">
+			<div>
+				<jsp:include page="/WEB-INF/views/common/side.jsp"/>
+				<div id="My-content">
+					<div>
+						<h3>FAQ</h3>
+					</div>
+					<form action="adminBoardFAQ.do" method="get" id="search_form">
+						<ul class="search">
+							<li>
+								<select name="keyfield">
+									<option value="1" <c:if test="${param.keyfield ==1}">selected</c:if>>운영정책</option>
+									<option value="2" <c:if test="${param.keyfield ==2}">selected</c:if>>구매/판매</option>
+									<option value="3" <c:if test="${param.keyfield ==3}">selected</c:if>>거래매너</option>
+									<option value="4" <c:if test="${param.keyfield ==4}">selected</c:if>>이용제재</option>
+								</select>
+							</li>
+							<li>
+								<input type="search" size="16" name="keyword" id="keyword" value="${param.keyword}">
+							</li>
+							<li>
+								<input type="submit" value="검색">
+							</li>
+						</ul>
+					</form>
+					<div>
+						<c:if test="${count ==0 }">
+						등록된 게시물이 없습니다.
+						</c:if>
+						<c:if test="${count >0}">
+						<c:forEach var="board" items="${list}">
+						<ul class="content">
+							<li id="notice">
+								<a href="adminBoardFAQDetail.do?aboard_num=${board.aboard_num}">${board.title}</a>
+							</li>
+						</ul>
+							<hr>
+						</c:forEach>
+						</c:if>		
+					</div>
+				</div>
 			</div>
-			<div class="align-center">
+			
+			<div class="page-footer">
+				<div class="align-right">
+					<input class="point" type="button" value="글쓰기" onclick="location.href='adminBoardFAQWriteForm.do'">
+				</div>
+			</div>
+			<div class="align-center paging">
 				${pagingHtml}
 			</div>
 		</div>

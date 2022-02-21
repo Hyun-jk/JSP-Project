@@ -38,8 +38,7 @@ public class AdminBoardListAction implements Action {
 		int count = dao.getBoardCount(keyfield, keyword, category);
 		
 		//페이지 처리
-		PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,20,10,"admin_board_list.jsp");
-		
+		PagingUtil page = new PagingUtil(keyfield,keyword,Integer.parseInt(pageNum),count,7,10,"adminBoard.do");
 		List<BoardVO>list = null;
 		if(count>0) {
 			list = dao.getListBoard(page.getStartCount(), page.getEndCount(), keyfield, keyword, category);
