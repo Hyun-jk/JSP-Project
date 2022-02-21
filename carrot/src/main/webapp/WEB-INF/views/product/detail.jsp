@@ -95,7 +95,7 @@
 						<i class="bi bi-star"></i>
 						<i class="bi bi-star"></i>
 					</div>
-					<div class="gray underline">매너 평점 <b>${seller.rate}</b></div>
+					<div class="gray underline">매너 평점 <span class="bold">${seller.rate}</span></div>
 				</div>
 			</a>
 		</li>
@@ -187,7 +187,7 @@
 				<li>
 					<a class="flex-column" href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${other.aproduct_num}">
 					<img src="${pageContext.request.contextPath}/upload/${other.photo1}">
-					<div class="title ellipsis">${other.title}</div>
+					<div class="list-product-title ellipsis">${other.title}</div>
 					<div class="price">
 						<c:if test="${other.price==0}">
 						나눔

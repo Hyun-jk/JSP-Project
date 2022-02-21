@@ -104,6 +104,14 @@ function openModal(modal, str, input) {
 		}
 	}
 	modal.querySelector('span').textContent = str; // 모달 문구 변경
+	if(document.documentElement.scrollWidth>=document.documentElement.clientWidth) {
+		modal.style.width = document.documentElement.scrollWidth + 'px'; // 모달 배경 영역의 너비를 현재 문서 전체 너비로 변경
+	}
+	if(document.documentElement.scrollHeight>=document.documentElement.clientHeight) {
+		modal.style.height = document.documentElement.scrollHeight + 'px'; // 모달 배경 영역의 높이를 현재 문서 전체 높이로 변경
+		modal.querySelector('.modal-content').style.top = window.innerHeight*2/5 + 80 + 'px'; // 모달 내용 영역의 위치를 현재 화면 높이의 40% 높이로 변경
+		window.scrollTo({top:modal.querySelector('.modal-content').offsetTop, behavior:'smooth'}); // 스크롤을 모달 내용 영역의 top 위치로 이동
+	}
 	modal.classList.add('show'); // 모달 열기
 	modal.querySelector('input').focus(); // 확인 버튼에 포커스; 엔터 키로 모달 닫힘
 }

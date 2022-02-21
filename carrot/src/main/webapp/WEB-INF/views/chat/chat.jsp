@@ -100,7 +100,7 @@
 						<i class="bi bi-star"></i>
 						<i class="bi bi-star"></i>
 					</div>
-					<div class="gray underline">매너 평점 <b>${opponent.rate}</b></div>
+					<div class="gray underline">매너 평점 <span class="bold">${opponent.rate}</span></div>
 				</div>
 				</c:if>
 			</li>
@@ -113,10 +113,10 @@
 						<div class="chat-title">${product.title}</div>
 						<div class="chat-subtitle">
 							<c:if test="${product.price>0}">
-							<b><fmt:formatNumber value="${product.price}"/></b>원
+							<fmt:formatNumber value="${product.price}"/>원
 							</c:if>
 							<c:if test="${product.price==0}">
-							<b>나눔</b>
+							나눔
 							</c:if>
 						</div>
 					</div>
@@ -280,17 +280,17 @@
 						chatroom += '			<img class="list-profile" src="' + cp + chat_profile +'">'; // 채팅방 상대방 프로필
 						chatroom += '			<div class="flex-column">';
 						chatroom += '				<div class="list-who flex-row align-end">';
-						chatroom += '					<div class="chat-subtitle ellipsis"><b>' + opponent.nickname + '</b></div>';
+						chatroom += '					<div class="chat-subtitle ellipsis">' + opponent.nickname + '</div>';
 						chatroom += '					<div class="chat-info" title="' + opponent.address + '">' + getLastToken(opponent.address, ' ') + ' · ' + '<span title="' + item.latest_date + '">' + getTimeSince(item.latest_date) + '</span></div>';
-						chatroom += '				</div>';
+						chatroom += '				</div>'; // end of list-who
 						chatroom += '				<div class="latest-chat ellipsis">' + item.latest_chat + '</div>';
-						chatroom += '			</div>';
-						chatroom += '			<div class="flex-row">';
-						chatroom += '				<img class="list-product" src="' + cp + '/upload/' + item.productVO.photo1 + '">';
-						chatroom += '				<div class="chat-selection' + (selected || unread) + '">';
-						chatroom += '			</div>';
-						chatroom += '		</div>';
-						chatroom += '	</a>';
+						chatroom += '			</div>'; // end of flex-column
+						chatroom += '		</div>'; // end of flex-row
+						chatroom += '		<div class="flex-row">';
+						chatroom += '			<img class="list-product" src="' + cp + '/upload/' + item.productVO.photo1 + '">';
+						chatroom += '			<div class="chat-selection' + (selected || unread) + '"></div>';
+						chatroom += '		</div>'; // end of flex-row
+						chatroom += '	</a>'; // end of flex-row space-between
 						chatroom += '</li>';
 						$('.list-area ul').append(chatroom); // <ul> 태그 안에 채팅방 추가
 					}); // end of each;
@@ -441,11 +441,10 @@
 							if(index==lastIndex || param.chats[index+1].amember_num==${user_num}) { // 상대방이 연속해서 메시지를 보낸 경우 프로필은 한 번만 표시
 								chat += '		<img src="' + profile + '" class="chat-profile">';
 							}
-							
 						}
 						chat += '		<div class="flex-row align-end">'
 						chat += '			<div class="chat-content">' + item.content + '</div>';
-						chat += '			<div class="chat-info" title="' + item.send_date + '">' + getTimeSince(item.send_date) + '</div>';
+						chat += '			<div class="chat-info" title="' + (item.read_date || item.send_date) + '">' + getTimeSince(item.send_date) + '</div>';
 						chat += '		</div>';
 						chat += '	</div>';
 						chat += '</li>';
