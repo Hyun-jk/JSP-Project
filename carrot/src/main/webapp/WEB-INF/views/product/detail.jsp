@@ -8,7 +8,9 @@
 <meta charset="UTF-8">
 <title>물품 상세 정보 : ${product.title}</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.carousel.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
+<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div class="page-main">
@@ -16,7 +18,58 @@
 	<ul class="detail flex-column">
 		<c:if test="${product.status==2}">
 		<li>
-			<img src="${pageContext.request.contextPath}/upload/${product.photo1}">
+			<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-indicators">
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+					<c:if test="${!empty product.photo2}">
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+					</c:if>
+					<c:if test="${!empty product.photo3}">
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 2"></button>
+					</c:if>
+					<c:if test="${!empty product.photo4}">
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 2"></button>
+					</c:if>
+					<c:if test="${!empty product.photo5}">
+					<button type="button" data-bs-target="#carousel" data-bs-slide-to="4" aria-label="Slide 2"></button>
+					</c:if>
+				</div>	
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img class="d-block w-100"  src="${pageContext.request.contextPath}/upload/${product.photo1}">
+					</div>
+					<c:if test="${!empty product.photo2}">
+					<div class="carousel-item">
+						<img class="d-block w-100" src="${pageContext.request.contextPath}/upload/${product.photo2}">
+					</div>
+					</c:if>
+					<c:if test="${!empty product.photo3}">
+					<div class="carousel-item">
+						<img class="d-block w-100" src="${pageContext.request.contextPath}/upload/${product.photo3}">
+					</div>
+					</c:if>
+					<c:if test="${!empty product.photo4}">
+					<div class="carousel-item">
+						<img class="d-block w-100" src="${pageContext.request.contextPath}/upload/${product.photo4}">
+					</div>
+					</c:if>
+					<c:if test="${!empty product.photo5}">
+					<div class="carousel-item">
+						<img class="d-block w-100" src="${pageContext.request.contextPath}/upload/${product.photo5}">
+					</div>
+					</c:if>
+				</div>
+				<c:if test="${!empty product.photo2}">
+				<button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+				</c:if>
+			</div>
 		</li>
 		</c:if>
 <!-- 판매자 프로필, 매너 평가 시작 -->
