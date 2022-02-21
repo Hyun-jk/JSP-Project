@@ -7,45 +7,38 @@
 <meta charset="UTF-8">
 <title>관리자 게시판 상세정보보기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/hyun.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
-<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>
-	<div class="page-main">
-		<div class="content-body">
-			<div>
-				<jsp:include page="/WEB-INF/views/common/side.jsp" />
-				<div class="main-content">
-					<div>
-						<h3 class="title">${board.title}</h3>
-					</div>
-					<div>
-						<span class="date">[${board.reg_date}]</span>
-						<p>${board.content}</p>
-					</div>
-				</div>
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	<div>
+		<jsp:include page="/WEB-INF/views/common/side.jsp" />
+		<div id="My-content">
+			<h4>FAQ</h4>
+			<hr size="1" noshade width="100%">
+			<span> ${board.title}<br>
+			${board.reg_date}
+			</span>
+			<p>${board.content}</p>
+			<hr size="1" noshade="noshade" width="100%">
+			<div class="align-right">
+				<c:if test="${user_auth == 3}">
+					<input type="button" value="수정"
+						onclick="location.href='adminModifyBoardForm.do?aboard_num=${board.aboard_num}'">
+					<input type="button" value="삭제" id="delete_btn">
+					<script type="text/javascript">
+						let delete_btn = document.getElementById('delete_btn');
+						//이벤트 연결
+						delete_btn.onclick = function(){
+							let choice = confirm('삭제하시겠습니까?');
+							if (choice) {
+								location.replace('adminBoardDelete.do?aboard_num=${board.aboard_num}');
+							}
+						}
+					</script>
+				</c:if>
+					<input type="button" value="목록" onclick="location.href='adminBoardFAQ.do'">		
 			</div>
-		</div>
-		<div class="page-footer">
-			<c:if test="${user_auth == 3}">
-			<div class="align-right paging">
-				<input class="point" type="button" value="수정" onclick="location.href='adminBoardModifyForm.do?aboard_num=${board.aboard_num}'">
-				<input class="point" type="button" value="삭제" id="delete_btn">
-				<input class="point" type="button" value="목록" onclick="location.href='adminBoardFAQ.do'">		
-			</div>
-			<script type="text/javascript">
-				let delete_btn = document.getElementById('delete_btn');
-				//이벤트 연결
-				delete_btn.onclick = function(){
-				let choice = confirm('삭제하시겠습니까?');
-					if (choice) {
-						location.replace('adminBoardDelete.do?aboard_num=${board.aboard_num}');
-					}
-				}
-			</script>
-			</c:if>
 		</div>
 	</div>
 </body>

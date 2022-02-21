@@ -6,36 +6,28 @@
 <head>
 <meta charset="UTF-8">
 <title>회원공지사항</title>
-<link rel="stylesheet"href="${pageContext.request.contextPath}/css/layout.css">
-<link rel="stylesheet"href="${pageContext.request.contextPath}/css/hyun.css">
-<link rel="stylesheet"href="${pageContext.request.contextPath}/css/jhmin.css">
-<script type="text/javascript"src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
-<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>
-	<div class="page-main">
-		<div class="content-body">
-			<div>
-				<jsp:include page="/WEB-INF/views/common/side.jsp" />
-				<div class="main-content">
-					<div>
-						<h3 class="title">공지사항</h3>
-					</div>
-					<div>
-						<c:forEach var="board" items="${list}">
-							<ul class="content">
-								<li id="notice"><a
-									href="memberBoardDetail.do?aboard_num=${board.aboard_num}">Q.${board.title}</a>
-									<hr></li>
-							</ul>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
-			<div class="page-footer">
-				<div class="align-center paging">${pagingHtml}</div>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	<div>
+		<jsp:include page="/WEB-INF/views/common/side.jsp"/>
+		<div id="My-content">
+			<h4>공지사항</h4>
+			<hr size="1" noshade width="100%">
+			<c:forEach var="board" items="${list}">
+			<ul>
+				<li><a href="memberBoardDetail.do?aboard_num=${board.aboard_num}">${board.title}</a></li>
+			</ul>
+			<hr>
+			<br>
+			</c:forEach>
+			<div class="align-center">
+				${pagingHtml}
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>
