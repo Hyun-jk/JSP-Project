@@ -7,22 +7,30 @@
 <meta charset="UTF-8">
 <title>FAQ 게시판 상세정보보기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/hyun.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<div>
-		<jsp:include page="/WEB-INF/views/common/side.jsp" />
-		<div id="My-content">
-			<h4>FAQ</h4>
-			<hr size="1" noshade width="100%">
-			<span> ${board.title}<br>
-			${board.reg_date}
-			</span>
-			<p>${board.content}</p>
-			<hr size="1" noshade="noshade" width="100%">
-			<div class="align-right">
-				<input type="button" value="목록" onclick="location.href='memberBoardFAQ.do'">		
+	<div class="page-main">
+		<div class="content-body">
+			<div>
+				<jsp:include page="/WEB-INF/views/common/side.jsp" />
+				<div class="main-content">
+					<div>
+						<h3 class="title">${board.title}</h3>
+					</div>
+					<div>
+						<span class="date">[${board.reg_date}]</span>
+						<p>${board.content}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-footer">
+			<div class="align-right paging">
+				<input class="point" type="button" value="목록" onclick="location.href='memberBoardFAQ.do'">		
 			</div>
 		</div>
 	</div>

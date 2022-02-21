@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>관리자 FAQ</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/hyun.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -24,33 +26,42 @@ $(function(){
 });
 </script>
 </head>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>	
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<div>
-		<jsp:include page="/WEB-INF/views/common/side.jsp" />		
-		<div id="My-content">
-			<h2>글쓰기</h2>
-			<hr size="1" noshade width="100%">
-			<form id="write_form" action="adminBoardFAQWrite.do">
-				<select name="keyfield">
-					<option value="1">운영정책</option>
-					<option value="2">구매/판매</option>
-					<option value="3">거래매너</option>
-					<option value="4">이용제재</option>
-				</select>
-				<ul>
-					<li><label for="title">제목</label> <input type="text"
-						name="title" id="title" maxlength="50"></li>
-
-					<li><label for="content">내용</label> <textarea rows="5"
-							cols="30" name="content" id="content"></textarea></li>
-				</ul>
-				<div class="align-right">
-					<input type="submit" value="등록"> 
-					<input type="button" value="목록" onclick="location.href='adminBoardFAQ.do'">
+	<div class="page-main">
+		<div class="content-body">
+			<div>
+				<jsp:include page="/WEB-INF/views/common/side.jsp" />
+				<div class="main-content">
+					<div>
+						<h2>공지사항 글쓰기</h2>
+					</div>
+					<form id="write_form" action="adminBoardFAQWrite.do" class="align-left">
+						<label for="keyfield">카테고리</label> 
+						<select name="keyfield"	id="keyfield">
+							<option value="1">운영정책</option>
+							<option value="2">구매/판매</option>
+							<option value="3">거래매너</option>
+							<option value="4">이용제재</option>
+						</select>
+						<ul>
+							<li>
+								<label for="title">제목</label> 
+								<input type="text" name="title" id="title" maxlength="50" style="width:500px;height:45px;"></li>
+							<li>
+							<li>
+								<label for="content">내용</label>
+								<textarea rows="15" cols="65" name="content" id="content"></textarea>
+							</li>
+						</ul>
+						<div class="align-right">
+							<input class="point" type="submit" value="등록"> <input
+								class="point" type="button" value="목록"
+								onclick="location.href='adminBoardFAQ.do'">
+						</div>
+					</form>
 				</div>
-			</form>
-		</div>
+			</div>
 	</div>
+	</div>	
 </body>
-</html>
