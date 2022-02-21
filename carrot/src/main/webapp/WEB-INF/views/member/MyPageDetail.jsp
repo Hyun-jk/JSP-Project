@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPageDetail</title>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -91,9 +91,9 @@
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/side.jsp"/> 
-<div class=page-main>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<div class=page-main>	
+	<jsp:include page="/WEB-INF/views/common/side.jsp"/> 
 	    
 	    <h2>회원정보</h2>	
 	    <div class = "mypage-phototo">
@@ -107,7 +107,7 @@
 				</c:if>
 				<c:if test="${!empty member.photo }">
 					<img src="${pageContext.request.contextPath}/upload/${member.photo}"
-					          width="300" height="300" class="my-photo">
+					          width="300" height="300" class="user_photo">
 				</c:if>
 			</li>
 			<li>
@@ -131,7 +131,7 @@
 		</div>
 	<div class="mypage-id">
 	<h3>나의 정보</h3>
-	<table>
+	<table id="mypage-id">
 			<tr><th>이름</th><td>${member.name}</td></tr>
 		    <tr><th>별명</th><td>${member.nickname}</td></tr>
 		    <tr><th>연락처</th><td>${member.phone}</td></tr>
