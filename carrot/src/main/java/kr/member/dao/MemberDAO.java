@@ -142,7 +142,7 @@ public class MemberDAO {
 					vo.setAddress_favor(rs.getString("address_favor"));
 					vo.setEmail(rs.getString("email"));
 					vo.setPhoto(rs.getString("photo"));
-					vo.setRate(rs.getDouble("rate"));
+					if(rs.getString("rate")!=null) vo.setRate(rs.getDouble("rate"));
 					vo.setReg_date(rs.getDate("reg_date"));	
 					
 				}
