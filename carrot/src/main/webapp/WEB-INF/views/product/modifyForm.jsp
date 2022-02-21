@@ -10,10 +10,9 @@
 <head>
 <meta charset="UTF-8">
 <title>상품 등록</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/layout.css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dain.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
  
  $(function(){
@@ -81,47 +80,53 @@
 </script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="page-main">
-		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-		<h2>상품 수정</h2>
-		<form action="modify.do" method="post" enctype="multipart/form-data"
-			id="modify_form">
+		<h2>수정</h2>
+		<form action="modify.do" method="post" enctype="multipart/form-data" id="modify_form">
+		<input type="file" name="photo1" id="photo1" accept="image/gif,image/png,image/jpeg">
 			<input type="hidden" name="aproduct_num" value="${product.aproduct_num}">
-
-			<ul>
-				<li><label for="photo1">상품이미지*</label> 
+			<ul><li><label for="photo1" >상품사진1</label> 
 					<img src="${pageContext.request.contextPath}/upload/${product.photo1}"
-						width="100" height="100" class="my-photo1">
-					<br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="file" name="photo1" id="photo1" accept="image/gif,image/png,image/jpeg">
-					<br>
+						width="150" height="150" class="my-photo1">
+					 <div class="buttonC">
+                        <P> <label for="photo1">CLICK HERE!</label></P>
+                     </div>
 				</li>
 				<br>
-				<li><label for="photo2">상품이미지2</label> 
+				<br>
+				<li><label for="photo2">상품사진2</label> 
 				<input type="file" name="photo2" id="photo2" accept="image/gif,image/png,image/jpeg">
-				<br> 
+				<div class="buttonC">
+                         <M> <label for="photo2">CLICK HERE!</label></M>
+                     </div> 
 				</li>
-				<li><label for="photo3">상품이미지3</label> <input type="file"
+				<li><label for="photo3">상품사진3</label> <input type="file"
 					name="photo3" id="photo3" accept="image/gif,image/png,image/jpeg">
-					<br>
+					<div class="buttonC">
+                         <M> <label for="photo3">CLICK HERE!</label></M>
+                     </div>
 				</li>
-				<li><label for="photo4">상품이미지4</label> <input type="file"
+				<li><label for="photo4">상품사진4</label> <input type="file"
 					name="photo4" id="photo4" accept="image/gif,image/png,image/jpeg">
-					<br>
+					<div class="buttonC">
+                         <M><label class="flex-container.column" for="photo4">CLICK HERE!</label></M>
+                     </div>
 				</li>
-				<li><label for="photo5">상품이미지5</label> <input type="file"
+				<li><label for="photo5">상품사진5</label> <input type="file"
 					name="photo5" id="photo5" accept="image/gif,image/png,image/jpeg">
-					<br>
+					<div class="buttonC">
+                         <M> <label for="photo5">CLICK HERE!</label></M>
+                     </div>
 				</li>
 				<li><label for="title">제목*</label> <input type="text"
-					name="title" id="title" maxlength="10" value="${product.title}">
+					name="title" id="title" maxlength="10" class="box" value="${product.title}">
 				</li>
 				<li><label for="price">가격*</label> <input type="number"
-					name="price" id="price"  min="1"max="99999999" value="${product.price}">
+					name="price" id="price"  min="1"max="99999999" class="box" value="${product.price}">원
 				</li>
 				<li><label for="category">카테고리*</label> 
-				    <select name="category">
+				    <select name="category" maxlength="10" class="box">
 						<option value="1" <c:if test="${category.category == 1}">selected</c:if>>디지털기기</option>
 						<option value="2" <c:if test="${category.category == 2}">selected</c:if>>생활/가전</option>
 						<option value="3" <c:if test="${category.category == 3}">selected</c:if>>남성의류/잡화</option>
@@ -132,18 +137,20 @@
 				</select>
 				</li>
 				<li><label for="content">상품설명*</label> <textarea name="content"
-						id="content" cols="30" rows="5">${product.content}</textarea>
+						id="content" cols="30" rows="5" class="box">${product.content}</textarea>
 			    </li>
 			    <li>
 				<label>상품 표시 여부</label>
 				<input type="radio" name="status" value="1" id="status1" <c:if test="${product.status == 1}">checked</c:if>>미표시
-				<input type="radio" name="status" value="2" id="status2" <c:if test="${product.status == 2}">checked</c:if>>표시
-				
+				<input type="radio" name="status" value="2" id="status2" <c:if test="${product.status == 2}">checked</c:if>>표시	
 			</li>
 			</ul>
 			<div class="align-center">
-				<input type="submit" value="수정하기">
-				<input type="button" value="삭제하기" onclick="location.href='deleteForm.do?aproduct_num=${product.aproduct_num}'">
+			<div style="display: inline-block">
+				<input type="submit" value="수정하기" class="buttonA"></div>
+			<div style="display: inline-block">
+				<input type="button" value="삭제하기" class="buttonB" onclick="location.href='deleteForm.do?aproduct_num=${product.aproduct_num}'"></div>		
+				
 			</div>
 		</form>
 	</div>
