@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="register">
 		<div class="modal">
 			<div class="modal-content flex-column">

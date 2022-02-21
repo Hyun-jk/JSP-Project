@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="chat flex-row justify-center">
 <!-- 물품별 채팅방 목록 시작 -->
 		<ul class="chat-other flex-column justify-start">

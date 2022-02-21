@@ -91,7 +91,7 @@ a,a:link{ /* layout.css와 충돌 */
 }
 a:hover {
 	text-decoration: none;
-	color: var(--gray-hover) !important;
+	color: var(--gray-hover);
 	cursor: pointer;
 }
 img {
@@ -104,7 +104,7 @@ img {
 i.bi {
 	margin: 5px;
 	padding: 5px;
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 	color: var(--point);
 	transition: all 0.5s ease;
 	cursor: pointer;
@@ -259,7 +259,7 @@ form#search ul li input[type="search"] {
 
 /* 메인 : 물품 목록 */
 .list-main {
-	margin: 0 auto;
+	margin: 25px auto;
 	padding: 0;
 	width: 1100px;
 }
@@ -578,7 +578,7 @@ i.bi#like.disabled {
 .list-other {
 	margin: 0 auto;
 	padding: 0;
-	width: 600px;
+	width: 640px;
 }
 .list-other li {
 	margin: 10px 0;
@@ -589,7 +589,7 @@ i.bi#like.disabled {
 .list-other li a div {
 	margin-top: 5px;
 	padding: 0 10px;
-	max-width: 180px;
+	width: 200px;
 }
 .list-other li .title {
 	font-size: 1rem;

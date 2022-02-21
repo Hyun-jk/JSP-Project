@@ -13,8 +13,8 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<ul class="detail flex-column">
 		<c:if test="${product.status==2}">
 		<li>

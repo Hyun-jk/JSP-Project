@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jhmin.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-    <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+    
 <!-- 동네 선택, 카테고리 선택, 검색 시작 -->
 	<form id="search" action="main.do" method="get">
 		<ul class="flex-row space-evenly">
@@ -77,7 +78,7 @@
 		</li>
 		</c:forEach>
 	</ul>
-	<div class="align-center paging">
+	<div class="paging flex-row justify-center">
 		${pagingHtml}
 	</div>
 	</c:if>
