@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dain.css">
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main"><br><br><br><br>
@@ -41,7 +40,7 @@
 			</tr>
 			<tr>
 				<th>매너점수 : </th>
-				<td><%--${mannerList.totalRate}--%></td>
+				<td><fmt:formatNumber value="${mannerList.get(0).totalRate}" pattern=".00"/></td>
 			</tr>
 			</div>
 		</table></li>

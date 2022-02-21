@@ -229,10 +229,12 @@ public class MyDAO {
 				manner.setAmanner_num(rs2.getInt("amanner_num"));
 				manner.setRate(rs2.getInt("rate"));
 				manner.setReview(rs2.getString("review"));
+				manner.setBuyer_num(rs2.getInt("buyer_num"));
 				manner.setTotalRate(totalRate);
 				
 				MemberVO member = new MemberVO();
 				member.setNickname(rs2.getString("nickname"));
+				member.setPhoto(rs2.getString("photo"));
 				manner.setMember(member);
 				list.add(manner);
 			}

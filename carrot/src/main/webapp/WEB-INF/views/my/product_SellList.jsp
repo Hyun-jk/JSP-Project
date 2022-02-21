@@ -32,6 +32,7 @@
 				<th>가격</th>
 				<th>상태</th>
 				<th>등록일</th>
+				<th>비고</th>
 			</tr>
 			<c:forEach var="sell" items="${list}">
 			<tr>
@@ -44,6 +45,7 @@
 				<td><fmt:formatNumber value="${sell.price}"/>원</td>
 				<td><c:if test="${sell.complete ==0}">판매중</c:if></td>
 				<td>${sell.reg_date }</td>
+				<td><input type="button" value="물품삭제하기"></td>
 			</tr>		
 			</c:forEach>
 		</table>

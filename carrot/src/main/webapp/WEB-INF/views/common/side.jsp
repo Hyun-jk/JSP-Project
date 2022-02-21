@@ -38,7 +38,7 @@
 	
 	<h4>매너 평가</h4>
 	<div class="aa">
-	<a href="${pageContext.request.contextPath}/">내 매너 점수</a>
+	<a href="${pageContext.request.contextPath}/member/myMannerProfile.do">내 매너 점수</a>
 	</div>
 	
 	<h4>공지사항</h4>
