@@ -32,7 +32,7 @@
 			<i class="bi bi-emoji-frown"></i>별로에요 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<i class="bi bi-emoji-smile"></i>좋아요!<br>
 			<div class="text3"> <-----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----></div>
-			<br>
+			<br> 
 			    <div class="manner flex-column justify-end align-end">
 				<input type="checkbox" name="rate" value="1">1점
 				<input type="checkbox" name="rate" value="2">2점
