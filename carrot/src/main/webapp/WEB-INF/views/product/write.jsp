@@ -6,11 +6,11 @@
 <meta charset="UTF-8">
 <title>회원 가입 완료</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dain.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<h2>상품 등록 완료</h2>
 	<div class="result-display">
 		<div class="align-center">
 			상품 등록을 완료했습니다!

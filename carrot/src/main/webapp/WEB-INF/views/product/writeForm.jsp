@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>상품 등록</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/dain.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -79,40 +80,60 @@
 </script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="page-main">
-		<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		<h2>상품 등록</h2>
-		<form action="write.do" method="post" enctype="multipart/form-data"
-			id="write_form">
-			<ul>
-				<li><label for="photo1">상품이미지*</label> 
-				<c:if test="${empty member.photo1}">
-						<img src="${pageContext.request.contextPath}/images/photo.png"
-							width="100" height="100" class="my-photo1">
-					    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					    &nbsp;&nbsp;<input type="file" name="photo1" id="photo1" accept="image/gif,image/png,image/jpeg">	
-					</c:if></li>	
+		<h2>등록</h2>
+		<form action="write.do" method="post" enctype="multipart/form-data" id="write_form" >
+		<input type="file" name="photo1" id="photo1" accept="image/gif,image/png,image/jpeg" >
+			<ul class="writeForm">
 				<li>
-				    <label for="photo2">상품이미지2</label> 
+				<label for="photo1" >상품사진1</label> 
+				<div style="display: inline-block">
+				<c:if test="${empty product.photo1}">
+				<img src="${pageContext.request.contextPath}/images/photo.png" width="140" height="140" class="my-photo1">
+				</div>
+	                 <div class="text">사진을 1장 이상 추가하세요.</div>  
+	                 <div class="buttonC">
+                         <P> <label for="photo1">CLICK HERE!</label></P>
+                     </div> 
+				</c:if>
+				</li>
+				<br><br>	
+				<li>
+				    <label for="photo2" >상품사진2</label> 
 					<input type="file" name="photo2" id="photo2" accept="image/gif,image/png,image/jpeg">	
+					<div class="buttonC">
+                         <M> <label for="photo2">CLICK HERE!</label></M>
+                     </div> 
 				</li>	
 				<li>
-				    <label for="photo3">상품이미지3</label> 
+				    <label for="photo3" >상품사진3</label> 
 					<input type="file" name="photo3" id="photo3" accept="image/gif,image/png,image/jpeg">	
+					<div class="buttonC">
+                         <M> <label for="photo3">CLICK HERE!</label></M>
+                     </div>
 				</li>	
 				<li>
-				    <label for="photo4">상품이미지4</label> 
+				    <label for="photo4">상품사진4</label> 
 					<input type="file" name="photo4" id="photo4" accept="image/gif,image/png,image/jpeg">	
+					<div class="buttonC">
+                         <M> <label class="flex-container.column" for="photo4">CLICK HERE!</label></M>
+                     </div>
 				</li>	
 				<li>
-				    <label for="photo5">상품이미지5</label> 
-					<input type="file" name="photo5" id="photo5" accept="image/gif,image/png,image/jpeg">	
-				</li>	
+				    <label for="photo5">상품사진5</label> 
+					<input type="file" name="photo5" id="photo5" accept="image/gif,image/png,image/jpeg">
+					<div class="buttonC">
+                         <M> <label for="photo5">CLICK HERE!</label></M>
+                     </div>	
+				</li>
+				
+					
 				<li><label for="title">제목*</label> <input type="text"
-					name="title" id="title" maxlength="10"></li>
+					name="title" id="title" maxlength="20" class="box"></li>
 				<li><label for="price">가격*</label> <input type="number"
-					name="price" id="price" min="1" max="99999999"></li>
-				<li><label for="category">카테고리*</label> <select name="category">
+					name="price" id="price" min="1" max="99999999"class="box">원</li>
+				<li><label for="category" >카테고리*</label> <select name="category" class="box">
 						<option value="1">디지털기기</option>
 						<option value="2">생활/가전</option>
 						<option value="3">남성의류/잡화</option>
@@ -122,11 +143,9 @@
 						<option value="7">생활/가구</option>
 				</select></li>
 				<li><label for="content">상품설명*</label> <textarea name="content"
-						id="content" cols="30" rows="5"></textarea></li>
+						id="content" cols="30" rows="5" class="box"></textarea></li>
+			   <input type="submit" value="등록하기"  class="button">
 			</ul>
-			<div class="align-center">
-				<input type="submit" value="등록하기">
-			</div>
 		</form>
 	</div>
 </body>
