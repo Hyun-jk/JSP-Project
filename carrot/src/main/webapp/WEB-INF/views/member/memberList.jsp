@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>회원목록</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -21,37 +22,32 @@
 </script>
 </head>
 <body>
-<div class="page-main">
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<div class="page-main">	
+	<jsp:include page="/WEB-INF/views/common/side.jsp"/>
+	 
 	<h2>회원목록</h2>
 	<form id="search_form" action="memberList.do" method="get">
-		<ul class="search">
-			<li>
-				<select name="keyfield">
+		<table id="search">
+			<tr>
+				<th><select name="keyfield">
 					<option value="1">ID</option>
 					<option value="2">이름</option>
 					<option value="3">email</option>
-				</select>
-			</li>
-			<li>
-				<input type="search" size="16" name="keyword" id="keyword">
-			</li>
-			<li>
-				<input type="submit" value="찾기">
-			</li>
-		</ul>
+				</select></th>
+				<td><input type="search" size="16" name="keyword" id="keyword">
+				<input type="submit" value="찾기"></td>
+			</tr>
+		</table>
 	</form>
-	</div>
-	<div class="list-space align-right">
-		<input type="button" value="목록" onclick="location.href='memberList.do'">
-		<input type="button" value="홈으로" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
 	</div>
 	<c:if test="${count == 0}">
 	<div class="result-display">
 	표시할 내용이 없습니다.
 	</div></c:if>
 	<c:if test="${count > 0}">
-	<table>
+	<form id="memberList">
+	<table id="List">
 		<tr>
 			<th>ID</th>
 			<th>이름</th>
@@ -82,6 +78,10 @@
 		</c:forEach>
 	</table>
 	<div class="align-center">
+		<input type="button" value="목록" onclick="location.href='memberList.do'">
+		<input type="button" value="홈으로" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
+	</div></form>
+	<div class="pagenum">
 		${pagingHtml}
 	</div>
 	</c:if>  

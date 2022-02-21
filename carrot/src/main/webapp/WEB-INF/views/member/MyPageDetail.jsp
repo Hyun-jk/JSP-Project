@@ -98,7 +98,7 @@
 	    <h2>회원정보</h2>	
 	    <div class = "mypage-phototo">
 		
-		<h3>프로필 사진</h3>
+		<h3>프로필 사진</h3> 
 		<ul>
 			<li>
 				<c:if test="${empty member.photo}">

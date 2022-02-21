@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보수정(관리자 전용)</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -40,49 +41,50 @@
 </script>
 </head>
 <body>
-<div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<div class="page-main">
+
 	<div id="My-content">
 	    <jsp:include page="/WEB-INF/views/common/side.jsp"/> 
 	</div>
 	<h2>${member.id}의 정보 수정(관리자 전용)</h2>
 	<form action="detailUser.do" method="post" id="detail_form">
 		<input type="hidden" name="amember_num" value="${member.amember_num}">
-		<ul>
-			<li>
-				<label>등급</label>
-				<c:if test="${member.auth != 3}">
+		<table>
+			<tr>
+				<th><label>등급</label></th>
+				<td><c:if test="${member.auth != 3}">
 				<input type="radio" name="auth" value="1" id="auth1" <c:if test="${member.auth == 1}">checked</c:if>>정지
 				<input type="radio" name="auth" value="2" id="auth2" <c:if test="${member.auth == 2}">checked</c:if>>일반
 				</c:if>
 				<c:if test="${member.auth == 3}">
 				<input type="radio" name="auth" value="3" id="auth3" checked>관리
-				</c:if>
-			</li>
-			<li>
-				<label for="name">이름</label>
-				<input type="text" name="name" id="name" value="${member.name}"
-				                                     maxlength="10">
-			</li>
-			<li>
-				<label for="phone">전화번호</label>
-				<input type="text" name="phone" id="phone" value="${member.phone}"
-				                                    maxlength="15">
-			</li>
-			<li>
-				<label for="email">이메일</label>
-				<input type="email" name="email" id="email" value="${member.email}"
-				                                    maxlength="50">
-			</li>
-			<li>
-				<label for="address">동네</label>
-				<input type="text" name="address" id="address" readonly value="${member.address}">
+				</c:if></td>
+			</tr>
+			<tr>
+				<th><label for="name">이름</label></th>
+				<td><input type="text" name="name" id="name" value="${member.name}"
+				                                     maxlength="10"></td>
+			</tr>
+			<tr>
+				<th><label for="phone">전화번호</label></th>
+				<td><input type="text" name="phone" id="phone" value="${member.phone}"
+				                                    maxlength="15"></td>
+			</tr>
+			<tr>
+				<th><label for="email">이메일</label></th>
+				<td><input type="email" name="email" id="email" value="${member.email}"
+				                                    maxlength="50"></td>
+			</tr>
+			<tr>
+				<th><label for="address">동네</label></th>
+				<td><input type="text" name="address" id="address" readonly value="${member.address}">
 				<input type="button" value="동네 찾기" onclick="sample3_execDaumPostcode();">
 				<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 					<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-				</div>          
-			</li>
-		</ul>
+				</div>  </td>        
+			</tr>
+		</table>
 		<div class="align-center">
 			<input type="submit" value="수정">
 			<input type="button" value="목록" 

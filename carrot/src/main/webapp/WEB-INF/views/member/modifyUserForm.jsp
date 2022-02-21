@@ -36,52 +36,46 @@
 </script>
 </head>
 <body> 
- <jsp:include page="/WEB-INF/views/common/side.jsp"/> 
+ <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	  
+	 <jsp:include page="/WEB-INF/views/common/side.jsp"/>  
 	
 	<h2>회원정보 수정</h2>
 	<form action="modifyUser.do" method="post" id="modify_form">
-	<ul>
-		<li>
-		<label for="nickname">닉네임</label>
-		<input type="text" name="nickname" id="nickname" value="${member.nickname}" maxlength="10">
-		</li>
-		<li>
-			<label for="phone">전화번호</label>
-			<input type="text" name="phone" id="phone" value="${member.phone}" maxlength="15">
-		</li>
-		<li>
-			<label for="email">이메일</label>
-			<input type="email" name="email" id="email" value="${member.email}" maxlength="50">
-		</li>
-		<li>
-				<label for="address">동네</label>
-				<input type="text" name="address" id="address" readonly value="${member.address}">
-				<input type="button" value="동네 찾기" onclick="sample3_execDaumPostcode();">
+	<div class="table1">
+	<table id="modify_from_id">
+		<tr>
+		<th><label for="nickname">닉네임</label></th>
+		<td><input type="text" name="nickname" id="nickname" value="${member.nickname}" maxlength="10"></td>
+		</tr>
+		<tr>
+			<th><label for="phone">전화번호</label></th>
+			<td><input type="text" name="phone" id="phone" value="${member.phone}" maxlength="15"></td>
+		</tr>
+		<tr>
+			<th><label for="email">이메일</label></th>
+			<td><input type="email" name="email" id="email" value="${member.email}" maxlength="50"></td>
+		</tr>
+		<tr>
+				<th><label for="address">동네</label></th>
+				<td><input type="text" name="address" id="address" readonly value="${member.address}"></td>
+				
+		</tr>
+		<tr>
+		     <th><label for="address_favor">관심동네</label></th>
+		     <td><input type="text" name="address_favor" id="address_favor" value="${member.address_favor}" maxlength="30"></td>
+		</tr>
+		
+	</table></div>
+	<div class="align-center">
+	<input type="button" value="동네 찾기" onclick="sample3_execDaumPostcode();">
 				<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 					<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
 				</div>
-			</li>
-		<li>
-			<label for="address_favor">선호지역</label>
-			<input type="text" name="address_favor" id="address_favor" value="${member.address_favor}" maxlength="30">
-		</li>
-	</ul>
-	<div class="align-right">
 		<input type="submit" value="수정">
 		<input type="button" value="회원탈퇴"  onclick="location.href='deleteUserForm.do'">
 	</div>
-	</form>
-	<h3>회원탈퇴</h3>
-		<ul>
-			<li>
-				<input type="button" value="회원탈퇴" 
-				  onclick="location.href='deleteUserForm.do'">
-			</li>
-		</ul>
-		</div>
+	</form></div>
 <!-- 동네 찾기 시작 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
