@@ -91,7 +91,7 @@ input,textarea,select,option {
 	font-weight: bold;
 }
 .header-title:hover {
-	color: var(--point-hover);
+	color: var(--point-hover) !important;
 }
 .header-menu {
 	margin-right: 50px;
@@ -157,4 +157,17 @@ input,textarea,select,option {
 }
 .header-chat i.bi.disabled {
 	color: var(--silver);
+}
+
+/* 아이콘 버튼 */
+i.bi {
+	margin: 5px;
+	padding: 5px;
+	font-size: 1.4rem;
+	color: var(--point);
+	transition: all 0.5s ease;
+	cursor: pointer;
+}
+i.bi:hover {
+	color: var(--point-hover);
 }

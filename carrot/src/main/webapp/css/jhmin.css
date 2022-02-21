@@ -100,19 +100,6 @@ img {
 	background-color: var(--light-white);
 }
 
-/* 아이콘 버튼 */
-i.bi {
-	margin: 5px;
-	padding: 5px;
-	font-size: 1.4rem;
-	color: var(--point);
-	transition: all 0.5s ease;
-	cursor: pointer;
-}
-i.bi:hover {
-	color: var(--point-hover);
-}
-
 /* 페이징 버튼 */
 .paging a {
 	font-size: 1rem;
