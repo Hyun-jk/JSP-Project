@@ -6,7 +6,7 @@ public class AmannerVO {
 	private int Amanner_num; //매너 평가를 식별하는 번호
 	private int Amember_num; //판매자 회원번호
 	private int Aproudct_num; //상품을 식별하는 번호
-	private int rate; //거래후 구매자가 평가한 판매자 매너점수
+	private double rate; //거래후 구매자가 평가한 판매자 매너점수
 	private String review; //판매자 매너에 대한 평가/후기
 	private int buyer_num; // 구매자 회원번호(판매자가 받은 거래 후기 목록에서 아이디 일부 노출)
 	private float totalRate; //매너점수 계산
@@ -31,10 +31,10 @@ public class AmannerVO {
 	public void setAproudct_num(int aproudct_num) {
 		Aproudct_num = aproudct_num;
 	}
-	public int getRate() {
+	public double getRate() {
 		return rate;
 	}
-	public void setRate(int rate) {
+	public void setRate(double rate) {
 		this.rate = rate;
 	}
 	public String getReview() {

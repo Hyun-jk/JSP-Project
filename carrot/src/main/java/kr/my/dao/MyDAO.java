@@ -141,10 +141,12 @@ public class MyDAO {
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
 		ResultSet rs = null;
 		ResultSet rs1 = null;
 		int mannerCount = 0;
 		int rateSum = 0;
+		double rate = 0;
 		String sql = null;
 		
 		try {
@@ -152,6 +154,7 @@ public class MyDAO {
 			conn.setAutoCommit(false);
 			sql = "SELECT COUNT(*)FROM amanner WHERE amember_num = ?";
 			pstmt1 = conn.prepareStatement(sql);
+			pstmt1.setInt(1, seller_num);
 			rs = pstmt1.executeQuery();
 			if(rs.next()) {
 				mannerCount = rs.getInt(1);
@@ -159,6 +162,7 @@ public class MyDAO {
 			
 			sql = "SELECT SUM(rate) FROM amanner WHERE amember_num = ?";
 			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1,seller_num);
 			rs1 = pstmt2.executeQuery();
 			if(rs.next()) {
 				rateSum = rs.getInt(1);
@@ -169,19 +173,26 @@ public class MyDAO {
 			pstmt3 = conn.prepareStatement(sql);
 			pstmt3.setInt(1, manner.getAmember_num());
 			pstmt3.setInt(2, manner.getAproudct_num());
-			pstmt3.setInt(3,  (rateSum + manner.getRate())/(mannerCount+1));
+			rate = (rateSum + manner.getRate())/(mannerCount+1);
+			pstmt3.setDouble(3,(rateSum + manner.getRate())/(mannerCount+1));
 			pstmt3.setString(4, manner.getReview());
 			pstmt3.setInt(5, manner.getBuyer_num());
 			pstmt3.executeUpdate();
 			
+			sql ="UPDATE amember_detail SET rate=? WHERE amember_num = ?";
+			pstmt4 = conn.prepareStatement(sql);
+			pstmt4.setDouble(1, rate);
+			pstmt4.setInt(2, seller_num);
+			pstmt4.executeUpdate();
 			conn.commit();
 		}catch(Exception e) {
 			conn.rollback();
 			throw new Exception(e);
 		}finally {
-			DBUtil.executeClose(null, pstmt3, null);
-			DBUtil.executeClose(rs, pstmt2, null);
-			DBUtil.executeClose(rs1, pstmt1, conn);
+			DBUtil.executeClose(null, pstmt4, null);
+			DBUtil.executeClose(null, pstmt4, null);
+			DBUtil.executeClose(rs1, pstmt2, null);
+			DBUtil.executeClose(rs, pstmt1, conn);
 		}
 		
 	}

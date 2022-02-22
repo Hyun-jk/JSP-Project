@@ -60,14 +60,17 @@
 									pattern=".00" /></td>
 						</tr>
 					</c:if>
+					<%--
 					<tr>
 						<th>총거래수</th>
 						<td>${sellProductCount}건</td>
 					</tr>
+					 --%>
 					<tr>
 						<th>받은 평가수</th>
 						<td>${mannerCount}건</td>
 					</tr>
+					
 				</table>
 				<br>
 				<br>
@@ -81,13 +84,13 @@
 					<c:if test="${empty buyer.member.photo}">
 						<li><img
 							src="${pageContext.request.contextPath}/images/face.png"
-							width="50" height="60" class="my-photo"> <span>${buyer.member.nickname}</span>
-							: ${buyer.review}</li>
+							width="50" height="60" class="my-photo"> ${buyer.member.nickname} : ${buyer.review}
+						</li>
 					</c:if>
 					<c:if test="${!empty buyer.member.photo}">
-						<li><img
-							src="${pageContext.request.contextPath}/upload/${buyer.member.photo}"
-							width="50" height="60" class="user_photo"> ${buyer.review}</li>
+						<li>
+							<img src="${pageContext.request.contextPath}/upload/${buyer.member.photo}" width="50" height="60" class="user_photo"> ${buyer.member.nickname} : ${buyer.review}
+						</li>
 					</c:if>
 				</c:forEach>
 			</ul>

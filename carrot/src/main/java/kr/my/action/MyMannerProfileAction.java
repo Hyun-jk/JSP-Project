@@ -63,7 +63,7 @@ public class MyMannerProfileAction implements Action{
 				
 				request.setAttribute("mannerCount",mannerCount);
 				request.setAttribute("productCount", productCount);
-				request.setAttribute("sellProductCount", sellProductCount);
+				/*request.setAttribute("sellProductCount", sellProductCount);*/
 				request.setAttribute("mannerList",mannerList);
 				request.setAttribute("mySellProduct",mySellProduct);
 				request.setAttribute("userInfo", userInfo);
