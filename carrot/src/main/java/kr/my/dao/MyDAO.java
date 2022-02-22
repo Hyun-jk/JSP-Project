@@ -136,27 +136,48 @@ public class MyDAO {
 	}
 	
 	//점수 및 매너 입력
-	public void insertManner(AmannerVO manner)throws Exception{
+	public void insertManner(AmannerVO manner, int seller_num)throws Exception{
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		ResultSet rs = null;
+		int mannerCount = 0;
+		int rateSum = 0;
 		String sql = null;
-		sql = null;
 		
 		try {
 			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			sql = "SELECT COUNT(*)FROM amanner WHERE amember_num = ?";
+			pstmt1 = conn.prepareStatement(sql);
+			rs = pstmt1.executeQuery();
+			if(rs.next()) {
+				mannerCount = rs.getInt(1);
+			}
+			
+			sql = "SELECT SUM(rate) FROM amanner WHERE amember_num = ?";
+			pstmt2 = conn.prepareStatement(sql);
+			rs = pstmt2.executeQuery();
+			if(rs.next()) {
+				rateSum = rs.getInt(1);
+			}
+			
 			sql = "INSERT INTO amanner(amanner_num,amember_num,aproduct_num,rate,review, buyer_num)"
 					+ "VALUES(amanner_seq.nextval,?,?,?,?,?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, manner.getAmember_num());
-			pstmt.setInt(2, manner.getAproudct_num());
-			pstmt.setInt(3, manner.getRate());
-			pstmt.setString(4, manner.getReview());
-			pstmt.setInt(5, manner.getBuyer_num());
-			pstmt.executeUpdate();
+			pstmt3 = conn.prepareStatement(sql);
+			pstmt3.setInt(1, manner.getAmember_num());
+			pstmt3.setInt(2, manner.getAproudct_num());
+			pstmt3.setInt(3,  (rateSum + manner.getRate())/(mannerCount+1));
+			pstmt3.setString(4, manner.getReview());
+			pstmt3.setInt(5, manner.getBuyer_num());
+			pstmt3.executeUpdate();
 		}catch(Exception e) {
 			throw new Exception(e);
 		}finally {
-			DBUtil.executeClose(null, pstmt, conn);
+			DBUtil.executeClose(null, pstmt3, null);
+			DBUtil.executeClose(null, pstmt2, null);
+			DBUtil.executeClose(rs, pstmt1, conn);
 		}
 		
 	}
