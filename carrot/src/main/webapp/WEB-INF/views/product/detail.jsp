@@ -148,12 +148,12 @@
 				<c:choose>
 					<c:when test="${user_num==product.amember_num}">
 					<c:if test="${product.complete!=1}">
-					<input type="button" class="big point" value="거래 완료하기" id="complete">
+					<input type="button" class="big point" value="거래 완료하기" id="complete" onclick="location.href = '${pageContext.request.contextPath}/chat/chat.do?filter=2';">
 					</c:if>
 					<input type="button" class="big point" value="물품 수정하기" onclick="location.href = 'modifyForm.do?aproduct_num=${product.aproduct_num}';" <c:if test="${product.complete==1}">disabled</c:if>>
 					</c:when>
 					<c:when test="${user_num==product.buyer_num}">
-					<input type="button" class="big point" value="거래 후기 남기기" onclick="">
+					<input type="button" class="big point" value="거래 후기 남기기" onclick="location.href = '${pageContext.request.contextPath}/member/MannerWriteForm.do?aproduct_num=${product.aproduct_num}&seller_num=${product.amember_num}&buyer_num=${user_num}';">
 					</c:when>
 					<c:otherwise>
 					<input type="button" class="big point" value="채팅으로 거래하기" id="link_chatroom" <c:if test="${empty user_num || product.complete==1}">disabled</c:if> <c:if test="${empty user_num}">title="로그인 후 채팅으로 거래할 수 있습니다"</c:if>>
