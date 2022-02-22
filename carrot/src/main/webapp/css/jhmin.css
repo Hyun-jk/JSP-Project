@@ -655,6 +655,7 @@ ul.chat-main li hr {
 .read-area {
 	height: 540px;
 	overflow-y: auto;
+	flex-grow: 1;
 }
 .read-area.no-reply {
 	height: 640px;
@@ -664,6 +665,10 @@ ul.chat-main li hr {
 }
 .send-area i.bi {
 	margin: 0;
+}
+.chat-main .buttons.no-reply input[type="button"] {
+	margin: 10px;
+	flex-grow: 1;
 }
 hr.vertical {
 	margin: 0 10px;
@@ -701,6 +706,10 @@ hr.vertical {
 	font-size: 1.2rem;
 	font-weight: bold;
 }
+.chat-title.no-reply {
+	font-family: 'IM_Hyemin-Bold';
+	color: var(--point);
+}
 .who-area .chat-title {
 	font-size: 1.4rem;
 }
@@ -717,6 +726,11 @@ hr.vertical {
 	height: 25px;
 	object-position: top;
 	border-radius: 50%;
+}
+.chat-profile-icon.no-reply {
+	margin: 10px 10px 0;
+	width: 25px;
+	height: 25px;
 }
 .list-profile {
 	width: 50px;

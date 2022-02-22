@@ -54,14 +54,14 @@
 <!-- 채팅방 목록이 없는 경우 시작 -->
 		<c:if test="${empty chatrooms && empty param.achatroom_num}">
 			<li class="chat-header who-area">
-				<div class="chat-title">번개 맞은 당근 나라</div>
+				<div class="chat-title no-reply">환영합니다</div>
 			</li>
 			<li><hr><li>
 			<li class="read-area no-reply">
 				<ul class="flex-column">
 					<li class="flex-column">
 						<div class="chat-you">
-							<img src="${pageContext.request.contextPath}/images/face.png" class="chat-profile">
+							<i class="chat-profile-icon no-reply bi bi-person-hearts"></i>
 							<div class="flex-row align-end">
 								<div class="chat-content">${user_nickname}님, 반갑습니다!</div>
 							</div>
@@ -80,7 +80,7 @@
 				</ul>
 			</li>
 			<li><hr></li>
-			<li class="flex-row justify-center">
+			<li class="buttons no-reply flex-row justify-center">
 				<input type="button" class="reverse-point" value="우리 동네 물품 보러가기" onclick="location.href = '${pageContext.request.contextPath}/main/main.do';">
 				<input type="button" class="point" value="FAQ 바로가기" onclick="location.href = '${pageContext.request.contextPath}/board/memberBoardFAQ.do';">
 			</li>
@@ -180,18 +180,20 @@
 	// 매너 평점 처리
 	let stars = document.querySelectorAll('.manner-stars i.bi');
 	let opponent_rate = '${opponent.rate}';
-	if(!opponent_rate) {
-		for(let i=0;i<stars.length;i++) {
-			if(i<2) stars[i].classList.replace('bi-star', 'bi-star-fill');
-			if(i==2) stars[i].classList.replace('bi-star', 'bi-star-half');
-			stars[i].classList.add('disabled');
+	if(stars.length>0) {
+		if(!opponent_rate) {
+			for(let i=0;i<stars.length;i++) {
+				if(i<2) stars[i].classList.replace('bi-star', 'bi-star-fill');
+				if(i==2) stars[i].classList.replace('bi-star', 'bi-star-half');
+				stars[i].classList.add('disabled');
+			}
+			stars[0].parentNode.parentNode.querySelector('div.gray.underline').textContent = '표시할 매너 평점이 없어요';
 		}
-		stars[0].parentNode.parentNode.querySelector('div.gray.underline').textContent = '표시할 매너 평점이 없어요';
-	}
-	else {
-		for(let i=0;i<stars.length;i++) {
-			if(i<Math.floor(opponent_rate)) stars[i].classList.replace('bi-star', 'bi-star-fill');
-			if(i+1==Math.floor(opponent_rate) && opponent_rate-Math.floor(opponent_rate)>=0.5) stars[i+1].classList.replace('bi-star', 'bi-star-half')
+		else {
+			for(let i=0;i<stars.length;i++) {
+				if(i<Math.floor(opponent_rate)) stars[i].classList.replace('bi-star', 'bi-star-fill');
+				if(i+1==Math.floor(opponent_rate) && opponent_rate-Math.floor(opponent_rate)>=0.5) stars[i+1].classList.replace('bi-star', 'bi-star-half')
+			}
 		}
 	}
 
