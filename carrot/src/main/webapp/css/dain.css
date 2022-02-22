@@ -310,61 +310,61 @@ wrap {text-align: center; padding: 20px;}
 /*등록버튼*/
 .button {
     width:90px;
-    background-color: #1e3799;
+    background-color: #FD8A44;
     border: none;
     color:#fff;
     padding: 15px 0;
     text-align: center;
     text-decoration: none;
     display:block;
-    font-size: 14px;
+    font-size: 22px;
     margin: 0px auto;
     cursor: pointer;
     border-radius:10px;
 
 }
 .button:hover {
-    background-color: #0c2461;
+    background-color: #FD7A2B;
 }
 
 
 /*수정버튼*/
 .buttonA{
 	width:100px;
-    background-color: #706fd3;
+    background-color:  #FD8A44;
     border: none;
     color:#fff;
     padding: 15px 0;
     text-align: center;
     text-decoration: none;
     display:incline-block;
-    font-size: 14px;
+    font-size: 22px;
     margin: 10px;
     cursor: pointer;
     border-radius:10px;	
     
 }
 .buttonA:hover {
-    background-color: #40407a;
+    background-color: #FD7A2B;
 }
 
 /*삭제버튼*/
 .buttonB{
 	width:100px;
-    background-color: #e84118;
+    background-color: #FD8A44;
     border: none;
     color:#fff;
     padding: 15px 0;
     text-align: center;
     text-decoration: none;
     display:block;
-    font-size: 14px;
+    font-size: 22px;
     margin:10px;
     cursor: pointer;
     border-radius:10px;	
 }
 .buttonB:hover {
-    background-color: #c23616;
+    background-color:  #FD7A2B;
 }
 
 .buttonD {
