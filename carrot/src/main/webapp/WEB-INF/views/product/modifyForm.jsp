@@ -138,21 +138,22 @@
             <li><label for="content">상품설명*</label> <textarea name="content"
                   id="content" cols="30" rows="5" class="box">${product.content}</textarea>
              </li>
-             <li>
-            <label>상품 표시 여부</label>
-            <input type="radio" name="status" value="1" id="status1" <c:if test="${product.status == 1}">checked</c:if>>미표시
-            <input type="radio" name="status" value="2" id="status2" <c:if test="${product.status == 2}">checked</c:if>>표시   
-         </li>
          </ul>
+         <input type="hidden" name="status" value="${product.status}">
          <div class="align-center">
          <div style="display: inline-block">
             <input type="submit" value="수정하기" class="buttonA"></div>
          <div style="display: inline-block">
-            <input type="button" value="삭제하기" class="buttonB" onclick="location.href='deleteForm.do?aproduct_num=${product.aproduct_num}'"></div>      
-            
+            <input type="button" value="삭제하기" class="buttonB"></div>      
          </div>
       </form>
    </div>
+<script type="text/javascript">
+	document.querySelector('input.buttonB').addEventListener('click', function() {
+		document.querySelector('input[name="status"]').value = 1;
+		document.querySelector('form').submit();
+	}, false);
+</script>
 </body>
 </html>
             

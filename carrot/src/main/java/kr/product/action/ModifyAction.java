@@ -57,7 +57,7 @@ public class ModifyAction implements Action{
 		if(photo4 != null) FileUtil.removeFile(request, db_product.getPhoto4());
 		if(photo5 != null) FileUtil.removeFile(request, db_product.getPhoto5());
 		
-		request.setAttribute("aproduct_num", aproduct_num);
+		request.setAttribute("product", product);
 		
 		return"/WEB-INF/views/product/modify.jsp";
 	}
