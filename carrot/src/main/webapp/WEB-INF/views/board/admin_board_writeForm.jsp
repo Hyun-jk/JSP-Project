@@ -34,7 +34,7 @@ $(function(){
 				<jsp:include page="/WEB-INF/views/common/side.jsp" />		
 			<div class="main-content">
 				<div>
-					<h2>공지사항 글쓰기</h2>
+					<h3>공지사항 글쓰기</h3>
 				</div>
 				<form id="write_form"  class="align-left" action="adminBoardWrite.do">
 					<ul>

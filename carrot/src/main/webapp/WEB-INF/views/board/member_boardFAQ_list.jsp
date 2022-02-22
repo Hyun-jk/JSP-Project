@@ -35,7 +35,7 @@ $(function(){
 				<jsp:include page="/WEB-INF/views/common/side.jsp"/>
 				<div id="My-content">
 					<div>
-						<h3 class="title">FAQ</h3>
+						<h3>FAQ</h3>
 					</div>
 					<form action="memberBoardFAQ.do" method="get" id="search_form">
 						<ul class="search">

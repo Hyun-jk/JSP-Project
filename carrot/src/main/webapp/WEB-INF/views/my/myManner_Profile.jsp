@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/hyun.css">
 <title>나의 매너 점수</title>
 </head>
 <body>

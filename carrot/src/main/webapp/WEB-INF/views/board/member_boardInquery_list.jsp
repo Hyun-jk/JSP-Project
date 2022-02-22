@@ -19,7 +19,7 @@
 				<jsp:include page="/WEB-INF/views/common/side.jsp" />
 				<div class="main-content">
 					<div>
-						<h3 class="title">일대일문의사항</h3>
+						<h3>일대일문의사항</h3>
 					</div>
 					<div>
 						<c:forEach var="board" items="${list}">

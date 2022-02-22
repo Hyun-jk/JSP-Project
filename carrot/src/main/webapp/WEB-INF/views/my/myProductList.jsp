@@ -20,7 +20,7 @@
 				<jsp:include page="/WEB-INF/views/common/side.jsp"/>
 				<div id="main-content">
 					<div>
-						<h3 class="title">찜한 상품</h3>
+						<h3>찜한 상품</h3>
 					</div>			
 					<c:if test="${count == 0}">
 					<div class="result-display">

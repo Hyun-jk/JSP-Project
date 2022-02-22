@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.content-body{
+}
+/*왼쪽 메뉴바 스타일*/
+#My-sidebar{
+	width:23%;
+	float:left;
+	margin : 0; 
+	padding:0;
+}
+/*메인 콘텐츠 스타일*/
+.main-content{
+	width:70%;
+	float:left;
+	padding:0;
+	margin:0;
+}
+/*하단 메뉴바 스타일*/
+.page-footer{
+	clear:both;
+	width:100%;
+	margin-bottom:50px;
+}
+#notice{
+	display:block;
+	margin-top:50px;
+}
+.title{
+	margin:3px;
+}
+.date{
+	text-align: right;
+	padding-left:30;
+	font-size:15px;
+}
+.main-content{
+	height:500px;
+}
+.title{
+	margin-bottom:40px;
+	color:black;
+}
+.align-right{
+	text-align:center;
+}
+.search li{
+	display:inline;
+	text-align:center;
+}
+#content{
+	resize:none;
+}
+
+label{
+	width:130px;
+	float:left;
+}
+span{
+	padding-left:720px;
+}
+

@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>일대일 문의사항</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet"href="${pageContext.request.contextPath}/css/hyun.css">
+<link rel="stylesheet"href="${pageContext.request.contextPath}/css/jhmin.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -17,7 +19,7 @@
 				<jsp:include page="/WEB-INF/views/common/side.jsp" />
 				<div class="main-content">
 					<div>
-						<h3 class="title">일대일문의사항</h3>
+						<h3>일대일문의사항</h3>
 					</div>
 					<div>
 						<c:forEach var="board" items="${list}">

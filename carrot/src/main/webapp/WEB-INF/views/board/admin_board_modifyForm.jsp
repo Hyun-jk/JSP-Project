@@ -33,7 +33,7 @@
 				<jsp:include page="/WEB-INF/views/common/side.jsp" />		
 			<div class="main-content">
 				<div>
-					<h2>공지사항 수정</h2>
+					<h3>공지사항 수정</h3>
 				</div>
 				<form action="adminBoardModify.do" method="post">
 					<input type="hidden" name="aboard_num" value="${aboard.aboard_num}">

@@ -19,7 +19,7 @@
 				<jsp:include page="/WEB-INF/views/common/side.jsp" />
 				<div class="main-content">
 					<div>
-						<h3 class="title">${board.title}</h3>
+						<h3>${board.title}</h3>
 					</div>
 					<div>
 						<span class="date">[${board.reg_date}]</span>
