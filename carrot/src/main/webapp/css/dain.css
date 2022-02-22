@@ -7,17 +7,9 @@
 }
 
 /*메인*/
-a:link{
-	text-decoration:none;
-	color:#000000;
-}
-a:visited{
-	text-decoration:none;
-	color:#000000;
-}
-a:hover{
-	text-decoration:underline;
-	color:#999999;
+.page-main a:hover{
+	color:var(--light-gray-hover);
+	cursor: pointer;
 }
 
 .page-main{
@@ -195,7 +187,7 @@ i.fa {
 	top:200px;
 	left:50%;
 	transform:translate(-50%,-50%);
-	border:1px solid #9789e8;
+	border:1px solid var(--point);
 	display:flex;
 	align-items:center;
 	justify-content:center;
