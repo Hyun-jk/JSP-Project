@@ -108,12 +108,12 @@
 				<ul class="list-other flex-row">
 					<c:forEach var="sellerProduct" items="${sellerProduct}">
 						<c:if test="${sellerInfo.amember_num == sellerProduct.amember_num}">
-							<li class="flex-column"><a
+							<li><a class="flex-column"
 								href="${pageContext.request.contextPath}/product/detail.do?aproduct_num=${sellerProduct.aproduct_num}">
 									<img src="${pageContext.request.contextPath}/upload/${sellerProduct.photo1}"
 									width="200" height="200">
 								<div class="product-title">${sellerProduct.title}</div>
-									<fmt:formatNumber value="${sellerProduct.price}"/>원
+								<div class="price"><fmt:formatNumber value="${sellerProduct.price}"/>원</div>
 								<div class="address">${sellerProduct.address}</div>
 								<div class="info gray">관심 ${sellerProduct.likes} · 댓글
 										${sellerProduct.replies} · 채팅 ${sellerProduct.chats}
