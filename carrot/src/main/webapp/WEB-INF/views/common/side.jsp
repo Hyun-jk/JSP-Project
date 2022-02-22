@@ -58,7 +58,7 @@
 		</div>
 		
 		<h4>상품 관리</h4>
-		<<div class="aa">
+		<div class="aa">
 		<a href="${pageContext.request.contextPath}/">상품목록</a>
 		</div>
 		

@@ -74,7 +74,12 @@
 		</c:if>
 <!-- 판매자 프로필, 매너 평가 시작 -->
 		<li class="seller">
-			<a class="flex-row space-between" href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
+			<c:if test="${product.amember_num == user_num}">
+				<a class="flex-row space-between" href="${pageContext.request.contextPath}/member/myMannerProfile.do?seller_num=${product.amember_num}">
+			</c:if>
+			<c:if test="${product.amember_num != user_num}">
+				<a class="flex-row space-between" href="${pageContext.request.contextPath}/seller/Profile.do?seller_num=${product.amember_num}">
+			</c:if>
 				<div class="who flex-row">
 					<c:if test="${empty seller.photo}">
 					<img class="profile" src="${pageContext.request.contextPath}/images/face.png">

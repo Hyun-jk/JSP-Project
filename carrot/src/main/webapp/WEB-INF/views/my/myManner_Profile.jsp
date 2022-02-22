@@ -47,6 +47,7 @@
 					</tr>
 					<c:if test="${empty mannerList.get(0).totalRate}">
 						<tr>
+						
 							<th>매너점수</th>
 							<td>표시할 점수가 없습니다.</td>
 						</tr>

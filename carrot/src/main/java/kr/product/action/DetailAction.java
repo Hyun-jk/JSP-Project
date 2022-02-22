@@ -50,6 +50,7 @@ public class DetailAction implements Action {
 		// 실시간 중고 더보기
 		List<ProductVO> listProduct = dao.getListProduct(1, 6, null, null, null);
 		request.setAttribute("listProduct", listProduct);
+		request.setAttribute("user_num",user_num);
 		
 		// JSP 경로 반환
 		return "/WEB-INF/views/product/detail.jsp";

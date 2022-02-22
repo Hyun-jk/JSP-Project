@@ -47,7 +47,7 @@
 	
 	<ul>
 	<li><h4>매너 평가</h4></li>
-	<li><a href="${pageContext.request.contextPath}/">내 매너 점수</a></li>
+	<li><a href="${pageContext.request.contextPath}/member/myMannerProfile.do">내 매너 점수</a></li>
 	</ul>
 	
 	<ul>
