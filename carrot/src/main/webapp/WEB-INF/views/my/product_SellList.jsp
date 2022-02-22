@@ -50,7 +50,7 @@
 			</c:forEach>
 		</table>
 		<div class="align-center">
-		<input type="button" value="목록" onclick="location.href='sellList.do'">
+		<input type="button" value="목록" onclick="location.href='memberProduct.do?complete=0'">
 		<input type="button" value="홈으로" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
 	</div>
 		</c:if>

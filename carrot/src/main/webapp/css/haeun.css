@@ -4,6 +4,17 @@
 	font-family: 'IM_Hyemin-Bold';
     transform: skew(-0.1deg);
 }
+.result-display1{
+	border:2px solid #F3B178;
+	border-radius: 40px/40px;
+	display:flex;
+	width:400px;
+	height:200px;
+   /*세로 정렬*/
+	align-items:center;
+	/*가로 정렬*/
+	justify-content:center;
+}
 .result-display{
 	width:400px;
 	height:200px;

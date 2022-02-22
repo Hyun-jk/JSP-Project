@@ -6,24 +6,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>찜한 상품</title>
+<title>구매한 상품</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/haeun.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<div>
+	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/side.jsp"/>
-		<div id="My-content">
 			<h2>내가 구매한 상품</h2>
-			<hr size="1" noshade width="100%">
+			<div class="sell">	
 		<c:if test="${count == 0}">
-		<div class="result-display">
+		<div class="result-display1">
 			구매한 상품이 없습니다.
 		</div>
 		</c:if>
 		<c:if test="${count>0}">
-		<table>
+		<table id="sellList">
 			<tr>
 				<th><input type="checkbox">선택</th>
 				<th>상품사진</th>
@@ -46,12 +46,14 @@
 			</tr>		
 			</c:forEach>
 		</table>
-		</c:if>
-			<div class="align-center">
+		<div class="align-center">
+		<input type="button" value="목록" onclick="location.href='memberProduct.do?complete=1'">
+		<input type="button" value="홈으로" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
+	</div>
+			<div class="pagenum">
 				${pagingHtml}
 			</div>
-		</div>
-	</div>
-	
+		</c:if>
+			</div>	</div>
 </body>
 </html>
