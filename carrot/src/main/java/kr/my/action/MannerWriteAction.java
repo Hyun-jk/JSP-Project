@@ -28,7 +28,7 @@ public class MannerWriteAction implements Action{
 		manner.setReview(request.getParameter("review"));
 		manner.setBuyer_num(user_num);
 		
-		dao.insertManner(manner,seller_num);
+		dao.insertManner(manner);
 		
 		
 		return "/WEB-INF/views/my/mannerWrite.jsp";
