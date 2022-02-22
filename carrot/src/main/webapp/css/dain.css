@@ -84,7 +84,8 @@ form{
 	width:600px;
 	margin:0 auto;
 	padding:10px 10px 10px 80px;
-	border:1px solid #000;
+
+	border: none
 }
 ul{
 	list-style:none;
@@ -113,7 +114,7 @@ button.btn1 {
   left : 35px; 
 }
 p {
-text-indent: -1.5em;
+text-indent: -1.9em;
 margin:10px;
 
 }
@@ -128,9 +129,9 @@ margin:10px;
 M{
 position:relative;
 left:0px;
-top:-50px;
+top:-90px;
 text-align:center;
-text-indent: -5em;
+text-indent: -4em;
 }
 
 /*사진등록문구*/
@@ -140,10 +141,7 @@ text-indent: -5em;
 	font-size:13px;	
 
 }
-/*삭제하기*/
-.text2{
-	text-indent:-3.5em;
-}
+
 
 /*매너평가*/
 .text3{
@@ -351,7 +349,7 @@ wrap {text-align: center; padding: 20px;}
 /*삭제버튼*/
 .buttonB{
 	width:100px;
-    background-color: #FD8A44;
+    background-color: #E0E0E0;
     border: none;
     color:#fff;
     padding: 15px 0;
@@ -364,7 +362,26 @@ wrap {text-align: center; padding: 20px;}
     border-radius:10px;	
 }
 .buttonB:hover {
-    background-color:  #FD7A2B;
+    background-color:#D0D0D0;
+}
+/*삭제 진짜*/
+.buttonH {
+    width:90px;
+    background-color:#E0E0E0;
+    border: none;
+    color:#fff;
+    padding: 15px 0;
+    text-align: center;
+    text-decoration: none;
+    display:block;
+    font-size: 22px;
+    margin: 0px auto;
+    cursor: pointer;
+    border-radius:10px;
+
+}
+.buttonH:hover {
+    background-color:#D0D0D0;
 }
 
 .buttonD {

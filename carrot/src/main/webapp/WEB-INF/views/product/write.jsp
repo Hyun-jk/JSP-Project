@@ -15,7 +15,7 @@
 		<div class="align-center">
 			상품 등록을 완료했습니다!
 			<p>
-			<input type="button" value="홈으로" onclick="location.href = '${pageContext.request.contextPath}/main/main.do';">
+			<input type="button" value="홈으로" class="button" onclick="location.href = '${pageContext.request.contextPath}/main/main.do';">
 		</div>
 	</div>
 </div>

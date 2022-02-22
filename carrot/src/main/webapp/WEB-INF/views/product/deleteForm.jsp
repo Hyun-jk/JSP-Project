@@ -15,8 +15,8 @@
 	</p>
 	<form action="delete.do" method="post">
 	<input type="hidden" name="aproduct_num" value="${aproduct_num}">
-		<div class="align-center text2">
-			<input type="submit" value="삭제하기">
+		<div class="align-center">
+			<input type="submit" value="삭제하기"  class="buttonH">
 		</div>
 	</form>
 </div>
