@@ -142,6 +142,7 @@ public class MyDAO {
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
 		ResultSet rs = null;
+		ResultSet rs1 = null;
 		int mannerCount = 0;
 		int rateSum = 0;
 		String sql = null;
@@ -158,7 +159,7 @@ public class MyDAO {
 			
 			sql = "SELECT SUM(rate) FROM amanner WHERE amember_num = ?";
 			pstmt2 = conn.prepareStatement(sql);
-			rs = pstmt2.executeQuery();
+			rs1 = pstmt2.executeQuery();
 			if(rs.next()) {
 				rateSum = rs.getInt(1);
 			}
@@ -172,12 +173,15 @@ public class MyDAO {
 			pstmt3.setString(4, manner.getReview());
 			pstmt3.setInt(5, manner.getBuyer_num());
 			pstmt3.executeUpdate();
+			
+			conn.commit();
 		}catch(Exception e) {
+			conn.rollback();
 			throw new Exception(e);
 		}finally {
 			DBUtil.executeClose(null, pstmt3, null);
-			DBUtil.executeClose(null, pstmt2, null);
-			DBUtil.executeClose(rs, pstmt1, conn);
+			DBUtil.executeClose(rs, pstmt2, null);
+			DBUtil.executeClose(rs1, pstmt1, conn);
 		}
 		
 	}
