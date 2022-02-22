@@ -10,7 +10,6 @@
 			<img src="${pageContext.request.contextPath}/upload/${user_photo}"
 			             width="200" height="200" class="user_photo">
 			<br><br>
-			<div class="user_id"><span>${user_id}</span></div>
 		</c:if>
 		<c:if test="${!empty user_num && empty user_photo}">
 			<img src="${pageContext.request.contextPath}/images/face.png"
