@@ -77,14 +77,14 @@
 			<br><br><br>
 		</li>
 		<li>
-			<div class="text3 manner-icons">
+			<div class="text3 icon">
 				<i class="bi bi-emoji-frown"></i> 별로에요 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<i class="bi bi-emoji-smile"></i> 좋아요!<br>
 				<div class="text3"> <--------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--------></div>
 			</div>
 		</li>
 		<li>
-			<div class="manner-stars manner-icons">
+			<div class="manner-stars icon">
 				<i class="bi bi-star-fill gray"></i>
 				<i class="bi bi-star-fill gray"></i>
 				<i class="bi bi-star-fill gray"></i>

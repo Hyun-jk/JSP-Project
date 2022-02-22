@@ -177,6 +177,16 @@ i.fa {
 .manner-stars i.bi.disabled {
 	color: var(--light-gray-hover);
 }
+.stars-icon i.bi{
+
+	font-size:35px;
+		
+}
+.icon i.bi{
+	text-indent:1em;
+	font-size:49px;
+		
+}
 .underline {
 	text-decoration: underline !important;
 }
@@ -357,22 +367,23 @@ wrap {text-align: center; padding: 20px;}
     background-color: #c23616;
 }
 
-.buttonD{
-	width:100px;
-    background-color: #dfe4ea;
-    border: none;
-    color:#fff;
-    padding: 15px 0;
-    text-align: center;
-    text-decoration: none;
-    display:block;
-    font-size: 21px;
-    margin:0px auto;
-    cursor: pointer;
-    border-radius:10px;	
+.buttonD {
+   width: 100px;
+   background-color: #FD8A44;
+   border: none;
+   color: #fff;
+   padding: 15px 0;
+   text-align: center;
+   text-decoration: none;
+   display: block;
+   font-size: 21px;
+   margin: 0px auto;
+   cursor: pointer;
+   border-radius: 10px;
 }
+
 .buttonD:hover {
-    background-color: #FD8A44;
+   background-color: #d35400;   
 }
 /* label 스타일 조정 */
 .buttonC {

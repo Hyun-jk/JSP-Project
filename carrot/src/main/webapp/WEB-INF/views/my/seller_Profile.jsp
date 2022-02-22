@@ -67,7 +67,7 @@
 						<div class="manner-rate"><span class="bold"><fmt:formatNumber value="${mannerList.get(0).totalRate}" pattern=".00"/></span></div>
 					</li>
 					<li class="flex-row justify-center">
-						<div class="manner-stars">
+						<div class="manner-stars stars-icon">
 							<i class="bi bi-star"></i>
 							<i class="bi bi-star"></i>
 							<i class="bi bi-star"></i>
@@ -90,7 +90,7 @@
 </script>
 	<ul>
 		<li class="detail-write align-center">
-			<div class= "manner-icons">
+			<div class= "icon">
 				<div style= "display: inline-block">
 					<i class="bi bi-person-lines-fill"></i> <input class="buttonE" type="button" onclick="getManner()" value="거래후기">
 				</div>
