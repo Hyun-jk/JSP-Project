@@ -23,7 +23,7 @@
 					</div>
 					<div>
 						<c:forEach var="board" items="${list}">
-							<ul class="content">
+							<ul>
 								<li id="notice"><a
 									href="memberBoardDetail.do?aboard_num=${board.aboard_num}">Q.${board.title}</a>
 									<hr></li>
