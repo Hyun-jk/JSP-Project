@@ -152,6 +152,7 @@ public class MyDAO {
 			conn.setAutoCommit(false);
 			sql = "SELECT COUNT(*)FROM amanner WHERE amember_num = ?";
 			pstmt1 = conn.prepareStatement(sql);
+			pstmt1.setInt(1, seller_num);
 			rs = pstmt1.executeQuery();
 			if(rs.next()) {
 				mannerCount = rs.getInt(1);
@@ -159,6 +160,7 @@ public class MyDAO {
 			
 			sql = "SELECT SUM(rate) FROM amanner WHERE amember_num = ?";
 			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1, seller_num);
 			rs1 = pstmt2.executeQuery();
 			if(rs.next()) {
 				rateSum = rs.getInt(1);
