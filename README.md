@@ -106,7 +106,7 @@
       
 ### 아쉬운점
 - 프로젝트 스케줄 조정 및 업무 분담
-- BootStrap 
+- UI & BootStrap 
 
     
 
