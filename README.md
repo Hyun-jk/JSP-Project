@@ -101,10 +101,12 @@
 ![Eclipse](https://img.shields.io/badge/Eclipse-2C2255.svg?style=for-the-badge&logo=Eclipse&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 ### 배운점
-      
+- Servlet & JSP 의 구동원리 이해
+- MVC 구조에 대한 이해
       
 ### 아쉬운점
-      
+- 프로젝트 스케줄 조정 및 업무 분담
+- BootStrap 
 
     
 
